@@ -3,16 +3,19 @@ import * as url from 'url';
 import * as bodyParser from 'body-parser';
 import expenseRoutes from './routes/expenseRoutes';
 import * as crypto from 'crypto';
+import { ExpenseModel } from './model/Expense';
 
 // Creates and configures an ExpressJS web server.
 class App {
 
     public expressApp: express.Application;
+    public Expense: ExpenseModel;
 
-    constructor() {
+    constructor(mongoDBConnection: string) {
         this.expressApp = express();
         this.middleware();
         this.routes();
+        this.Expense = new ExpenseModel(mongoDBConnection);
       }
       // Configure Express middleware.
       private middleware(): void {
@@ -25,23 +28,7 @@ class App {
         });
       }
       private routes(): void {
-      //   let router = express.Router();
-      //   router.post('/expenses', async (req, res) => {
-      //     const id = crypto.randomBytes(16).toString("hex");
-      //     console.log(req.body);
-
-      // });
-      
-      
-      // // Handle fetching expenses
-      // router.get('/expenses', async (req, res) => {
-          
-      // });
-
-      this.expressApp.use('/', expenseRoutes);
-      //this.expressApp.use('/api', expenseRoutes);
-      
-      
+      this.expressApp.use('/', expenseRoutes(this.Expense));
     }
 }
 
