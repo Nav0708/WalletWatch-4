@@ -1,0 +1,31 @@
+{
+  "dependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/express": "^5.0.0",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^22.8.1",
+    "body-parser": "^1.20.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongodb": "^6.10.0",
+    "mongoose": "^8.7.3",
+    "nodemon": "^3.1.7"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node AppServer.js",
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "name": "walletwatch",
+  "version": "1.0.0",
+  "main": "index.js",
+  "keywords": [],
+  "description": "",
+  "devDependencies": {
+    "@types/mongoose": "^5.11.96",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}
