@@ -4,6 +4,7 @@ expensesCollection = db.getCollection("expenses")
 expensesCollection.remove({})
 expensesCollection.insert(
 {
+    expenseId: 1,
     amount: 100,
     categoryId: 1,
     date: 29/10/2024,
@@ -13,6 +14,7 @@ expensesCollection.insert(
 )
 expensesCollection.insert(
 {
+    expenseId: 2,
     amount: 200,
     categoryId: 2,
     date: 29/10/2024,
@@ -22,6 +24,7 @@ expensesCollection.insert(
 )
 expensesCollection.insert(
 {
+    expenseId: 3,
     amount: 300,
     categoryId: 1,
     date: 29/10/2024,

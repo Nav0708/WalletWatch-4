@@ -6,8 +6,8 @@ import * as crypto from 'crypto';
 export function  expenseRoutes(Expense: ExpenseModel) : Router {
   const router = Router();
 
-  router.get('/expenses/:userId', async (req, res) => {
-    var id = req.params.userId;
+  router.get('/expenses/:expenseId', async (req, res) => {
+    var id = req.params.expenseId;
     console.log('Query Expenses based on user Id'+ id);
     try {
       await Expense.retrieveExpensesByUserId(res,id); 

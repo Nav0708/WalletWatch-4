@@ -20,8 +20,9 @@ class ExpenseModel {
     public createSchema() {
         this.schema = new Mongoose.Schema(
             {
+                expenseId: { type: String, unique: true },
                 amount: { type: Number, required: true },
-                category: { type: String, required: true },
+                categoryId: { type: String, required: true },
                 date: { type: Date, required: true },
                 description: { type: String, required: true },
                 userId: { type: String, required: true }
