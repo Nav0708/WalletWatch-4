@@ -1,6 +1,9 @@
+import { v4 as uuidv4 } from 'uuid';
 import Mongoose = require("mongoose");
+
+
 interface IExpenseModel extends Mongoose.Document {
-    expenseId: { type: String, unique: true },
+    expenseId: String;
     amount: number;
     categoryId: string;
     date: Date;

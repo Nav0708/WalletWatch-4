@@ -1,4 +1,5 @@
 import * as Mongoose from "mongoose";
+import { v4 as uuidv4 } from 'uuid';
 import {IExpenseModel} from '../interfaces/IExpense';
  
 // Interface representing an expense document in MongoDB
@@ -20,7 +21,7 @@ class ExpenseModel {
     public createSchema() {
         this.schema = new Mongoose.Schema(
             {
-                expenseId: { type: String, unique: true },
+                expenseId: { type: String, required:true },
                 amount: { type: Number, required: true },
                 categoryId: { type: String, required: true },
                 date: { type: Date, required: true },
@@ -53,8 +54,8 @@ class ExpenseModel {
     }
  
     // Retrieve expenses by a specific user ID
-    public async retrieveExpensesByUserId(response: any, userId: string) {
-        const query = this.model.find({ userId });
+    public async retrieveExpensesByExpenseId(response: any, expenseId: string) {
+        const query = this.model.find({ expenseId });
         try {
             const expenseArray = await query.exec();
             response.json(expenseArray);

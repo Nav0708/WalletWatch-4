@@ -10,7 +10,7 @@ export function  expenseRoutes(Expense: ExpenseModel) : Router {
     var id = req.params.expenseId;
     console.log('Query Expenses based on user Id'+ id);
     try {
-      await Expense.retrieveExpensesByUserId(res,id); 
+      await Expense.retrieveExpensesByExpenseId(res,id); 
     } catch (error) {
       console.error('Error retrieving expenses by Id:', error);
       res.status(500).send({ message: 'Failed to retrieve expenses by Id.' });
