@@ -1,4 +1,4 @@
-db = db.getSiblingDB('walletWatch')
+
 db.createCollection('budgets')
 budgetsCollection = db.getCollection("budgets")
 budgetsCollection.remove({})

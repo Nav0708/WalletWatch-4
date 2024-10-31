@@ -8,12 +8,10 @@ const port = process.env.PORT;
 const app: Express = express();
 const PORT = 3000;
 const dbUser = process.env.DB_USER;
-const dbPassword = process.env.DB_PASSWORD;
+const dbPassword = process.env.DB_PASSWORD||'walletwatch4';
 const dbInfo = process.env.DB_INFO||'';
-console.log("DB_USER:", dbUser);
-console.log("DB_PASSWORD:", dbPassword);
-//const MONGO_URI='mongodb+srv://anusha:<anusha>@walletwatch.dx7bv.mongodb.net/?retryWrites=true&w=majority&appName=Walletwatch';
-const mongoDBConnection =`mongodb://${dbUser}:${encodeURIComponent(dbPassword)}${dbInfo}`;
+const dbProtocol =process.env.DB_PROTOCOL||'';
+const mongoDBConnection = dbProtocol + dbUser + ':' + encodeURIComponent(dbPassword) + process.env.DB_INFO;
 
 let server: any = new App(mongoDBConnection).expressApp;
 server.listen(port);
