@@ -1,0 +1,31 @@
+{
+	"info": {
+		"_postman_id": "5915d58a-1d8c-48db-ae20-22fe1e62627b",
+		"name": "WalletWatch-4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "12791327"
+	},
+	"item": [
+		{
+			"name": "Get Multi Element",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/expenses/"
+			},
+			"response": []
+		}
+	]
+}

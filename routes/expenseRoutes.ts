@@ -3,17 +3,35 @@ import {ExpenseModel, IExpenseModel} from '../model/Expense';
 import * as crypto from 'crypto';
 
 
-export default (Expense: ExpenseModel) => {
+export function  expenseRoutes(Expense: ExpenseModel) : Router {
   const router = Router();
 
-// Handle adding an expense
+  router.get('/expenses/:userId', async (req, res) => {
+    var id = req.params.userId;
+    console.log('Query Expenses based on user Id'+ id);
+    try {
+      await Expense.retrieveExpensesByUserId(res,id); 
+    } catch (error) {
+      console.error('Error retrieving expenses by Id:', error);
+      res.status(500).send({ message: 'Failed to retrieve expenses by Id.' });
+    }
+   });
+  
+  router.get('/expenses', async (req, res) => {
+    console.log('Query All Expenses');
+    try {
+      await Expense.retrieveAllExpenses(res);
+    } catch (error) {
+      console.error('Error retrieving expenses:', error);
+      res.status(500).send({ message: 'Failed to retrieve expenses.' });
+    }
+   });
+  
   router.post('/expenses', async (req: Request, res: Response) => {
       const id = crypto.randomBytes(16).toString("hex");
-      console.log(req.body);
-      //res.status(201).json({ id, ...req.body }); // Respond with created expense
-      res.send("success");
-      var jsonObj = req.body;
-      jsonObj.listId = id;
+      const jsonObj = { ...req.body, expenseId: id };
+      console.log(jsonObj);
+      console.log("ExpenseModel:", Expense);
       try {
         await Expense.model.create([jsonObj]);
         res.send('{"id":"' + id + '"}');
@@ -24,13 +42,6 @@ export default (Expense: ExpenseModel) => {
       }
 
   });
-
-  // Handle fetching expenses
-  router.get('/expenses', async (req: Request, res: Response) => {
-      // Logic to fetch expenses (dummy response for now)
-      res.status(200).json({ message: 'Fetched expenses' });
-  });
-
   return router;
 };
 

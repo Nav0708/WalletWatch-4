@@ -1,7 +1,7 @@
 import express from 'express';
 import * as url from 'url';
 import * as bodyParser from 'body-parser';
-import expenseRoutes from './routes/expenseRoutes';
+import {expenseRoutes} from './routes/expenseRoutes';
 import * as crypto from 'crypto';
 import { ExpenseModel } from './model/Expense';
 
@@ -13,9 +13,10 @@ class App {
 
     constructor(mongoDBConnection: string) {
         this.expressApp = express();
+        this.Expense = new ExpenseModel(mongoDBConnection);
         this.middleware();
         this.routes();
-        this.Expense = new ExpenseModel(mongoDBConnection);
+        
       }
       // Configure Express middleware.
       private middleware(): void {
@@ -28,7 +29,7 @@ class App {
         });
       }
       private routes(): void {
-      this.expressApp.use('/', expenseRoutes(this.Expense));
+      this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
     }
 }
 
