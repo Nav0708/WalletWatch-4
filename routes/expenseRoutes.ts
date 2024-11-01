@@ -6,6 +6,11 @@ import * as crypto from 'crypto';
 export function  expenseRoutes(Expense: ExpenseModel) : Router {
   const router = Router();
 
+  /**
+   * GET /expenses/:expenseId
+   * Retrieve a single expense by its unique expenseId.
+   */
+
   router.get('/expenses/:expenseId', async (req, res) => {
     var id = req.params.expenseId;
     console.log('Query Expenses based on user Id'+ id);
@@ -16,6 +21,11 @@ export function  expenseRoutes(Expense: ExpenseModel) : Router {
       res.status(500).send({ message: 'Failed to retrieve expenses by Id.' });
     }
    });
+
+  /**
+   * GET /expenses
+   * Retrieve all expenses in the collection.
+   */
   
   router.get('/expenses', async (req, res) => {
     console.log('Query All Expenses');
@@ -27,6 +37,11 @@ export function  expenseRoutes(Expense: ExpenseModel) : Router {
     }
    });
   
+   /**
+   * POST /expenses
+   * Add a new expense to the collection.
+   * Generates a unique expenseId for each new entry.
+   */
   router.post('/expenses', async (req: Request, res: Response) => {
       const id = crypto.randomBytes(16).toString("hex");
       const jsonObj = { ...req.body, expenseId: id };

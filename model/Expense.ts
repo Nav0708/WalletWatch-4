@@ -2,8 +2,6 @@ import * as Mongoose from "mongoose";
 import { v4 as uuidv4 } from 'uuid';
 import {IExpenseModel} from '../interfaces/IExpense';
  
-// Interface representing an expense document in MongoDB
-
  
 // Class to manage the Expense model
 class ExpenseModel {
