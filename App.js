@@ -38,11 +38,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = void 0;
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
-const expenseRoutes_1 = __importDefault(require("./routes/expenseRoutes"));
+const expenseRoutes_1 = require("./routes/expenseRoutes");
+const Expense_1 = require("./model/Expense");
 // Creates and configures an ExpressJS web server.
 class App {
-    constructor() {
+    constructor(mongoDBConnection) {
         this.expressApp = (0, express_1.default)();
+        this.Expense = new Expense_1.ExpenseModel(mongoDBConnection);
         this.middleware();
         this.routes();
     }
@@ -57,16 +59,7 @@ class App {
         }));
     }
     routes() {
-        //   let router = express.Router();
-        //   router.post('/expenses', async (req, res) => {
-        //     const id = crypto.randomBytes(16).toString("hex");
-        //     console.log(req.body);
-        // });
-        // // Handle fetching expenses
-        // router.get('/expenses', async (req, res) => {
-        // });
-        this.expressApp.use('/', expenseRoutes_1.default);
-        //this.expressApp.use('/api', expenseRoutes);
+        this.expressApp.use('/walletwatch/', (0, expenseRoutes_1.expenseRoutes)(this.Expense));
     }
 }
 exports.App = App;
