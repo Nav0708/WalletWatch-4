@@ -1,1 +1,35 @@
-<p>expenses works!</p>
+<div class="container mt-3">
+    <div class="row">
+      <div class="col-12">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Date</th>
+                <th scope="col">Category</th>
+                <th scope="col">Expenses</th>
+                <th scope="col">Description</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let expense of expenses; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ expense.date }}</td>
+                <td>{{ expense.category }}</td>
+                <td>${{ expense.amount }}</td>
+                <td>{{ expense.description }}</td>
+                <td>
+                  <button type="button" class="btn btn-sm btn-primary me-1" (click)="onEdit(expense)"><i class="bi bi-pencil-square"></i></button>
+                  <button type="button" class="btn btn-sm btn-danger me-1" (click)="onDelete(expense)"><i class="bi bi-trash"></i></button>
+                  <button type="button" class="btn btn-sm btn-secondary" (click)="onViewReceipt(expense)"><i class="bi bi-camera"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  
