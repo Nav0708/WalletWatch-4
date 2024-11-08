@@ -32,18 +32,50 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.expenseRoutes = expenseRoutes;
 const express_1 = require("express");
 const crypto = __importStar(require("crypto"));
-exports.default = (Expense) => {
+function expenseRoutes(Expense) {
     const router = (0, express_1.Router)();
-    // Handle adding an expense
-    router.post('/expenses', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    /**
+     * GET /expenses/:expenseId
+     * Retrieve a single expense by its unique expenseId.
+     */
+    router.get('/expenses/:expenseId', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        var id = req.params.expenseId;
+        console.log('Query Expenses based on user Id' + id);
+        try {
+            yield Expense.retrieveExpensesByExpenseId(res, id);
+        }
+        catch (error) {
+            console.error('Error retrieving expenses by Id:', error);
+            res.status(500).send({ message: 'Failed to retrieve expenses by Id.' });
+        }
+    }));
+    /**
+     * GET /expenses
+     * Retrieve all expenses in the collection.
+     */
+    router.get('/expenses', (req, res) => __awaiter(this, void 0, void 0, function* () {
+        console.log('Query All Expenses');
+        try {
+            yield Expense.retrieveAllExpenses(res);
+        }
+        catch (error) {
+            console.error('Error retrieving expenses:', error);
+            res.status(500).send({ message: 'Failed to retrieve expenses.' });
+        }
+    }));
+    /**
+    * POST /expenses
+    * Add a new expense to the collection.
+    * Generates a unique expenseId for each new entry.
+    */
+    router.post('/expenses', (req, res) => __awaiter(this, void 0, void 0, function* () {
         const id = crypto.randomBytes(16).toString("hex");
-        console.log(req.body);
-        //res.status(201).json({ id, ...req.body }); // Respond with created expense
-        res.send("success");
-        var jsonObj = req.body;
-        jsonObj.listId = id;
+        const jsonObj = Object.assign(Object.assign({}, req.body), { expenseId: id });
+        console.log(jsonObj);
+        console.log("ExpenseModel:", Expense);
         try {
             yield Expense.model.create([jsonObj]);
             res.send('{"id":"' + id + '"}');
@@ -53,10 +85,6 @@ exports.default = (Expense) => {
             console.log('object creation failed');
         }
     }));
-    // Handle fetching expenses
-    router.get('/expenses', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-        // Logic to fetch expenses (dummy response for now)
-        res.status(200).json({ message: 'Fetched expenses' });
-    }));
     return router;
-};
+}
+;
