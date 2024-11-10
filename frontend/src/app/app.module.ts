@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
 
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
@@ -25,7 +26,8 @@ import { MatButtonModule } from '@angular/material/button';
     BudgetComponent,
     ExpensesComponent,
     HomepageComponent,
-    RemindersComponent
+    RemindersComponent,
+    CommonModule
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatToolbarModule,
     MatIconModule,
     MatMenuModule,
-    MatButtonModule
+    MatButtonModule,
+    CommonModule
   ],
   providers: [provideHttpClient(), TodoproxyService, provideAnimationsAsync()],
   bootstrap: [AppComponent]
