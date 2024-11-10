@@ -12,6 +12,7 @@ import { RemindersComponent } from './reminders/reminders.component';
 import { TodoproxyService } from './todoproxy.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { RouterModule } from '@angular/router';
 
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
@@ -27,7 +28,6 @@ import { MatButtonModule } from '@angular/material/button';
     ExpensesComponent,
     HomepageComponent,
     RemindersComponent,
-    CommonModule
   ],
   imports: [
     BrowserModule,
@@ -38,7 +38,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   providers: [provideHttpClient(), TodoproxyService, provideAnimationsAsync()],
   bootstrap: [AppComponent]

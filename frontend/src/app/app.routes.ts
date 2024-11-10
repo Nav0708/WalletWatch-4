@@ -9,7 +9,7 @@ import { RemindersComponent } from './reminders/reminders.component';
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'expenses', component: ExpensesComponent },
-//   { path: 'expenses/:id', component: ExpensesComponent },
+  { path: 'expenses/:id', component: ExpensesComponent },
   { path: 'budget', component: BudgetComponent },
   { path: 'budget/:id', component: BudgetComponent },
   { path: 'reminders', component: RemindersComponent },
@@ -20,4 +20,5 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }
