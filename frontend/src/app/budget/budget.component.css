@@ -1,0 +1,31 @@
+/* Table Styling */
+.table {
+    font-size: 1rem;
+    margin-top: 20px;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+  }
+  
+  /* Button Styling */
+  .btn {
+    font-size: 1.1rem;
+  }
+  
+  /* Adjust the action button icons */
+  i {
+    font-size: 1.2rem;
+  }
+  
+  /* Responsive table */
+  @media (max-width: 768px) {
+    .table th, .table td {
+      font-size: 0.9rem;
+    }
+  
+    .btn {
+      font-size: 1rem;
+    }
+  }
+  
