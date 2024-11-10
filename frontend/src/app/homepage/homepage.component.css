@@ -1,0 +1,17 @@
+/* Center content */
+.container {
+    text-align: center;
+  }
+  
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .form-label {
+      font-size: 0.9rem;
+    }
+  }
+  
