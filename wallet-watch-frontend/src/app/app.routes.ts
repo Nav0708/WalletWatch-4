@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { BudgetComponent } from './budget/budget.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { RemindersComponent } from './reminders/reminders.component';
+import { provideHttpClient } from '@angular/common/http';
+import { TodoproxyService } from './todoproxy.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const routes: Routes = [
   { path: '', component:HomepageComponent },
@@ -18,7 +21,9 @@ export const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers:[provideHttpClient(), TodoproxyService, provideAnimationsAsync()]
 })
 
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
-import { AppRoutingModule, routes } from './app.routes';
+import { AppRoutingModule,routes } from './app.routes';
 import { AppComponent } from './app.component';
 import { BudgetComponent } from './budget/budget.component';
 import { ExpensesComponent } from './expenses/expenses.component';
@@ -31,7 +31,7 @@ import { MatButtonModule } from '@angular/material/button';
   ],
   imports: [
     AppRoutingModule,
-    RouterModule.forRoot(routes),
+    RouterModule,
     BrowserModule,
     MatTableModule,
     MatSortModule,

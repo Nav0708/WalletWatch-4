@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-reminders',
   standalone: true,
-  imports: [],
   templateUrl: './reminders.component.html',
   styleUrl: './reminders.component.css'
 })
