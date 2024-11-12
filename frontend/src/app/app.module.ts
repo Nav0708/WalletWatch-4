@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
-import { AppRoutingModule } from './app.routes';
+import { AppRoutingModule, routes } from './app.routes';
 import { AppComponent } from './app.component';
 import { BudgetComponent } from './budget/budget.component';
 import { ExpensesComponent } from './expenses/expenses.component';
@@ -12,7 +12,7 @@ import { RemindersComponent } from './reminders/reminders.component';
 import { TodoproxyService } from './todoproxy.service';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { RouterModule } from '@angular/router';
+import { RouterModule,Routes } from '@angular/router';
 
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
@@ -23,15 +23,15 @@ import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
-    AppComponent,
     BudgetComponent,
     ExpensesComponent,
     HomepageComponent,
     RemindersComponent,
   ],
   imports: [
-    BrowserModule,
+    AppComponent,
     AppRoutingModule,
+    BrowserModule,
     MatTableModule,
     MatSortModule,
     MatToolbarModule,
@@ -39,7 +39,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatMenuModule,
     MatButtonModule,
     CommonModule,
-    RouterModule
+    RouterModule.forRoot(routes)
   ],
   providers: [provideHttpClient(), TodoproxyService, provideAnimationsAsync()],
   bootstrap: [AppComponent]

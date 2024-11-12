@@ -5,9 +5,10 @@ import { BudgetComponent } from './budget/budget.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { RemindersComponent } from './reminders/reminders.component';
+import { AppComponent } from './app.component';
 
 export const routes: Routes = [
-  { path: '', component: HomepageComponent },
+  { path: '', component:HomepageComponent },
   { path: 'expenses', component: ExpensesComponent },
   { path: 'expenses/:id', component: ExpensesComponent },
   { path: 'budget', component: BudgetComponent },
@@ -17,7 +18,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [AppComponent,RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 

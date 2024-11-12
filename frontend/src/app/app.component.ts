@@ -3,11 +3,10 @@ import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [RouterModule],
+  imports: [AppComponent,RouterModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent  {
-  title = 'frontend';
+  title = 'WalletWatch';
 }
