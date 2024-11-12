@@ -5,7 +5,6 @@ import { BudgetComponent } from './budget/budget.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { RemindersComponent } from './reminders/reminders.component';
-import { AppComponent } from './app.component';
 
 export const routes: Routes = [
   { path: '', component:HomepageComponent },
@@ -18,7 +17,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [AppComponent,RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 

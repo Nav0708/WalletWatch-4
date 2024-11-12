@@ -23,14 +23,15 @@ import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
+    AppComponent,
     BudgetComponent,
     ExpensesComponent,
     HomepageComponent,
     RemindersComponent,
   ],
   imports: [
-    AppComponent,
     AppRoutingModule,
+    RouterModule.forRoot(routes),
     BrowserModule,
     MatTableModule,
     MatSortModule,
@@ -39,7 +40,6 @@ import { MatButtonModule } from '@angular/material/button';
     MatMenuModule,
     MatButtonModule,
     CommonModule,
-    RouterModule.forRoot(routes)
   ],
   providers: [provideHttpClient(), TodoproxyService, provideAnimationsAsync()],
   bootstrap: [AppComponent]
