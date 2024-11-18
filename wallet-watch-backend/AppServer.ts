@@ -23,7 +23,7 @@ if (dbUser && dbPassword) {
 }
 mongoDBConnection += `${dbHost}:${dbPort}/${dbName}`;
 
-console.log("MongoDB connection string:", mongoDBConnection);  // Debugging line
+console.log("MongoDB connection string:", mongoDBConnection);  
 
 // Configure and start the Express server
 const server = new App(mongoDBConnection).expressApp;

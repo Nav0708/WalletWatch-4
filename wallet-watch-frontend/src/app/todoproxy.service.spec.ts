@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-
 import { TodoproxyService } from './todoproxy.service';
 
 describe('TodoproxyService', () => {

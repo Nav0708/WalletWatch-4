@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient } from '@angular/common/http'
 
 @Injectable({
@@ -11,11 +10,11 @@ export class TodoproxyService {
 
   constructor(private httpClient: HttpClient) { }
 
-  getListsIndex() {
+  getTransactionIndex() {
     return this.httpClient.get<any[]>( this.hostUrl + 'json/lists.json');
   }
 
-  getItems(index: string) {
+  getEachExpense(index: string) {
     return this.httpClient.get( this.hostUrl + 'json/lists/' + index + '.json');
   }
 }

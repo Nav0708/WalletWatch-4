@@ -30,6 +30,7 @@ import { MatButtonModule } from '@angular/material/button';
     RemindersComponent,
   ],
   imports: [
+    AppComponent,
     AppRoutingModule,
     RouterModule,
     BrowserModule,

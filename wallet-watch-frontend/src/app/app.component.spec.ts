@@ -1,16 +1,17 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
-import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app.routes';
+import { ExpensesComponent } from './expenses/expenses.component';
 
   describe('AppComponent', () => {
     beforeEach(async () => {
       await TestBed.configureTestingModule({
         imports: [
+          AppComponent,
           AppRoutingModule,
         ],
         declarations: [
-          AppComponent
+          ExpensesComponent
         ],
       }).compileComponents();
     });
@@ -31,6 +32,6 @@ import { AppRoutingModule } from './app.routes';
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('WalletWatch');
+    expect(compiled.querySelector('a')?.textContent).toContain('WalletWatch');
   });
 });
