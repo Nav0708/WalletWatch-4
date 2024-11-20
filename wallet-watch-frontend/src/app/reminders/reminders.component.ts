@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ReminderService } from '../services/reminder.service';
+
 
 @Component({
   selector: 'app-reminders',
