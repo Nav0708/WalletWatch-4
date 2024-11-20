@@ -19,3 +19,22 @@ mat-toolbar {
     padding-top: 10px;
     padding-bottom: 10px;
   }
+  .nav-link.active {
+    background-color: #CC5500; /* Burnt orange for the active state */
+    color: white !important; /* Ensure text is readable */
+    border-radius: 50px; /* Create a pill shape */
+    padding: 0.5rem 1rem; /* Add spacing for the pill effect */
+    transition: background-color 0.3s ease; /* Smooth transition effect */
+  }
+  
+  .nav-link {
+    padding: 0.5rem 1rem; /* Consistent spacing */
+    text-decoration: none; /* Remove underline */
+    color: white; /* Default text color */
+  }
+  
+  .nav-link:hover {
+    background-color: #AA4400; /* Slightly darker shade of burnt orange */
+    color: white;
+  }
+  
