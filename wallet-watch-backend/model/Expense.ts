@@ -21,7 +21,7 @@ class ExpenseModel {
             {
                 expenseId: { type: String, required:true },
                 amount: { type: Number, required: true },
-                categoryId: { type: String, required: true },
+                categoryId: { type: String, ref: "Category", required: true },
                 date: { type: Date, required: true },
                 description: { type: String, required: true },
                 userId: { type: String, required: true }
@@ -42,7 +42,7 @@ class ExpenseModel {
  
     // Retrieve all expenses
     public async retrieveAllExpenses(response: any) {
-        const query = this.model.find({});
+        const query = this.model.find({}).populate("categoryId", "name").exec();
         try {
             const expenseArray = await query.exec();
             response.json(expenseArray);

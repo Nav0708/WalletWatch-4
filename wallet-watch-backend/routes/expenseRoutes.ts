@@ -57,6 +57,44 @@ export function  expenseRoutes(Expense: ExpenseModel) : Router {
       }
 
   });
+  // DELETE /expenses/:expenseId
+  router.delete('/expenses/:expenseId', async (req, res) => {
+    const id = req.params.expenseId;
+    console.log('Deleting Expense with ID:', id);
+    try {
+      const result = await Expense.model.deleteOne({ expenseId: id });
+      if (result.deletedCount === 0) {
+        res.status(404).send({ message: 'Expense not found.' });
+      } else {
+        res.send({ message: 'Expense deleted successfully.' });
+      }
+    } catch (error) {
+      console.error('Error deleting expense:', error);
+      res.status(500).send({ message: 'Failed to delete expense.' });
+    }
+  });
+
+  // PUT /expenses/:expenseId
+  router.put('/expenses/:expenseId', async (req, res) => {
+    const id = req.params.expenseId;
+    const updatedData = req.body;
+    console.log('Updating Expense with ID:', id);
+    try {
+      const result = await Expense.model.updateOne({ expenseId: id }, { $set: updatedData });
+      if (result.matchedCount === 0) {
+        res.status(404).send({ message: 'Expense not found.' });
+      } else {
+        res.send({ message: 'Expense updated successfully.' });
+      }
+    } catch (error) {
+      console.error('Error updating expense:', error);
+      res.status(500).send({ message: 'Failed to update expense.' });
+    }
+  });
+
+
+
+
   return router;
 };
 
