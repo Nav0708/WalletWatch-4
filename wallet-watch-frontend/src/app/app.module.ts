@@ -11,6 +11,10 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { RemindersComponent } from './reminders/reminders.component';
 
 import { TodoproxyService } from './todoproxy.service';
+import { ExpensesService } from './services/expenses.service'; // Expenses Service
+import { ReminderService } from './services/reminder.service'; // Reminders Service
+import { BudgetService } from './services/budget.service'; // Budget Service
+import { HomepageService } from './services/homepage.service'; // Homepage Service
 import { RouterModule } from '@angular/router';
 
 import { MatTableModule } from '@angular/material/table';
@@ -43,7 +47,13 @@ import { FooterComponent } from './footer/footer.component';
     MatMenuModule,
     MatButtonModule,
   ],
-  providers: [TodoproxyService],
+  providers: [
+    TodoproxyService, // Proxy service for ToDo (if applicable)
+    ExpensesService,  // Expenses Service
+    ReminderService, // Reminders Service
+    BudgetService,    // Budget Service
+    HomepageService   // Homepage Service
+  ], 
   bootstrap: [AppComponent]
 })
 export class AppModule { }
