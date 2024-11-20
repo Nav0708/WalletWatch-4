@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-//import { ReminderModel } from '../models/reminder'; // Path to reminder model
-//import { IReminderModel } from '../interfaces/IReminder'; // Path to reminder interface
+import { IReminderModel } from '../interfaces/IReminder'; // Correct path to IReminderModel
+
 
 
 @Injectable({
