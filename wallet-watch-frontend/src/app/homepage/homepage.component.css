@@ -1,4 +1,4 @@
-/* Center contents */
+/* Center content */
 .container {
     text-align: center;
   }
@@ -14,4 +14,9 @@
       font-size: 0.9rem;
     }
   }
-  
+ 
+  .chart-container {
+    width: 100%;
+    max-width: 600px;
+    margin: auto;
+  }
