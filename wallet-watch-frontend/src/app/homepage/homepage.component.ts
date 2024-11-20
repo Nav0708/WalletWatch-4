@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Chart } from 'chart.js';
+import { HomepageService } from '../services/homepage.service';
+
 
 @Component({
   selector: 'app-homepage',

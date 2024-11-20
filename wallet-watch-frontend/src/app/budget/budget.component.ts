@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { BudgetService } from '../services/budget.service';
+
 
 @Component({
   selector: 'app-budget',
