@@ -14,7 +14,7 @@ export class HomepageComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
-    // Check if window is defined (to ensure this is running in the browser)
+    // Check if window is defined (to ensure this is running in the browser )
     if (typeof window !== 'undefined') {
       this.createBarChart();
     }

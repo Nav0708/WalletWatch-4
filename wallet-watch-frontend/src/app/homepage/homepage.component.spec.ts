@@ -41,7 +41,7 @@ describe('HomepageComponent', () => {
     // Call ngOnChanges with the mock changes
     component.ngOnChanges(changes);
     
-    // Verify that updateChart was called
+  
     expect(updateSpy).toHaveBeenCalled();
   });
 
