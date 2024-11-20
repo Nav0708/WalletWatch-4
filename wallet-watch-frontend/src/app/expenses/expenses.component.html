@@ -13,7 +13,7 @@
         </div>
     </div>
 
-    <!-- Table for Expenses -->
+    <!-- Table for Expenses--> 
     <div class="row mt-3">
         <div class="col-12">
             <div class="table-responsive">
@@ -32,14 +32,15 @@
                         <tr *ngFor="let expense of expenses; let i = index">
                             <th scope="row">{{ i + 1 }}</th>
                             <td>{{ expense.date }}</td>
-                            <td>{{ expense.category }}</td>
+                            <td>{{ expense.categoryId }}</td>
                             <td>${{ expense.amount }}</td>
                             <td>{{ expense.description }}</td>
+                            <td>{{ expense.userId }}</td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-primary me-1" (click)="onEdit(expense)"><i class="bi bi-pencil-square"></i></button>
-                                <button type="button" class="btn btn-sm btn-danger me-1" (click)="onDelete(expense)"><i class="bi bi-trash"></i></button>
-                                <button type="button" class="btn btn-sm btn-secondary" (click)="onViewReceipt(expense)"><i class="bi bi-camera"></i></button>
-                            </td>
+                                <button type="button" class="btn btn-sm btn-primary me-1" (click)="editExpense(expense)"><i class="bi bi-pencil-square"></i></button>
+                                <button type="button" class="btn btn-sm btn-danger me-1" (click)="deleteExpense(expense.expenseId)"><i class="bi bi-trash"></i></button>
+                                <!--<button type="button" class="btn btn-sm btn-secondary" (click)="onViewReceipt(expense)"><i class="bi bi-camera"></i></button>-->
+                              </td>
                         </tr>
                     </tbody>
                 </table>
@@ -53,14 +54,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addExpenseModalLabel">Add Expense</h5>
+                <h5 class="modal-title" id="addExpenseModalLabel">{{ editing ? 'Edit Expense' : 'Add Expense' }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="expenseForm">
+                <form id="expenseForm" (ngSubmit)="onSubmit()">
                     <div class="mb-3">
                         <label for="expenseDate" class="form-label">Date</label>
-                        <input type="date" class="form-control" id="expenseDate" required>
+                        <input type="date" class="form-control" id="expenseDate" [(ngModel)]="currentExpense.date" placeholder="Date" name="date"  required>
                     </div>
                     <div class="mb-3">
                         <label for="expenseCategory" class="form-label">Category</label>
@@ -75,13 +76,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="expenseAmount" class="form-label">Amount</label>
-                        <input type="number" class="form-control" id="expenseAmount" required>
+                        <input type="number" class="form-control" id="expenseAmount" [(ngModel)]="currentExpense.amount" placeholder="Amount" name="amount" required>
                     </div>
                     <div class="mb-3">
                         <label for="expenseDescription" class="form-label">Description</label>
-                        <textarea class="form-control" id="expenseDescription" rows="3"></textarea>
+                        <textarea class="form-control" id="expenseDescription" rows="3" [(ngModel)]="currentExpense.description" placeholder="Description" name="description"></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save Expense</button>
+                    <button type="submit" class="btn btn-primary">{{ editing ? 'Update' : 'Add' }}</button>
                 </form>
             </div>
         </div>

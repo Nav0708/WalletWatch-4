@@ -1,50 +1,99 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ExpensesService } from '../services/expenses.service';
+import { IExpenseModel } from '../interfaces/IExpense';
+import { FormsModule } from '@angular/forms';
+import { ICategoryModel } from '../interfaces/ICategory';
 
 
 @Component({
   selector: 'app-expenses',
   templateUrl: './expenses.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule], 
+  imports: [CommonModule, RouterModule, FormsModule], 
   styleUrls: ['./expenses.component.css']
 })
 export class ExpensesComponent implements OnInit {
-  // Sample data for expenses
-  expenses = [
-    { date: '10/09/24', category: 'Food', amount: 10, description: 'Pizza' },
-    { date: '10/08/24', category: 'Rent', amount: 20, description: 'October Rent' },
-    { date: '10/05/24', category: 'Personal', amount: 50, description: 'Self Gifting' },
-    { date: '10/02/24', category: 'Entertainment', amount: 100, description: 'Movie' },
-    { date: '10/01/24', category: 'Transportation', amount: 5, description: 'Orca' }
-  ];
-
-  constructor() { }
+  expenses: IExpenseModel[] = [];
+  currentExpense: IExpenseModel ={
+    expenseId: '',
+    amount: 0,
+    categoryId: '',  // Bind to this field
+    date: new Date(),
+    description: '',
+    userId: ''
+  };
+  categories: ICategoryModel[] = [];
+  editing: boolean = false;
+  constructor(private expenseService: ExpensesService) {}
 
   ngOnInit(): void {
-    // Logic to load expenses, if needed
+    console.log('ngOnInit - ExpensesComponent');
+    this.fetchExpenses();
   }
 
-  // Edit expense method
-  onEdit(expense: any): void {
-    console.log('Edit Expense:', expense);
-    // You can open an edit modal or navigate to an edit page
+  // Fetch all expenses
+  fetchExpenses(): void {
+    console.log('Fetching expenses...');
+    this.expenseService.getAllExpenses().subscribe(
+      (data: any) => {
+        console.log('Expenses fetched successfully:', data);  // Log successful data fetch
+        this.expenses = data;
+      },
+      (error) => {
+        console.error('Error fetching expenses:', error);  // Log error if fetching fails
+      }
+    );
+  }
+  fetchCategories(): void {
+    // Assume you have a service method to fetch categories
+    this.expenseService.getCategories().subscribe((data: ICategoryModel[]) => {
+      this.categories = data;
+    });
   }
 
-  // Delete expense method
-  onDelete(expense: any): void {
-    const index = this.expenses.indexOf(expense);
-    if (index !== -1) {
-      this.expenses.splice(index, 1); // Remove the selected expense
+  onSubmit(): void {
+    if (this.editing) {
+      // Update existing expense
+      this.expenseService
+        .updateExpense(this.currentExpense.expenseId!, this.currentExpense)
+        .subscribe(() => {
+          this.fetchExpenses();
+          this.currentExpense = this.resetExpense();
+          this.editing = false;
+        });
+    } else {
+      // Add new expense
+      this.expenseService.addExpense(this.currentExpense).subscribe(() => {
+        this.fetchExpenses();
+        this.currentExpense = this.resetExpense();
+      });
     }
-    console.log('Deleted Expense:', expense);
+  }
+    // Edit an expense
+  editExpense(expense: IExpenseModel): void {
+    this.currentExpense = { ...expense };
+    this.editing = true;
   }
 
-  // View receipt or additional details method
-  onViewReceipt(expense: any): void {
-    console.log('View receipt for:', expense);
-    // Logic for viewing receipt or additional information
+  // Delete an expense
+  deleteExpense(expenseId: string): void {
+    this.expenseService.deleteExpense(expenseId).subscribe(() => {
+      this.fetchExpenses();
+    });
+  }
+
+  // Reset the currentExpense object
+  private resetExpense(): IExpenseModel {
+    return {
+      expenseId: '',
+      amount: 0,
+      categoryId: '',
+      date: new Date(),
+      description: '',
+      userId: '',
+    };
   }
 }
+
