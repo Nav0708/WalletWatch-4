@@ -34,7 +34,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CategoryModel = void 0;
 const Mongoose = __importStar(require("mongoose"));
-const uuid_1 = require("uuid");
 // Class to manage the Category model
 class CategoryModel {
     constructor(DB_CONNECTION_STRING) {
@@ -45,8 +44,8 @@ class CategoryModel {
     // Define the schema for Category documents
     createSchema() {
         this.schema = new Mongoose.Schema({
-            categoryId: { type: String, default: uuid_1.v4, required: true },
-            name: { type: String, required: true, unique: true }
+            categoryId: { type: String, required: true },
+            categoryName: { type: String, required: true, unique: true }
         }, { collection: 'categories' });
     }
     // Create the Category model and connect to MongoDB
@@ -88,16 +87,10 @@ class CategoryModel {
         });
     }
     // Retrieve a category by name
-    retrieveCategoryByName(response, name) {
+    retrieveCategoryIdByName(categoryName) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = this.model.findOne({ name });
-            try {
-                const category = yield query.exec();
-                response.json(category);
-            }
-            catch (e) {
-                console.error(e);
-            }
+            const category = yield this.model.findOne({ name: categoryName }).exec();
+            return category ? category.categoryId : null;
         });
     }
     // Count the total number of category entries

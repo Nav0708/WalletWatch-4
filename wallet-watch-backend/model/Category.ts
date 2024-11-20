@@ -18,8 +18,8 @@ class CategoryModel {
     public createSchema() {
         this.schema = new Mongoose.Schema(
             {
-                categoryId: { type: String, default: uuidv4, required: true },
-                name: { type: String, required: true, unique: true }
+                categoryId: { type: String, required: true },
+                categoryName: { type: String, required: true, unique: true }
             },
             { collection: 'categories' }
         );
@@ -58,14 +58,9 @@ class CategoryModel {
     }
 
     // Retrieve a category by name
-    public async retrieveCategoryByName(response: any, name: string) {
-        const query = this.model.findOne({ name });
-        try {
-            const category = await query.exec();
-            response.json(category);
-        } catch (e) {
-            console.error(e);
-        }
+    public async retrieveCategoryIdByName(categoryName: string): Promise<string | null> {
+        const category = await this.model.findOne({ name: categoryName }).exec();
+        return category ? category.categoryId : null;
     }
 
     // Count the total number of category entries
