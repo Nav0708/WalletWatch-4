@@ -5,73 +5,97 @@ import { ExpensesService } from '../services/expenses.service';
 import { IExpenseModel } from '../interfaces/IExpense';
 import { FormsModule } from '@angular/forms';
 import { ICategoryModel } from '../interfaces/ICategory';
-
+import { v4 as uuidv4 } from 'uuid'; // Import UUID library for unique ID generation
 
 @Component({
   selector: 'app-expenses',
   templateUrl: './expenses.component.html',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule], 
-  styleUrls: ['./expenses.component.css']
+  imports: [CommonModule, RouterModule, FormsModule],
+  styleUrls: ['./expenses.component.css'],
 })
 export class ExpensesComponent implements OnInit {
   expenses: IExpenseModel[] = [];
-  currentExpense: IExpenseModel ={
+  categories: ICategoryModel[] = [];
+  currentExpense: IExpenseModel = {
     expenseId: '',
     amount: 0,
-    categoryId: '',  // Bind to this field
+    categoryId: '',
     date: new Date(),
     description: '',
-    userId: ''
+    userId: '100',
   };
-  categories: ICategoryModel[] = [];
   editing: boolean = false;
+
   constructor(private expenseService: ExpensesService) {}
 
   ngOnInit(): void {
     console.log('ngOnInit - ExpensesComponent');
     this.fetchExpenses();
+    this.fetchCategories();
   }
 
   // Fetch all expenses
   fetchExpenses(): void {
-    console.log('Fetching expenses...');
-    this.expenseService.getAllExpenses().subscribe(
-      (data: any) => {
-        console.log('Expenses fetched successfully:', data);  // Log successful data fetch
-        this.expenses = data;
+  console.log('Fetching expenses...');
+  this.expenseService.getAllExpenses().subscribe(
+    (data: IExpenseModel[]) => {
+      console.log('Expenses fetched successfully:', data);
+      this.expenses = data;
+    },
+    (error) => {
+      console.error('Error fetching expenses:', error);
+    }
+  );
+}
+
+  // Fetch all categories
+  fetchCategories(): void {
+    console.log('Fetching categories...');
+    this.expenseService.getCategories().subscribe(
+      (data: ICategoryModel[]) => {
+        console.log('Categories fetched successfully:', data);
+        this.categories = data;
       },
       (error) => {
-        console.error('Error fetching expenses:', error);  // Log error if fetching fails
+        console.error('Error fetching categories:', error);
       }
     );
   }
-  fetchCategories(): void {
-    // Assume you have a service method to fetch categories
-    this.expenseService.getCategories().subscribe((data: ICategoryModel[]) => {
-      this.categories = data;
-    });
-  }
 
+  // Add or update an expense
   onSubmit(): void {
     if (this.editing) {
       // Update existing expense
       this.expenseService
         .updateExpense(this.currentExpense.expenseId!, this.currentExpense)
-        .subscribe(() => {
-          this.fetchExpenses();
-          this.currentExpense = this.resetExpense();
-          this.editing = false;
-        });
+        .subscribe(
+          () => {
+            console.log('Expense updated successfully');
+            this.fetchExpenses();
+            this.resetForm();
+          },
+          (error) => {
+            console.error('Error updating expense:', error);
+          }
+        );
     } else {
       // Add new expense
-      this.expenseService.addExpense(this.currentExpense).subscribe(() => {
-        this.fetchExpenses();
-        this.currentExpense = this.resetExpense();
-      });
+      this.currentExpense.expenseId = uuidv4(); // Generate unique ID
+      this.expenseService.addExpense(this.currentExpense).subscribe(
+        () => {
+          console.log('Expense added successfully');
+          this.fetchExpenses();
+          this.resetForm();
+        },
+        (error) => {
+          console.error('Error adding expense:', error);
+        }
+      );
     }
   }
-    // Edit an expense
+
+  // Edit an expense
   editExpense(expense: IExpenseModel): void {
     this.currentExpense = { ...expense };
     this.editing = true;
@@ -79,14 +103,20 @@ export class ExpensesComponent implements OnInit {
 
   // Delete an expense
   deleteExpense(expenseId: string): void {
-    this.expenseService.deleteExpense(expenseId).subscribe(() => {
-      this.fetchExpenses();
-    });
+    this.expenseService.deleteExpense(expenseId).subscribe(
+      () => {
+        console.log('Expense deleted successfully');
+        this.fetchExpenses();
+      },
+      (error) => {
+        console.error('Error deleting expense:', error);
+      }
+    );
   }
 
-  // Reset the currentExpense object
-  private resetExpense(): IExpenseModel {
-    return {
+  // Reset the form
+  resetForm(): void {
+    this.currentExpense = {
       expenseId: '',
       amount: 0,
       categoryId: '',
@@ -94,6 +124,6 @@ export class ExpensesComponent implements OnInit {
       description: '',
       userId: '',
     };
+    this.editing = false;
   }
 }
-

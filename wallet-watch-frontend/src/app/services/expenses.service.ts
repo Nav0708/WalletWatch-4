@@ -11,12 +11,12 @@ import { ICategoryModel } from '../interfaces/ICategory';
 })
 export class ExpensesService {
   private baseUrl = 'http://localhost:8080/walletwatch/expenses'; // Update with your backend URL
-  private categoryUrl = `${this.baseUrl}/categories`; 
+  private categoryUrl = `http://localhost:8080/walletwatch/categories`; 
 
   constructor(private http: HttpClient) { }
   
-  getAllExpenses() {
-    return this.http.get(this.baseUrl);  // <-- Using HttpClient here
+  getAllExpenses(): Observable<IExpenseModel[]> {
+    return this.http.get<IExpenseModel[]>(this.baseUrl);
   }
    //Fetch a specific expense by ID
   getExpenseById(expenseId: string): Observable<IExpenseModel> {
@@ -27,14 +27,15 @@ export class ExpensesService {
     return this.http.get<ICategoryModel[]>(this.categoryUrl);
   }
   // Add a new expense
-  addExpense(expense: IExpenseModel): Observable<{ id: string }> {
-    return this.http.post<{ id: string }>(this.baseUrl, expense);
-  }
 
-  // Update an existing expense
-  updateExpense(expenseId: string, expense: Partial<IExpenseModel>): Observable<any> {
-    return this.http.put(`${this.baseUrl}/${expenseId}`, expense);
-  }
+addExpense(expense: IExpenseModel): Observable<IExpenseModel> {
+  return this.http.post<IExpenseModel>(this.baseUrl, expense);
+}
+
+updateExpense(expenseId: string, expense: IExpenseModel): Observable<IExpenseModel> {
+  return this.http.put<IExpenseModel>(`${this.baseUrl}/${expenseId}`, expense);
+}
+
 
   // Delete an expense
   deleteExpense(expenseId: string): Observable<any> {

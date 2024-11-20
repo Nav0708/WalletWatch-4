@@ -13,7 +13,7 @@ export function  expenseRoutes(Expense: ExpenseModel) : Router {
 
   router.get('/expenses/:expenseId', async (req, res) => {
     var id = req.params.expenseId;
-    console.log('Query Expenses based on user Id'+ id);
+    console.log('Query Expenses based on user Id '+ id);
     try {
       await Expense.retrieveExpensesByExpenseId(res,id); 
     } catch (error) {
