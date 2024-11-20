@@ -8,7 +8,7 @@ import { IBudget } from '../interfaces/IBudget';  // Correct import path
   providedIn: 'root'
 })
 export class BudgetService {
-  private apiUrl = 'http://localhost:5000/api/budget';  // Adjust with the actual backend URL
+  private apiUrl = 'http://localhost:3000/api/budget';  // Adjust with the actual backend URL
 
   constructor(private http: HttpClient) { }
 
