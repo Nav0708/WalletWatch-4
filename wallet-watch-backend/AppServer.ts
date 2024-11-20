@@ -8,13 +8,13 @@ dotenv.config();
 
 const app: Express = express();
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || '';
 const dbUser = process.env.DB_USER || '';
 const dbPassword = process.env.DB_PASSWORD || '';
-const dbHost = process.env.DB_HOST || 'localhost';
-const dbPort = process.env.DB_PORT || '27017';
-const dbName = process.env.DB_NAME || 'walletwatch';
-const dbProtocol = process.env.DB_PROTOCOL || 'mongodb';
+const dbHost = process.env.DB_HOST || '';
+const dbPort = process.env.DB_PORT || '';
+const dbName = process.env.DB_NAME || '';
+const dbProtocol = process.env.DB_PROTOCOL || '';
 
 // Construct the MongoDB connection string based on authentication presence
 let mongoDBConnection = `${dbProtocol}://`;
