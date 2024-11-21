@@ -7,7 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { ICategoryModel } from '../interfaces/ICategory';
 import { v4 as uuidv4 } from 'uuid'; // Import UUID library for unique ID generation
 import { DatePipe } from '@angular/common';
-
+ 
 @Component({
   selector: 'app-expenses',
   templateUrl: './expenses.component.html',
@@ -28,14 +28,14 @@ export class ExpensesComponent implements OnInit {
     userId: '100',
   };
   editing: boolean = false;
-
+ 
   constructor(private expenseService: ExpensesService, public datePipe: DatePipe, private router: Router,private route: ActivatedRoute) {}
-
+ 
   ngOnInit(): void {
     console.log('ngOnInit - ExpensesComponent');
     this.fetchExpenses();
   }
-
+ 
   // Fetch all expenses
   fetchExpenses(): void {
   console.log('Fetching expenses...');
@@ -69,26 +69,23 @@ export class ExpensesComponent implements OnInit {
         }
       );
     }
-
+ 
   // Add or update an expense
   onSubmit(): void {
     if (this.editing) {
-      // Update existing expense
       this.expenseService
-        .updateExpense(this.currentExpense.expenseId!, this.currentExpense)
+        .updateExpense(this.currentExpense.expenseId, this.currentExpense)
         .subscribe(
           () => {
             console.log('Expense updated successfully');
             this.fetchExpenses();
-            this.resetForm();
           },
           (error) => {
             console.error('Error updating expense:', error);
           }
         );
     } else {
-      // Add new expense
-      this.currentExpense.expenseId = uuidv4(); // Generate unique ID
+      this.currentExpense.expenseId = uuidv4();
       this.expenseService.addExpense(this.currentExpense).subscribe(
         () => {
           console.log('Expense added successfully');
@@ -101,23 +98,22 @@ export class ExpensesComponent implements OnInit {
       );
     }
   }
-
+ 
   // // Edit an expense
   // editExpense(expense: IExpenseModel): void {
   //   this.currentExpense = { ...expense };
   //   this.editing = true;
   // }
-
+ 
   // Edit an expense
   editExpense(expense: IExpenseModel): void {
-    // Ensure the date is formatted as 'yyyy-MM-dd' for the input type="date"
-    //this.currentExpense = { ...expense };
+    this.fetchExpenseById(expense.expenseId);
     const formattedDate = this.datePipe.transform(expense.date, 'yyyy-MM-dd');
     if (formattedDate) {
-      this.currentExpense = { ...expense, date: formattedDate }; // Ensure date is in the correct format
+      this.currentExpense = { ...expense,date: formattedDate }; // Ensure date is in the correct format
     }
     // Navigate to the route with the expense ID
-    this.router.navigate(['/expenses', expense.expenseId]);
+    this.router.navigate(['/expenses/:expenseId', expense.expenseId]);
     this.editing = true;
  
     const modalElement = document.getElementById('addExpenseModal');
@@ -128,7 +124,7 @@ export class ExpensesComponent implements OnInit {
       console.error('Modal element not found');
     }
   }
-
+ 
   // Delete an expense
   deleteExpense(expenseId: string): void {
     this.expenseService.deleteExpense(expenseId).subscribe(
@@ -141,7 +137,7 @@ export class ExpensesComponent implements OnInit {
       }
     );
   }
-
+ 
   // Reset the form
   resetForm(): void {
     this.currentExpense = {
