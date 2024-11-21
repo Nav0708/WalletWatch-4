@@ -95,10 +95,26 @@ export class ExpensesComponent implements OnInit {
     }
   }
 
+  // // Edit an expense
+  // editExpense(expense: IExpenseModel): void {
+  //   this.currentExpense = { ...expense };
+  //   this.editing = true;
+  // }
+
   // Edit an expense
   editExpense(expense: IExpenseModel): void {
+    // Ensure the date is formatted as 'yyyy-MM-dd' for the input type="date"
     this.currentExpense = { ...expense };
+    //this.currentExpense.date = expense.date.toISOString().split('T')[0]; // Format the date
     this.editing = true;
+
+    const modalElement = document.getElementById('addExpenseModal');
+    if (modalElement) {
+      const modal = new (window as any).bootstrap.Modal(modalElement);
+      modal.show();
+    } else {
+      console.error('Modal element not found');
+    }
   }
 
   // Delete an expense
