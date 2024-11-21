@@ -20,7 +20,7 @@ export class ExpensesService {
   }
    //Fetch a specific expense by ID
   getExpenseById(expenseId: string): Observable<IExpenseModel> {
-    return this.http.get<IExpenseModel>(`${this.baseUrl}/${expenseId}`);
+    return this.http.get<IExpenseModel>(`${this.baseUrl}/${expenseId}`);//Update with your backend URL
   }
   // Fetch categories
   getCategories(): Observable<ICategoryModel[]> {
