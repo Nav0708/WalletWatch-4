@@ -28,8 +28,8 @@
       <tbody>
         <tr *ngFor="let expense of expenses; let i = index">
           <th scope="row">{{ i + 1 }}</th>
-          <td>{{ expense.date }}</td>
-          <td>{{ expense.categoryId }}</td>
+          <td>{{ expense.date | date:'yyyy-MM-dd' }}</td>
+          <td>{{ expense.categoryName }}</td>
           <td>${{ expense.amount }}</td>
           <td>{{ expense.description }}</td>
 
@@ -106,20 +106,11 @@
           </div>
           <div class="mb-3">
             <label for="expenseCategory" class="form-label">Category</label>
-            <select
-              class="form-select"
-              id="expenseCategory"
-              [(ngModel)]="currentExpense.categoryId"
-              name="categoryId"
-              required
-            >
-              <option value="">Select a category</option>
-
-              <option value="Food">Food</option>
-              <option value="Rent">Rent</option>
-              <option value="Personal">Personal</option>
-              <option value="Entertainment">Entertainment</option>
-              <option value="Transportation">Transportation</option>
+            <select class="form-select" id="expenseCategory" [(ngModel)]="currentExpense.categoryName" name="categoryName" required>
+                <option value="">Select a category</option>
+                <option *ngFor="let category of categories" [value]="category">
+                {{ category }}
+                </option>
             </select>
           </div>
           <div class="mb-3">

@@ -21,7 +21,7 @@ class ExpenseModel {
             {
                 expenseId: { type: String, required:true },
                 amount: { type: Number, required: true },
-                categoryId: { type: String, ref: "Category", required: true },
+                categoryName: { type: String, required: true },
                 date: { type: Date, required: true },
                 description: { type: String, required: true },
                 userId: { type: String, required: true }
@@ -42,7 +42,7 @@ class ExpenseModel {
  
     // Retrieve all expenses
     public async retrieveAllExpenses(response: any) {
-        const query = this.model.find({}).populate("categoryId", "name").exec();
+        const query = this.model.find();
         try {
             const expenseArray = await query.exec();
             response.json(expenseArray);
@@ -63,8 +63,8 @@ class ExpenseModel {
     }
  
     // Retrieve expenses for a specific category
-    public async retrieveExpensesByCategory(response: any, category: string) {
-        const query = this.model.find({ category });
+    public async retrieveExpensesByCategory(response: any, categoryName: string) {
+        const query = this.model.find({ categoryName });
         try {
             const expenseArray = await query.exec();
             response.json(expenseArray);

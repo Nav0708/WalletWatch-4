@@ -5,7 +5,7 @@ import Mongoose = require("mongoose");
 interface IExpenseModel extends Mongoose.Document {
     expenseId: String;
     amount: number;
-    categoryId: string;
+    categoryName: string;
     date: Date;
     description: string;
     userId: string;

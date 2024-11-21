@@ -1,8 +1,8 @@
 export interface IExpenseModel {
     expenseId: string;
     amount: number;
-    categoryId: string;
-    date: Date;
+    categoryName: string;
+    date: Date | string;
     description: string;
     userId: string;
 }

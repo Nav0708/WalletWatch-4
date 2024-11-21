@@ -28,7 +28,7 @@ export function  expenseRoutes(Expense: ExpenseModel) : Router {
    */
   
   router.get('/expenses', async (req, res) => {
-    console.log('Query All Expenses');
+    console.log('Query All Expenses:',res);
     try {
       await Expense.retrieveAllExpenses(res);
     } catch (error) {
@@ -91,10 +91,6 @@ export function  expenseRoutes(Expense: ExpenseModel) : Router {
       res.status(500).send({ message: 'Failed to update expense.' });
     }
   });
-
-
-
-
   return router;
 };
 

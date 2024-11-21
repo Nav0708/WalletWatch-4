@@ -12,7 +12,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 export const routes: Routes = [
   { path: '', component:HomepageComponent },
   { path: 'expenses', component: ExpensesComponent },
-  { path: 'expenses/:id', component: ExpensesComponent },
+  { path: 'expenses/:expenseId', component: ExpensesComponent },
   { path: 'budget', component: BudgetComponent },
   { path: 'budget/:id', component: BudgetComponent },
   { path: 'reminders', component: RemindersComponent },
