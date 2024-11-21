@@ -1,33 +1,49 @@
+/* General Styling */
+.container {
+  max-width: 1200px;
+}
+
 /* Table Styling */
 .table {
-    font-size: 1rem;
-    margin-top: 20px;
-  }
-  
-  .table th, .table td {
-    text-align: center;
-  }
-  
-  /* Button Styling */
-  .btn {
-    font-size: 1.1rem;
-  }
-  
-  /* Adjust the action button icons */
-  i {
-    font-size: 1.2rem;
-  }
-  
-  /* Responsive table */
-  @media (max-width: 768px) {
-    .table th, .table td {
-      font-size: 0.9rem;
-    }
-  
-    .btn {
-      font-size: 1rem;
-    }
-  }
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+}
+.table th,
+.table td {
+  text-align: center;
+}
+.table thead th {
+  font-weight: bold;
+  text-transform: uppercase;
+}
 
-  
-  
+/* Button Styling */
+.btn {
+  font-size: 0.9rem;
+}
+.btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
+}
+.btn-outline-danger {
+  color: #dc3545;
+  border-color: #dc3545;
+}
+
+/* Modal Styling */
+.modal-header {
+  border-bottom: 2px solid #dee2e6;
+}
+.modal-title {
+  font-weight: bold;
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+  .table {
+    font-size: 0.8rem;
+  }
+  .btn {
+    font-size: 0.8rem;
+  }
+}
