@@ -1,22 +1,64 @@
-/* Center content */
+/* Container Styling */
 .container {
-    text-align: center;
-  }
-  
-  h2 {
+  text-align: center;
+  background-color: #e6dcd6; /* Light background */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Title Styling */
+.homepage-title {
+  font-size: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  color: #030303; /* Soft blue */
+  margin-bottom: 20px;
+}
+
+/* Filter Cards */
+.filter-card {
+  background-color: #e0eef1;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Chart Card */
+.chart-card {
+  background-color: hsl(0, 0%, 100%);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: auto;
+  max-width: 700px;
+}
+
+/* Form Label */
+.form-label {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Input and Select Styling */
+.form-control,
+.form-select {
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .homepage-title {
     font-size: 2rem;
-    margin-bottom: 30px;
   }
-  
-  /* Responsive design */
-  @media (max-width: 768px) {
-    .form-label {
-      font-size: 0.9rem;
-    }
+
+  .form-label {
+    font-size: 0.9rem;
   }
- 
-  .chart-container {
-    width: 100%;
-    max-width: 600px;
-    margin: auto;
+
+  .chart-card {
+    padding: 15px;
   }
+}

@@ -1,16 +1,26 @@
-<div class="container mt-3">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h2>Visualize Your Data</h2>
+<div class="container mt-4">
+  <!-- Title -->
+  <div class="row">
+    <div class="col-12 text-center">
+      <h2 class="homepage-title">Visualize Your Data</h2>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="row mt-4">
+    <div class="col-lg-6 col-md-12 mb-3">
+      <div class="filter-card">
+        <label for="selectDate" class="form-label">Select Date</label>
+        <input
+          type="date"
+          class="form-control"
+          id="selectDate"
+          placeholder="MM/DD/YYYY"
+        />
       </div>
     </div>
-  
-    <div class="row mt-4">
-      <div class="col-6">
-        <label for="selectDate" class="form-label">Select Date</label>
-        <input type="date" class="form-control" id="selectDate" placeholder="MM/DD/YYYY">
-      </div>
-      <div class="col-6">
+    <div class="col-lg-6 col-md-12 mb-3">
+      <div class="filter-card">
         <label for="selectCategory" class="form-label">Select Category</label>
         <select class="form-select" id="selectCategory">
           <option value="">Select a category</option>
@@ -22,10 +32,14 @@
         </select>
       </div>
     </div>
-  
-    <div class="row mt-4">
-      <div class="col-12 chart-container">
+  </div>
+
+  <!-- Graph Section -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="chart-card">
         <canvas #barGraph height="150"></canvas>
       </div>
     </div>
   </div>
+</div>
