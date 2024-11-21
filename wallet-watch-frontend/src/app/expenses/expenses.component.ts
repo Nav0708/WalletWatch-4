@@ -114,7 +114,7 @@ export class ExpensesComponent implements OnInit {
     //this.currentExpense = { ...expense };
     const formattedDate = this.datePipe.transform(expense.date, 'yyyy-MM-dd');
     if (formattedDate) {
-      this.currentExpense = { ...expense }; // Ensure date is in the correct format
+      this.currentExpense = { ...expense, date: formattedDate }; // Ensure date is in the correct format
     }
     // Navigate to the route with the expense ID
     this.router.navigate(['/expenses', expense.expenseId]);
