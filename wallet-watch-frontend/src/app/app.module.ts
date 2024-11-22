@@ -1,9 +1,11 @@
+// Import Angular Core and Browser modules
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms'; 
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 
+// Import Routing Module
 import { AppRoutingModule } from './app.routes';
 import { AppComponent } from './app.component';
 import { BudgetComponent } from './budget/budget.component';
@@ -11,6 +13,7 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { RemindersComponent } from './reminders/reminders.component';
 
+// Import Application Services
 import { TodoproxyService } from './todoproxy.service';
 import { ExpensesService } from './services/expenses.service'; // Expenses Service
 import { ReminderService } from './services/reminder.service'; // Reminders Service
@@ -18,6 +21,7 @@ import { BudgetService } from './services/budget.service'; // Budget Service
 import { HomepageService } from './services/homepage.service'; // Homepage Service
 import { RouterModule } from '@angular/router';
 
+// Import Application Components
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -29,6 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
+    // Declarations: Define components, directives, and pipes that belong to this module
     AppComponent,
     BudgetComponent,
     ExpensesComponent,
@@ -36,6 +41,7 @@ import { HttpClientModule } from '@angular/common/http';
     RemindersComponent,
     FooterComponent
   ],
+  // Imports: Specify external modules required in the application
   imports: [
     BrowserModule,
     FormsModule,
@@ -51,6 +57,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatButtonModule,
     FormsModule,
   ],
+  // Providers: Register services for dependency injection
   providers: [
     TodoproxyService, // Proxy service for ToDo (if applicable)
     ExpensesService,  // Expenses Service
@@ -58,6 +65,7 @@ import { HttpClientModule } from '@angular/common/http';
     BudgetService,    // Budget Service
     HomepageService   // Homepage Service
   ], 
+  // Bootstrap: Specify the root component to bootstrap the application
   bootstrap: [AppComponent]
 })
 export class AppModule { }
