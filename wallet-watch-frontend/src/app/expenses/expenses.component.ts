@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { ICategoryModel } from '../interfaces/ICategory';
 import { v4 as uuidv4 } from 'uuid'; // Import UUID library for unique ID generation
 import { DatePipe } from '@angular/common';
+
+
  
 @Component({
   selector: 'app-expenses',
@@ -113,7 +115,7 @@ export class ExpensesComponent implements OnInit {
       this.currentExpense = { ...expense,date: formattedDate }; // Ensure date is in the correct format
     }
     // Navigate to the route with the expense ID
-    this.router.navigate(['/expenses/:expenseId', expense.expenseId]);
+    this.router.navigate(['/expenses', expense.expenseId]);
     this.editing = true;
  
     const modalElement = document.getElementById('addExpenseModal');
@@ -137,7 +139,19 @@ export class ExpensesComponent implements OnInit {
       }
     );
   }
- 
+  ngAfterViewInit(): void {
+    // Listen for modal close event
+    const modalElement = document.getElementById('addExpenseModal');
+    if (modalElement) {
+      modalElement.addEventListener('hidden.bs.modal', () => {
+        this.resetForm(); // Reset form when the modal closes
+        this.router.navigate(['/expenses']); // Navigate to expenses page
+      });
+    }
+  }
+  
+  
+  
   // Reset the form
   resetForm(): void {
     this.currentExpense = {
