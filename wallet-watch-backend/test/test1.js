@@ -12,7 +12,7 @@ describe('Test To Do lists result', function () {
     let response;
 
     before(function (done) {
-        chai.request("http://localhost:3000")
+        chai.request("http://localhost:8080")
             .get("/walletwatch/expenses")
             .end(function (err, res) {
                 if (err) {
@@ -25,23 +25,32 @@ describe('Test To Do lists result', function () {
                 done();
             });
     });
-
-    it('Should return an array object with three objects', function () {
+    it('Should return an array object with more than 2 objects', function () {
         expect(response).to.have.status(200);
-        expect(response).to.be.json; // Ensure response is JSON
-        expect(response.body).to.be.an('array').that.has.length.above(1); // Validate response body
+        expect(response.body).to.have.length.above(2);
+        expect(response).to.have.headers;
+    });
+
+    it('The first entry in the array has known properties', function () {
+        expect(requestResult[0]).to.include.keys('categoryName');
+        expect(requestResult[0]).to.have.property('amount');
+        expect(requestResult[0]).to.have.property('expenseId');
+        expect(requestResult).to.not.be.a.string;
     });
 
     it('The elements in the array have the expected properties', function () {
-        response.body.forEach((item) => {
-            expect(item).to.have.property('expenseId');
-            expect(item).to.have.property('amount');
-            expect(item).to.have.property('categoryId');
-            expect(item).to.have.property('date');
-            expect(item).to.have.property('description');
-            expect(item).to.have.property('userId');
-            expect(item.categoryId).to.be.a('string').that.has.length(1);
-            expect(item.description).to.be.a('string');
-        });
+        expect(requestResult).to.satisfy(function (element){
+            for (let i = 0; i < element.length; i++) {
+                console.log(element);
+            expect(element[i]).to.have.property('expenseId');
+            expect(element[i]).to.have.property('amount');
+            expect(element[i]).to.have.property('date');
+            expect(element[i]).to.have.property('description');
+            expect(element[i]).to.have.property('userId');
+            expect(element[i].categoryName).to.be.a('string').that.has.above(1);
+            expect(element[i].description).to.be.a('string');
+        }
+        return true;
+    });
     });
 });
