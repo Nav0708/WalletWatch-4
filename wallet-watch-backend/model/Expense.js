@@ -46,7 +46,7 @@ class ExpenseModel {
         this.schema = new Mongoose.Schema({
             expenseId: { type: String, required: true },
             amount: { type: Number, required: true },
-            categoryId: { type: String, required: true },
+            categoryName: { type: String, required: true },
             date: { type: Date, required: true },
             description: { type: String, required: true },
             userId: { type: String, required: true }
@@ -67,7 +67,7 @@ class ExpenseModel {
     // Retrieve all expenses
     retrieveAllExpenses(response) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = this.model.find({});
+            const query = this.model.find();
             try {
                 const expenseArray = yield query.exec();
                 response.json(expenseArray);
@@ -91,9 +91,9 @@ class ExpenseModel {
         });
     }
     // Retrieve expenses for a specific category
-    retrieveExpensesByCategory(response, category) {
+    retrieveExpensesByCategory(response, categoryName) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = this.model.find({ category });
+            const query = this.model.find({ categoryName });
             try {
                 const expenseArray = yield query.exec();
                 response.json(expenseArray);
