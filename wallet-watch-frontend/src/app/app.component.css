@@ -1,22 +1,20 @@
 /* Toolbar Styling */
 mat-toolbar {
-  height: 80px;
+  height: 60px; /* Reduced height */
   background-color: #da7245; /* Light grey for a decent look */
-  color: #333; /* Dark grey for contrast */
+  color: white; /* White text color */
   padding: 0 20px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More prominent shadow */
-  /* Subtle shadow */
- /* Subtle shadow */
   font-family: 'Poppins', sans-serif; /* Modern, clean font */
-  font-size: 20px; /* Slightly larger font */
+  font-size: 18px; /* Slightly smaller font */
 }
 
 /* Navbar Links */
 .nav-link {
   padding: 8px 15px;
   text-decoration: none;
-  color: #333; /* Matches toolbar text */
-  font-size: 20px;
+  color: rgba(255, 255, 255, 0.5); /* Default blurry white color */
+  font-size: 18px; /* Slightly smaller font */
   font-weight: 600;
   transition: all 0.3s ease; /* Smooth transitions */
   border-radius: 25px;
@@ -24,17 +22,13 @@ mat-toolbar {
 
 /* Hover Effects */
 .nav-link:hover {
-  background-color: #e0e0e0; /* Light hover effect */
-  color: #000; /* Darker text on hover */
+  color: white; /* Pure white text on hover */
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); /* Subtle glow */
 }
 
 /* Active Link */
 .nav-link.active {
-  background-color: #c7d2fe; /* Light pastel blue */
-  color: #000; /* Dark text */
-  font-weight: bold;
-  border: 1px solid #cdebbf; /* Light border */
+  color: white; /* Pure white text for active page */
 }
 
 /* User Icon */
@@ -47,7 +41,7 @@ img {
 
 /* Logo Styling */
 .navbar-brand {
-  color: #000000; /* Soft blue */
+  color: white; /* White text */
   font-size: 25px;
   font-weight: bold;
   font-family: 'Poppins', sans-serif;
