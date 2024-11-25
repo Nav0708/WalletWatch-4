@@ -47,7 +47,7 @@ describe('Test To Do lists result', function () {
             expect(element[i]).to.have.property('date');
             expect(element[i]).to.have.property('description');
             expect(element[i]).to.have.property('userId');
-            expect(element[i].categoryName).to.be.a('string').that.has.above(1);
+            expect(element[i].categoryName).to.be.a('string').that.has.length.above(3);;
             expect(element[i].description).to.be.a('string');
         }
         return true;
