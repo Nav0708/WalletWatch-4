@@ -8,6 +8,7 @@ html, body {
   margin: 0; /* No margin */
   display: flex;
   flex-direction: column; /* Stack elements vertically */
+ 
 }
 
 .app-container {
@@ -23,7 +24,7 @@ router-outlet {
 app-footer {
   margin-top: auto; /* Push footer to the bottom */
   width: 100%; /* Ensure the footer spans the entire width */
-  background-color: #da7245; /* Footer background for consistency */
+  background-color: #439bfa; /* Footer background for consistency */
   color: white; /* Footer text color */
   padding: 10px 0; /* Padding inside the footer */
   text-align: center; /* Center align text inside footer */
@@ -31,8 +32,8 @@ app-footer {
 
 
 mat-toolbar {
-  height: 60px; /* Reduced height */
-  background-color: #da7245; /* Light grey for a decent look */
+  height: 80px; /* Reduced height */
+  background-color: #439bfa; /* Light grey for a decent look */
   color: white; /* White text color */
   padding: 0 20px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More prominent shadow */
@@ -44,8 +45,8 @@ mat-toolbar {
 .nav-link {
   padding: 8px 15px;
   text-decoration: none;
-  color: rgba(255, 255, 255, 0.5); /* Default blurry white color */
-  font-size: 18px; /* Slightly smaller font */
+  color: #0a0b0b; /* Default blurry white color */
+  font-size: 20px; /* Slightly smaller font */
   font-weight: 600;
   transition: all 0.3s ease; /* Smooth transitions */
   border-radius: 25px;
