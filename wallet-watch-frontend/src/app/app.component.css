@@ -1,4 +1,35 @@
 /* Toolbar Styling */
+/* Ensure the app takes up the full height of the viewport */
+
+
+/* General Reset */
+html, body {
+  height: 100%; /* Full viewport height */
+  margin: 0; /* No margin */
+  display: flex;
+  flex-direction: column; /* Stack elements vertically */
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column; /* Ensure vertical stacking */
+  min-height: 100vh; /* At least full viewport height */
+}
+
+router-outlet {
+  flex: 1; /* Allow the content area to grow and fill space */
+}
+
+app-footer {
+  margin-top: auto; /* Push footer to the bottom */
+  width: 100%; /* Ensure the footer spans the entire width */
+  background-color: #da7245; /* Footer background for consistency */
+  color: white; /* Footer text color */
+  padding: 10px 0; /* Padding inside the footer */
+  text-align: center; /* Center align text inside footer */
+}
+
+
 mat-toolbar {
   height: 60px; /* Reduced height */
   background-color: #da7245; /* Light grey for a decent look */
