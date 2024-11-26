@@ -12,9 +12,11 @@ import { BudgetComponent } from './budget/budget.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { RemindersComponent } from './reminders/reminders.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+
 
 // Import Application Services
-import { TodoproxyService } from './todoproxy.service';
+// import { TodoproxyService } from './todoproxy.service';
 import { ExpensesService } from './services/expenses.service'; // Expenses Service
 import { ReminderService } from './services/reminder.service'; // Reminders Service
 import { BudgetService } from './services/budget.service'; // Budget Service
@@ -35,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [
     // Declarations: Define components, directives, and pipes that belong to this module
     AppComponent,
+    WelcomeComponent,
     BudgetComponent,
     ExpensesComponent,
     HomepageComponent,
@@ -57,9 +60,10 @@ import { HttpClientModule } from '@angular/common/http';
     MatButtonModule,
     FormsModule,
   ],
+  exports: [FooterComponent],
   // Providers: Register services for dependency injection
   providers: [
-    TodoproxyService, // Proxy service for ToDo (if applicable)
+    //TodoproxyService, // Proxy service for ToDo (if applicable)
     ExpensesService,  // Expenses Service
     ReminderService, // Reminders Service
     BudgetService,    // Budget Service
