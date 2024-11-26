@@ -1,11 +1,13 @@
 import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { Chart, registerables } from 'chart.js';  
+
  
 Chart.register(...registerables);
  
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
+  standalone: true,
   styleUrls: ['./homepage.component.css']
 })
 export class HomepageComponent implements AfterViewInit {

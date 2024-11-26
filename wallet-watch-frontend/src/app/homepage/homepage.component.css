@@ -4,7 +4,7 @@
   background-color: #fafafa; /* Light greyish background to balance bright colors */
   border-radius: 12px;
   padding: 30px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+  box-shadow: 0 6px 15px rgba(1, 5, 223, 0.1); /* Light shadow for depth */
 }
 
 /* Title Styling */
