@@ -38,7 +38,7 @@
             <button
               type="button"
               class="btn btn-sm btn-outline-primary me-1"
-              (click)="editExpense(expense)"
+              (click)="fetchExpenseById(expense.expenseId)"
               data-bs-toggle="tooltip"
               title="Edit Expense"
             >
@@ -70,7 +70,7 @@
   </div>
 </div>
 
-<!-- Add/Edit Expense Modal -->
+<!-- Add Expense Modal -->
 <div
   class="modal fade"
   id="addExpenseModal"
@@ -82,7 +82,7 @@
     <div class="modal-content">
       <div class="modal-header bg-primary text-white">
         <h5 class="modal-title" id="addExpenseModalLabel">
-          {{ editing ? "Edit Expense" : "Add Expense" }}
+          Add Expense
         </h5>
         <button
           type="button"
@@ -106,11 +106,20 @@
           </div>
           <div class="mb-3">
             <label for="expenseCategory" class="form-label">Category</label>
-            <select class="form-select" id="expenseCategory" [(ngModel)]="currentExpense.categoryName" name="categoryName" required>
-                <option value="">Select a category</option>
-                <option *ngFor="let category of categories" [value]="category">
+            <select
+              class="form-select"
+              id="expenseCategory"
+              [(ngModel)]="currentExpense.categoryName"
+              name="categoryName"
+              required
+            >
+              <option value="">Select a category</option>
+              <option
+                *ngFor="let category of categories"
+                [value]="category"
+              >
                 {{ category }}
-                </option>
+              </option>
             </select>
           </div>
           <div class="mb-3">
@@ -125,9 +134,9 @@
             />
           </div>
           <div class="mb-3">
-            <label for="expenseDescription" class="form-label"
-              >Description</label
-            >
+            <label for="expenseDescription" class="form-label">
+              Description
+            </label>
             <textarea
               class="form-control"
               id="expenseDescription"
@@ -146,7 +155,7 @@
               Cancel
             </button>
             <button type="submit" class="btn btn-primary">
-              {{ editing ? "Update" : "Add" }}
+              Add
             </button>
           </div>
         </form>
@@ -154,3 +163,4 @@
     </div>
   </div>
 </div>
+

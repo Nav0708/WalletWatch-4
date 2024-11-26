@@ -41,28 +41,25 @@ export class ExpensesComponent implements OnInit {
   console.log('Fetching expenses...');
   this.expenseService.getAllExpenses().subscribe(
     (data: IExpenseModel[]) => {
-      console.log('Expenses fetched successfully:', data);
+      console.log('all Expenses fetched successfully:', data);
       this.expenses = data;
     },
     (error) => {
       console.error('Error fetching expenses:', error);
     });
     }
+
+
     fetchExpenseById(expenseId: string): void {
       this.expenseService.getExpenseById(expenseId).subscribe(
         (data: IExpenseModel) => {
-          console.log('Expense fetched successfully:', data);
+          console.log('individual Expense fetched successfully:', data);
           const formattedDate = this.datePipe.transform(data.date, 'yyyy-MM-dd');
           if (formattedDate) {
             this.currentExpense = { ...data, date: formattedDate };
           }
-          this.editing = true;
-   
-          const modalElement = document.getElementById('addExpenseModal');
-          if (modalElement) {
-            const modal = new (window as any).bootstrap.Modal(modalElement);
-            modal.show();
-          }
+          console.log('expense : '+ this.currentExpense.expenseId);
+          this.router.navigate(['/expenses', this.currentExpense.expenseId]);
         },
         (error) => {
           console.error('Error fetching expense:', error);
@@ -72,19 +69,7 @@ export class ExpensesComponent implements OnInit {
  
   // Add or update an expense
   onSubmit(): void {
-    if (this.editing) {
-      this.expenseService
-        .updateExpense(this.currentExpense.expenseId, this.currentExpense)
-        .subscribe(
-          () => {
-            console.log('Expense updated successfully');
-            this.fetchExpenses();
-          },
-          (error) => {
-            console.error('Error updating expense:', error);
-          }
-        );
-    } else {
+
       this.currentExpense.expenseId = uuidv4();
       this.expenseService.addExpense(this.currentExpense).subscribe(
         () => {
@@ -96,7 +81,6 @@ export class ExpensesComponent implements OnInit {
           console.error('Error adding expense:', error);
         }
       );
-    }
   }
  
   // // Edit an expense
@@ -105,25 +89,21 @@ export class ExpensesComponent implements OnInit {
   //   this.editing = true;
   // }
  
-  // Edit an expense
+  //Edit an expense
   editExpense(expense: IExpenseModel): void {
     const formattedDate = this.datePipe.transform(expense.date, 'yyyy-MM-dd');
     if (formattedDate) {
       this.currentExpense = { ...expense,date: formattedDate }; // Ensure date is in the correct format
     }
     // Navigate to the route with the expense ID
+    console.log('expense : '+ expense.expenseId);
     this.router.navigate(['/expenses', expense.expenseId]);
     this.editing = true;
- 
-    const modalElement = document.getElementById('addExpenseModal');
-    if (modalElement) {
-      const modal = new (window as any).bootstrap.Modal(modalElement);
-      modal.show();
-    } else {
-      console.error('Modal element not found');
-    }
   }
  
+
+
+
   // Delete an expense
   deleteExpense(expenseId: string): void {
     this.expenseService.deleteExpense(expenseId).subscribe(
