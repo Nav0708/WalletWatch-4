@@ -4,7 +4,11 @@
   <!-- Logo and Title -->
   <div class="d-flex align-items-center">
     <img src="wallet.gif" alt="Wallet Icon" class="me-3" style="height: 50px" />
-    <a class="navbar-brand" routerLink="/">
+    <a
+      class="navbar-brand"
+      routerLink="{ active: isActive('/') }"
+      routerLink="/welcome"
+    >
       {{ title }}
     </a>
   </div>
@@ -13,8 +17,11 @@
   <div class="d-flex">
     <ul class="navbar-nav d-flex flex-row mb-0 align-items-center">
       <li class="nav-item">
-        <a class="nav-link" [ngClass]="{ active: isActive('/') }" routerLink="/"
-          >Home</a
+        <a
+          class="nav-link"
+          [ngClass]="{ active: isActive('/homepage') }"
+          routerLink="/homepage"
+          >Dashboard</a
         >
       </li>
       <li class="nav-item ms-4">
@@ -52,4 +59,4 @@
 </mat-toolbar>
 
 <router-outlet></router-outlet>
-<footer></footer>
+<app-footer></app-footer>
