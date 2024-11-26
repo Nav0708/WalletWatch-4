@@ -1,17 +1,56 @@
-<div>test</div>
-<!-- <div *ngIf="currentExpense">
+<div class="container mt-4">
     <h2>Edit Expense</h2>
-    <form>
-      <label for="description">Description:</label>
-      <input type="text" id="description" [(ngModel)]="currentExpense.description" name="description" />
-  
-      <label for="amount">Amount:</label>
-      <input type="number" id="amount" [(ngModel)]="currentExpense.amount" name="amount" />
-  
-      <label for="date">Date:</label>
-      <input type="date" id="date" [(ngModel)]="currentExpense.date" name="date" />
-  
-      <button type="submit">Save</button>
+    <form *ngIf="currentExpense" (ngSubmit)="saveExpense()">
+      <div class="mb-3">
+        <label for="expenseDate" class="form-label">Date</label>
+        <input
+          type="date"
+          class="form-control"
+          id="expenseDate"
+          [(ngModel)]="currentExpense.date"
+          name="date"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="expenseCategory" class="form-label">Category</label>
+        <select
+          class="form-select"
+          id="expenseCategory"
+          [(ngModel)]="currentExpense.categoryName"
+          name="categoryName"
+          required
+        >
+          <option value="">Select a category</option>
+          <option *ngFor="let category of categories" [value]="category">
+            {{ category }}
+          </option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="expenseAmount" class="form-label">Amount</label>
+        <input
+          type="number"
+          class="form-control"
+          id="expenseAmount"
+          [(ngModel)]="currentExpense.amount"
+          name="amount"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label for="expenseDescription" class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          id="expenseDescription"
+          rows="3"
+          [(ngModel)]="currentExpense.description"
+          name="description"
+        ></textarea>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
     </form>
   </div>
-   -->
+  

@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
  
 // Import Routing Module
 import { AppRoutingModule } from './app.routes';
@@ -58,6 +59,7 @@ import { HttpClientModule } from '@angular/common/http';
     MatMenuModule,
     MatButtonModule,
     FormsModule,
+    DatePipe
   ],
   exports: [FooterComponent],
   // Providers: Register services for dependency injection
