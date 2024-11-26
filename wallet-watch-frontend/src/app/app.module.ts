@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { DatePipe } from '@angular/common';
  
 // Import Routing Module
 import { AppRoutingModule } from './app.routes';
@@ -13,10 +12,10 @@ import { BudgetComponent } from './budget/budget.component';
 import { ExpensesComponent } from './expenses/expenses.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { RemindersComponent } from './reminders/reminders.component';
-import { ExpensesDetailsComponent } from './expenses-details/expenses-details.component';
+import { WelcomeComponent } from './welcome/welcome.component';
+ 
  
 // Import Application Services
-//import { TodoproxyService } from './todoproxy.service';
 import { ExpensesService } from './services/expenses.service'; // Expenses Service
 import { ReminderService } from './services/reminder.service'; // Reminders Service
 import { BudgetService } from './services/budget.service'; // Budget Service
@@ -33,17 +32,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { FooterComponent } from './footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
  
- 
 @NgModule({
   declarations: [
     // Declarations: Define components, directives, and pipes that belong to this module
     AppComponent,
+    WelcomeComponent,
     BudgetComponent,
     ExpensesComponent,
     HomepageComponent,
     RemindersComponent,
-    FooterComponent,
-    ExpensesDetailsComponent
+    FooterComponent
   ],
   // Imports: Specify external modules required in the application
   imports: [
@@ -59,8 +57,9 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     MatMenuModule,
     MatButtonModule,
-    DatePipe
+    FormsModule,
   ],
+  exports: [FooterComponent],
   // Providers: Register services for dependency injection
   providers: [
     ExpensesService,  // Expenses Service
@@ -72,4 +71,3 @@ import { HttpClientModule } from '@angular/common/http';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
- 

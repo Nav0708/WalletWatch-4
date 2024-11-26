@@ -50,22 +50,22 @@ export class ExpensesComponent implements OnInit {
     }
 
 
-    fetchExpenseById(expenseId: string): void {
-      this.expenseService.getExpenseById(expenseId).subscribe(
-        (data: IExpenseModel) => {
-          console.log('individual Expense fetched successfully:', data);
-          const formattedDate = this.datePipe.transform(data.date, 'yyyy-MM-dd');
-          if (formattedDate) {
-            this.currentExpense = { ...data, date: formattedDate };
-          }
-          console.log('expense : '+ this.currentExpense.expenseId);
-          this.router.navigate(['/expenses', this.currentExpense.expenseId]);
-        },
-        (error) => {
-          console.error('Error fetching expense:', error);
+  fetchExpenseById(expenseId: string): void {
+    this.expenseService.getExpenseById(expenseId).subscribe(
+      (data: IExpenseModel) => {
+        console.log('individual Expense fetched successfully:', data);
+        const formattedDate = this.datePipe.transform(data.date, 'yyyy-MM-dd');
+        if (formattedDate) {
+          this.currentExpense = { ...data, date: formattedDate };
         }
-      );
-    }
+        console.log('expense : '+ this.currentExpense.expenseId);
+        this.router.navigate(['/expenses', this.currentExpense.expenseId]);
+      },
+      (error) => {
+        console.error('Error fetching expense:', error);
+      }
+    );
+  }
  
   // Add or update an expense
   onSubmit(): void {
