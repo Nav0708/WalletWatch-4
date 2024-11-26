@@ -1,0 +1,50 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #f8f9fa;
+}
+
+.hero {
+  background-color: #007bff;
+  color: white;
+  padding: 50px 20px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  transition: 0.3s ease;
+}
+
+.btn-custom {
+  background-color: #28a745;
+  color: white;
+  border: none;
+}
+
+.btn-custom:hover {
+  background-color: #218838;
+}
+
+.alert {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #343a40;
+  color: white;
+}
+
+footer a {
+  color: white;
+  margin-right: 1rem;
+}
+
+footer a:hover {
+  text-decoration: none;
+  color: #ffc107;
+}

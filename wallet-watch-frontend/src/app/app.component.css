@@ -24,7 +24,7 @@ router-outlet {
 app-footer {
   margin-top: auto; /* Push footer to the bottom */
   width: 100%; /* Ensure the footer spans the entire width */
-  background-color: #439bfa; /* Footer background for consistency */
+  background-color: #007bff; /* Footer background for consistency */
   color: white; /* Footer text color */
   padding: 10px 0; /* Padding inside the footer */
   text-align: center; /* Center align text inside footer */
@@ -33,7 +33,7 @@ app-footer {
 
 mat-toolbar {
   height: 80px; /* Reduced height */
-  background-color: #439bfa; /* Light grey for a decent look */
+  background-color: #007bff; /* Light grey for a decent look */
   color: white; /* White text color */
   padding: 0 20px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* More prominent shadow */

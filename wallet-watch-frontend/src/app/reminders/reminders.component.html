@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Reminders</title>
+    <title>Interactive Reminders</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -12,36 +12,13 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
       rel="stylesheet"
     />
-
-    <!-- Custom Styles to remove white space -->
-    <style>
-      /* Remove margins and padding */
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-        height: 100%;
-      }
-
-      /* Ensure the footer sticks to the bottom */
-      .container {
-        padding-bottom: 50px; /* Adjust if needed */
-      }
-
-      footer {
-        position: relative;
-        bottom: 0;
-        width: 100%;
-        margin-top: 20px;
-      }
-    </style>
   </head>
-
   <body>
     <!-- Hero Section -->
-    <section class="bg-info text-white p-5 text-center">
+    <section class="hero text-center">
       <h1 class="display-4 fw-bold">Budget Reminders</h1>
       <p class="lead">Stay on top of your finances with timely reminders!</p>
+      <button class="btn btn-custom btn-lg">Add a New Reminder</button>
     </section>
 
     <!-- Reminder Cards Section -->
@@ -50,49 +27,56 @@
         <div class="col-md-4">
           <div class="card shadow-sm mb-4">
             <div class="card-body">
-              <h5 class="card-title text-primary">Track Your Expenses</h5>
+              <h5 class="card-title text-primary">
+                <i class="bi bi-bar-chart-fill"></i> Track Your Expenses
+              </h5>
               <p class="card-text">
-                Don't forget to review your spending for this month! Make sure
-                you stay within your budget.
+                Review your spending for this month and ensure you stay within
+                your budget.
               </p>
+              <button class="btn btn-outline-primary">View Details</button>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card shadow-sm mb-4">
             <div class="card-body">
-              <h5 class="card-title text-primary">Save for the Future</h5>
+              <h5 class="card-title text-primary">
+                <i class="bi bi-piggy-bank-fill"></i> Save for the Future
+              </h5>
               <p class="card-text">
-                Consider setting aside a small amount for your savings each
-                month to build a better future.
+                Set aside a small amount for savings each month to build a
+                better future.
               </p>
+              <button class="btn btn-outline-primary">Set Goal</button>
             </div>
           </div>
         </div>
         <div class="col-md-4">
           <div class="card shadow-sm mb-4">
             <div class="card-body">
-              <h5 class="card-title text-primary">Emergency Fund</h5>
+              <h5 class="card-title text-primary">
+                <i class="bi bi-shield-fill-exclamation"></i> Emergency Fund
+              </h5>
               <p class="card-text">
-                Your emergency fund is essential. Set up monthly contributions
-                to keep it growing.
+                Keep your emergency fund growing with monthly contributions.
               </p>
+              <button class="btn btn-outline-primary">Learn More</button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Alert for upcoming review -->
-      <div class="alert alert-warning" role="alert">
+      <!-- Dynamic Alert Section -->
+      <div class="alert mt-5" role="alert">
         <h4 class="alert-heading">Upcoming Review</h4>
         <p>
-          Remember to review your finances at the end of the month to ensure
-          you're on track with your goals!
+          Your budget review is due in <strong>5 days</strong>. Categorize your
+          expenses and check your limits.
         </p>
-        <p class="mb-0">
-          <strong>Note:</strong> Your budget review is due in 5 days. Make sure
-          to categorize your expenses and check if you're within your limits.
-        </p>
+        <div class="d-flex justify-content-end">
+          <button class="btn btn-primary">Review Now</button>
+        </div>
       </div>
     </div>
 
