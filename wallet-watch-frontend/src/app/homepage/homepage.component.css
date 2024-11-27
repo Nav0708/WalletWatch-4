@@ -5,7 +5,11 @@
   border-radius: 12px;
   padding: 30px;
   box-shadow: 0 6px 15px rgba(1, 5, 223, 0.1); /* Light shadow for depth */
+  min-height: calc(100vh - 150px); /* Adjust for the navbar and footer height */
+  max-width: 1400px;
+  margin-top: 2rem; /* Adjust spacing from the navbar */
 }
+
 
 /* Title Styling */
 .homepage-title {
