@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './expenses-details.component.html',
   styleUrls: ['./expenses-details.component.css'],
   providers: [DatePipe],
-  imports: [FormsModule, CommonModule], // Include FormsModule here
+  imports: [FormsModule, CommonModule],  // Include FormsModule here
   standalone: true,
 })
 export class ExpensesDetailsComponent implements OnInit {
@@ -20,7 +20,7 @@ export class ExpensesDetailsComponent implements OnInit {
     expenseId: '',
     amount: 0,
     categoryName: '',
-    date: new Date().toISOString().split('T')[0], // Default to today's date
+    date: new Date(),
     description: '',
     userId: '100',
   };
@@ -33,60 +33,65 @@ export class ExpensesDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Fetch the expense ID from the route
-    const expenseId = this.route.snapshot.paramMap.get('id');
-    if (expenseId) {
-      this.loadExpense(expenseId);
-    }
+    // Extract the expenseId from the route and fetch the corresponding expense data
+    this.route.paramMap.subscribe((params) => {
+      const expenseId = params.get('expenseId');
+      console.log('Expense ID from route:', expenseId);  // For debugging
+
+      if (expenseId) {
+        // Fetch the expense data using the extracted expenseId
+        this.loadExpense(expenseId);
+      } else {
+        console.error('No expenseId found in route');
+      }
+    });
   }
 
-  // Fetch the expense by ID
   loadExpense(expenseId: string): void {
     this.expenseService.getExpenseById(expenseId).subscribe(
-      (data: IExpenseModel) => {
-        const formattedDate = this.datePipe.transform(data.date, 'yyyy-MM-dd');
-        if (formattedDate) {
-          this.currentExpense = { ...data, date: formattedDate };
-        }
-      },
-      (error) => {
-        console.error('Error loading expense:', error);
-      }
-    );
-  }
+      (response: any) => {  
+        console.log('Fetched expense data:', response); 
 
-  fetchExpenseById(expenseId: string): void {
-    this.expenseService.getExpenseById(expenseId).subscribe(
-      (expense: IExpenseModel) => {
-        console.log('Expense fetched:', expense);
-        const formattedDate = this.datePipe.transform(expense.date, 'yyyy-MM-dd');
-        if (formattedDate) {
-          this.currentExpense = { ...expense, date: formattedDate };
+        if (response && response['0']) {
+          const data = response['0'];  
+          console.log('No format date:', data.amount);
+
+          // Check if the date exists and format it
+          const formattedDate = this.datePipe.transform(data.date, 'yyyy-MM-dd');
+          console.log('Formatted date:', formattedDate);
+
+          // Update currentExpense with formatted date
+          this.currentExpense = {
+            ...data,
+            date: formattedDate ? formattedDate : data.date,  // Fallback to original date if null
+          };
+          console.log('Updated expense data with formatted date:', this.currentExpense);
+        } else {
+          console.error('Invalid data format or no expense data found.');
         }
       },
       (error) => {
-        console.error('Error fetching expense:', error);
+        console.error('Error fetching expense data:', error);
       }
     );
   }
   
-  // Save the changes
+
+  // Save the changes to the expense (if you need this functionality)
   saveExpense(): void {
-    // if (this.currentExpense) {
-    //   this.expenseService.updateExpense(this.currentExpense).subscribe(
-    //     () => {
-    //       console.log('Expense updated successfully');
-    //       this.router.navigate(['/expenses']); // Navigate back to the list
-    //     },
-    //     (error) => {
-    //       console.error('Error updating expense:', error);
-    //     }
-    //   );
-    }
-  
+    // this.expenseService.updateExpense(this.currentExpense).subscribe(
+    //   () => {
+    //     console.log('Expense updated successfully');
+    //     this.router.navigate(['/expenses']); // Navigate back to the list
+    //   },
+    //   (error) => {
+    //     console.error('Error updating expense:', error);
+    //   }
+    // );
+  }
 
-  // Cancel editing
+  // Cancel editing and navigate back to the list
   cancel(): void {
-    this.router.navigate(['/expenses']); // Navigate back to the list
+    this.router.navigate(['/expenses']);
   }
 }

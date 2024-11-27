@@ -18,13 +18,13 @@ export class ExpensesService {
   getExpenseById(expenseId: string): Observable<IExpenseModel> {
     return this.http.get<IExpenseModel>(`${this.baseUrl}/${expenseId}`);
   }
-addExpense(expense: IExpenseModel): Observable<IExpenseModel> {
-  return this.http.post<IExpenseModel>(this.baseUrl, expense);
-}
-updateExpense(expenseId: string, expense: IExpenseModel): Observable<IExpenseModel> {
-  return this.http.put<IExpenseModel>(`${this.baseUrl}/${expenseId}`, expense);
-}
-  deleteExpense(expenseId: string): Observable<any> {
-    return this.http.delete(`${this.baseUrl}/${expenseId}`);
+  addExpense(expense: IExpenseModel): Observable<IExpenseModel> {
+    return this.http.post<IExpenseModel>(this.baseUrl, expense);
   }
+  updateExpense(expenseId: string, expense: IExpenseModel): Observable<IExpenseModel> {
+    return this.http.put<IExpenseModel>(`${this.baseUrl}/${expenseId}`, expense);
+  }
+    deleteExpense(expenseId: string): Observable<any> {
+      return this.http.delete(`${this.baseUrl}/${expenseId}`);
+    }
 }
