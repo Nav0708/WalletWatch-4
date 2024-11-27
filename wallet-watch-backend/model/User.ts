@@ -1,8 +1,7 @@
 import * as Mongoose from "mongoose";
 import { IUserModel } from '../interfaces/IUser';
-import { v4 as uuidv4 } from 'uuid';
 
-// Class to manage the User model
+//User model
 class UserModel {
     public schema: any;
     public model: any;
@@ -19,9 +18,10 @@ class UserModel {
         this.schema = new Mongoose.Schema(
             {
                 userId: { type: String, required: true },
-                name: { type: String, required: true },
-                email: { type: String, required: true, unique: true },
-                password: { type: String, required: true }
+                userName: { type: String },
+                email: { type: String },
+                hashed_pswd: { type: String, required: true },
+                hints: { type: String, required: true }
             },
             { collection: 'users' }
         );
