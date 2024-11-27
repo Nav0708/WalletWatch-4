@@ -1,93 +1,108 @@
 /* Feature Section */
 .feature {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 0;
-  }
-  
-  /* Welcome Section */
-  .welcome-section {
-    margin-bottom: 20px; /* Spacing between welcome section and carousel */
-  }
-  
-  .app-title {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #343A40; /* Primary color */
-  }
-  
-  .app-tagline {
-    font-size: 1.5rem;
-    color: #6C757D; /* Subtle gray for tagline */
-    margin-top: 10px;
-  }
-  
-  /* Center Carousel with Gaps on Left and Right */
-  .carousel-wrapper {
-    width: 100%; /* Adjust width for desired gap */
-    margin: 0 auto; /* Center the carousel */
-    border: 4px solid #8897a7; /* Styled border */
-    border-radius: 15px; /* Rounded corners for the border */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow for effect */
-    overflow: hidden; /* Prevent overflow issues */
-  }
-  
-  /* Carousel and Images */
-  .carousel-inner {
-    height: 68vh; /* Adjust height for images */
-  }
-  
-  .carousel-item img {
-    width: 100%; /* Full width inside the wrapper */
-    height: 68vh; /* Adjust height to fit wrapper */
-    object-fit: cover;
-    opacity: 0.9; /* Slight transparency */
-    filter: brightness(80%); /* Dim for text contrast */
-  }
-  
-  /* Carousel Text */
-  .carousel-caption {
-    position: absolute;
-    bottom: 10%;
-    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.7);
-  }
-  
-  .carousel-caption h3,
-  .carousel-caption p {
-    color: #ffffff;
-    font-size: 1.8rem;
-  }
-  
-  /* Dashboard Button */
-  .dashboard-button {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .dashboard-button .btn {
-    font-size: 1.5rem;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  .dashboard-button .btn:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Indicators and Controls */
-  .carousel-control-prev-icon,
-  .carousel-control-next-icon {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-  }
-  
-  .carousel-indicators button {
-    background-color: rgba(255, 255, 255, 0.8);
-  }
-  
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30px 0;
+  background-color: #f8f9fa; /* Light background for a fresh look */
+}
+
+/* Welcome Section */
+.welcome-section {
+  margin-bottom: 30px; /* Increased margin for spacing */
+}
+
+.app-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #343A40; /* Dark primary color */
+  text-transform: uppercase;
+}
+
+.app-tagline {
+  font-size: 1.4rem;
+  color: #6C757D; /* Soft gray for the tagline */
+  margin-top: 10px;
+  font-weight: 400;
+  letter-spacing: 1px;
+}
+
+/* Center Carousel with Gaps on Left and Right */
+.carousel-wrapper {
+  width: 80%; /* Adjusted for better spacing */
+  max-width: 1100px; /* Limit the width for large screens */
+  margin: 0 auto; /* Center the carousel */
+  border: 3px solid #e0e0e0; /* Lighter border for subtlety */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Light shadow for soft effect */
+  overflow: hidden; /* Prevent image overflow */
+  background-color: white; /* Ensure background contrast */
+}
+
+/* Carousel and Images */
+.carousel-inner {
+  height: 50vh; /* Reduced height for a more compact carousel */
+}
+
+.carousel-item img {
+  width: 100%; /* Full width inside the wrapper */
+  height: 50vh; /* Adjust height */
+  object-fit: cover;
+  opacity: 0.85; /* Slight transparency */
+  filter: brightness(85%); /* Dim for text contrast */
+}
+
+/* Carousel Text */
+.carousel-caption {
+  position: absolute;
+  bottom: 15%;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+}
+
+.carousel-caption h3 {
+  font-size: 2.2rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.carousel-caption p {
+  font-size: 1.1rem;
+  color: #ffffff;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* Dashboard Button */
+.dashboard-button {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.dashboard-button .btn {
+  font-size: 1.4rem;
+  padding: 12px 25px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2); /* Button shadow */
+}
+
+.dashboard-button .btn:hover {
+  background-color: #0056b3;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3); /* Hover shadow */
+}
+
+/* Indicators and Controls */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4); /* Add shadow to controls */
+}
+
+.carousel-indicators button {
+  background-color: rgba(255, 255, 255, 0.6);
+}
