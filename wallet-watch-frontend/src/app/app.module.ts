@@ -14,6 +14,8 @@ import { ExpensesComponent } from './expenses/expenses.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { RemindersComponent } from './reminders/reminders.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { LoginComponent } from './login/login.component';
+
  
  
 // Import Application Services
