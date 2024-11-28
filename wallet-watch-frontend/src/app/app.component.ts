@@ -16,7 +16,7 @@ import { FooterComponent } from './footer/footer.component';
 export class AppComponent  {
   title = 'Wallet Watch'; 
 
-  constructor(private router: Router) {}
+  constructor(public router: Router) {}
 
   isActive(route: string): boolean {
     return this.router.url === route;
