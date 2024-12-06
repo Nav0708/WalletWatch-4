@@ -1,17 +1,23 @@
 {
   "dependencies": {
     "@types/body-parser": "^1.19.5",
+    "@types/bson": "^4.2.4",
     "@types/express": "^5.0.0",
     "@types/mongodb": "^4.0.7",
-    "@types/node": "^22.8.1",
+    "@types/node": "^22.10.1",
     "async": "^3.2.6",
     "body-parser": "^1.20.3",
     "chai-http": "^4.3.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "mongodb": "^6.10.0",
-    "mongoose": "^8.7.3",
+    "mongoose": "^8.8.3",
     "nodemon": "^3.1.7",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0",
+    "passport-google-oauth20-with-people-api": "^2.0.0",
     "q": "^1.5.1",
     "uuid": "^11.0.3"
   },
@@ -33,7 +39,9 @@
     "backend"
   ],
   "devDependencies": {
-    "@types/mongoose": "^5.11.96",
+    "@types/cookie-parser": "^1.4.8",
+    "@types/express-session": "^1.18.1",
+    "@types/passport": "^1.0.17",
     "chai": "^4.5.0",
     "mocha": "^10.8.2",
     "ts-node": "^10.9.2",

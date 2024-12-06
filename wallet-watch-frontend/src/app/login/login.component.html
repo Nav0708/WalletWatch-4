@@ -1,3 +1,8 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+
 <div class="login-page">
   <!-- Left Side: Image -->
   <div class="login-image">
@@ -19,8 +24,16 @@
       <label for="password">Password</label>
       <input id="password" type="password" placeholder="Enter your password" />
     </div>
-
+    <div class="d-flex justify-content-end">
+      <ng-container>
+     <!-- <ng-container *ngIf="!(authService.loggedIn$ | async)">-->
+        <!--<button class="btn btn-primary mr-2" (click)="loginAsUser()">User</button>-->
+        <button class="btn btn-primary" (click)="authService.loginWithGoogle()">Login with Google</button>
+      </ng-container>
+      <!--<button *ngIf="authService.loggedIn$ | async" class="btn btn-primary" (click)="logout()">Logout</button>-->
+    </div>
     <button class="btn">Login</button>
     <p class="forgot-password">Forgot your password?</p>
   </div>
 </div>
+</body>

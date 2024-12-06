@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,7 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(private router: Router) {}
+  constructor(public authService: AuthService,private router: Router) {}
 
   onUsernameInput(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -29,4 +30,5 @@ export class LoginComponent {
       alert('Invalid username or password');
     }
   }
+  
 }

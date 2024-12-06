@@ -12,10 +12,10 @@ import { BudgetDetailsComponent } from './budget-details/budget-details.componen
 import { LoginComponent } from './login/login.component';
  
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect root to login
+  // Redirect root to login
   { path: 'login', component: LoginComponent },
   { path: 'welcome', component: WelcomeComponent },
-  { path: '**', redirectTo: 'login' }, // Redirect unknown routes to login
+  //{ path: '**', redirectTo: 'login' }, // Redirect unknown routes to login
   { path: 'homepage', component:HomepageComponent },
   { path: 'expenses', component: ExpensesComponent },
   { path: 'expenses/:expenseId', component: ExpensesDetailsComponent },
@@ -26,7 +26,7 @@ export const routes: Routes = [
 ];
  
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash:true})],
   exports: [RouterModule],
   providers:[provideHttpClient(),  provideAnimationsAsync()]
 })

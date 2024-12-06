@@ -33,10 +33,7 @@
               "node_modules/bootstrap-icons/font/bootstrap-icons.css"
             ],
             "scripts": [],
-            "server": "src/main.server.ts",
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "server": "src/main.server.ts"
           },
           "configurations": {
             "production": {
@@ -70,7 +67,10 @@
             },
             "development": {
               "buildTarget": "wallet-watch-frontend:build:development"
-            }
+            },  
+            "options": {
+                "proxyConfig": "proxy.conf.json"
+              }
           },
           "defaultConfiguration": "development"
         },
