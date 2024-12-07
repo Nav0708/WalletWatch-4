@@ -62,3 +62,20 @@ jobs:
           app-name: "WalletWatch"
           slot-name: "Production"
           package: .
+      # Deploy backend to Azure
+      - name: Deploy backend to Azure Web App
+        uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp-backend
+        with:
+          app-name: "walletwatch-backend"
+          slot-name: "Production"
+          package: "./wallet-watch-backend"
+
+      # Deploy frontend to Azure Web App
+      - name: Deploy frontend to Azure Web App
+        uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp-frontend
+        with:
+          app-name: "walletwatch-frontend"
+          slot-name: "Production"
+          package: "./wallet-watch-frontend"
