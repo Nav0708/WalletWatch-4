@@ -44,7 +44,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModel = void 0;
 const Mongoose = __importStar(require("mongoose"));
-// Class to manage the User model
+//User model
 class UserModel {
     constructor(DB_CONNECTION_STRING) {
         this.dbConnectionString = DB_CONNECTION_STRING;
@@ -55,9 +55,10 @@ class UserModel {
     createSchema() {
         this.schema = new Mongoose.Schema({
             userId: { type: String, required: true },
-            name: { type: String, required: true },
-            email: { type: String, required: true, unique: true },
-            password: { type: String, required: true }
+            userName: { type: String },
+            email: { type: String },
+            hashed_pswd: { type: String, required: true },
+            hints: { type: String, required: true }
         }, { collection: 'users' });
     }
     // Create the User model and connect to MongoDB

@@ -45,7 +45,8 @@ import { HttpClientModule } from '@angular/common/http';
     HomepageComponent,
     RemindersComponent,
     FooterComponent, 
-    LoginComponent
+    LoginComponent,
+    HttpClient
   ],
   // Imports: Specify external modules required in the application
   imports: [

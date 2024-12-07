@@ -1,72 +1,84 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const dotenv = __importStar(require("dotenv"));
-const App_1 = require("./App");
-const mongoose_1 = __importDefault(require("mongoose"));
-const express_1 = __importDefault(require("express"));
-// Load environment variables from .env file
-dotenv.config();
-const app = (0, express_1.default)();
-const port = process.env.PORT || '';
-const dbUser = process.env.DB_USER || '';
-const dbPassword = process.env.DB_PASSWORD || '';
-const dbHost = process.env.DB_HOST || '';
-const dbPort = process.env.DB_PORT || '';
-const dbName = process.env.DB_NAME || '';
-const dbProtocol = process.env.DB_PROTOCOL || '';
-// Construct the MongoDB connection string based on authentication presence
-let mongoDBConnection = `${dbProtocol}://`;
-if (dbUser && dbPassword) {
-    mongoDBConnection += `${dbUser}:${encodeURIComponent(dbPassword)}@`;
-}
-mongoDBConnection += `${dbHost}:${dbPort}/${dbName}`;
-console.log("MongoDB connection string:", mongoDBConnection);
-// Configure and start the Express server
-const server = new App_1.App(mongoDBConnection).expressApp;
-mongoose_1.default
-    .connect(mongoDBConnection)
+require('dotenv').config();
+const mongoose = require('mongoose');
+const express = require('express');
+const cors = require('cors');
+// Environment variables
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PROTOCOL, PORT } = process.env;
+// Construct MongoDB URI
+const MONGO_URI = `${DB_PROTOCOL}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`;
+// Initialize Express App
+const app = express();
+const serverPort = PORT || 8080;
+// Middleware
+app.use(cors());
+app.use(express.json());
+// Connect to MongoDB
+mongoose
+    .connect(MONGO_URI)
     .then(() => {
-    console.log('Connected to MongoDB');
-    server.listen(port, () => {
-        console.log(`Node API app is running on port ${port}`);
+    console.log('Connected to MongoDB successfully');
+    // Wait for the connection to open
+    const db = mongoose.connection.db;
+    db.collection('expenses') // Replace with the name of your collection
+        .find({})
+        .toArray((err, documents) => {
+        if (err) {
+            console.error('Error fetching documents:', err);
+        }
+        else {
+            console.log('Documents in the collection:', documents);
+        }
     });
 })
-    .catch((error) => {
-    console.error('Error connecting to MongoDB:', error);
+    .catch((err) => console.error('Error connecting to MongoDB:', err));
+// Start the server
+app.listen(serverPort, () => {
+    console.log(`Server running on http://localhost:${serverPort}`);
 });
+// require('dotenv').config();
+// const mongoose = require('mongoose');
+// const { DB_USER, DB_PASSWORD, DB_HOST, DB_NAME, DB_PROTOCOL } = process.env;
+// // Construct MongoDB URI
+// const MONGO_URI = `${DB_PROTOCOL}://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}?retryWrites=true&w=majority`;
+// // Connect to MongoDB
+// mongoose
+//   .connect(MONGO_URI)
+//   .then(() => console.log('Connected to MongoDB successfully'))
+//   .catch((err: any) => console.error('Error connecting to MongoDB:', err));
+//old
+// import * as dotenv from 'dotenv';
+// import { App } from './App';
+// import mongoose from 'mongoose';
+// import express, { Express } from 'express';
+// // Load environment variables from .env file
+// dotenv.config();
+// const app: Express = express();
+// const port = process.env.PORT || '';
+// const dbUser = process.env.DB_USER || '';
+// const dbPassword = process.env.DB_PASSWORD || '';
+// const dbHost = process.env.DB_HOST || '';
+// const dbPort = process.env.DB_PORT || '';
+// const dbName = process.env.DB_NAME || '';
+// const dbProtocol = process.env.DB_PROTOCOL || '';
+// // Construct the MongoDB connection string based on authentication presence
+// let mongoDBConnection = `${dbProtocol}://`;
+// if (dbUser && dbPassword) {
+//   mongoDBConnection += `${dbUser}:${encodeURIComponent(dbPassword)}@`;
+// }
+// mongoDBConnection += `${dbHost}:${dbPort}/${dbName}`;
+// console.log("MongoDB connection string:", mongoDBConnection);  
+// // Configure and start the Express server
+// const server = new App(mongoDBConnection).expressApp;
+// mongoose
+//   .connect(mongoDBConnection)
+//   .then(() => {
+//     console.log('Connected to MongoDB');
+//     server.listen(port, () => {
+//       console.log(`Node API app is running on port ${port}`);
+//     });
+//   })
+//   .catch((error: Error) => {
+//     console.error('Error connecting to MongoDB:', error);
+//   });
