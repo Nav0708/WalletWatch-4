@@ -35,18 +35,15 @@ export class AppComponent {
   constructor(public authService: AuthService, private router: Router) {}
 
   ngOnInit() {
+    this.authService.updateLoginState();
     this.authService.loggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
-      if (status) {
-        // Get user info after logging in
-        this.authService.user$.subscribe((user) => {
-          this.username = user || 'Guest'; // Default to 'Guest' if no user
-        });
-      }
     });
-
+    this.authService.user$.subscribe((user) => {
+      this.username = user || 'Guest';
+    });
     // Check if we are returning from Google authentication and need to fetch the user data
-    this.authService.updateLoginState();
+    
   }
 
   isActive(route: string): boolean {
@@ -54,7 +51,9 @@ export class AppComponent {
   }
 
   loginAsUser() {
-    this.authService.login();
+    this.authService.login(this .username);
+    console.log(this .username);
+    window.location.href = this.googleAuthUrl; 
   }
 
   logout() {

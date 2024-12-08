@@ -22,7 +22,7 @@ export class ExpensesDetailsComponent implements OnInit {
     categoryName: '',
     date: new Date(),
     description: '',
-    userId: '100',
+    userId: '',
   };
 
   constructor(
@@ -47,8 +47,8 @@ export class ExpensesDetailsComponent implements OnInit {
     });
   }
 
-  loadExpense(expenseId: string): void {
-    this.expenseService.getExpenseById(expenseId).subscribe(
+  loadExpense(userId: string): void {
+    this.expenseService.getExpensesByUserId(userId).subscribe(
       (response: any) => {  
         console.log('Fetched expense data:', response); 
 

@@ -78,8 +78,8 @@ class App {
             (req, res) => {
               console.log("successfully authenticated user and returned to callback page.");
               console.log("redirecting to Welcome page");
-              res.cookie('user', JSON.stringify(req.user), { httpOnly: true, maxAge: 3600000 });
-              res.redirect('http://localhost:4200/homepage');
+              res.cookie('WalletWatch-Cookie', req.user);
+              res.redirect('http://localhost:4200/#/homepage');
             }
         );
         router.post('/logout', this.validateAuth, (req: any, res, next) => {
@@ -88,13 +88,29 @@ class App {
             req.session.destroy();
             res.status(200).redirect('/');
           });
-        router.post('/wallet-watch/logs', (req, res) => {
+        router.post('/walletwatch/logs', (req, res) => {
             console.log(req.body.message);
             res.status(200).send('Log received');
         });
+        router.get('/expenses', this.validateAuth, async (req: any, res) => {
+          if (req.isAuthenticated()) {
+            console.log(req.user.id);
+          } else {
+            console.log('User not authenticated');
+            res.status(401).json({ message: 'User not authenticated' });
+          }
+        });
+
+        router.get('/user', this.validateAuth, async (req: any, res) => {
+          if (req.isAuthenticated()) {
+            res.json({ displayName: req.user.displayName });
+          } else {
+            res.status(401).send('User not authenticated');
+          }
+        });
         
         this.expressApp.use('/', router);
-        this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
+       // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
     }
 }
 

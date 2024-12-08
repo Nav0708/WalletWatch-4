@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
-
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-welcome',
@@ -8,4 +7,13 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './welcome.component.html',
   styleUrls: ['./welcome.component.css'],
 })
-export class WelcomeComponent {}
+export class WelcomeComponent implements OnInit {
+  userId: string | null = null; // Property to hold the user ID
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit(): void {
+    // Fetch the user ID from AuthService
+    //this.userId = this.userService.getUserById();
+  }
+}

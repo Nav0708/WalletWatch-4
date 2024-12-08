@@ -1,86 +1,64 @@
 import * as Mongoose from "mongoose";
 import { IUserModel } from '../interfaces/IUser';
 
-//User model
-class UserModel {
-    public schema: any;
-    public model: any;
-    public dbConnectionString: string;
+abstract class UserModel {
+    public schema:any;
+    public model:any;
+    public dbConnectionString:string;
 
-    public constructor(DB_CONNECTION_STRING: string) {
+    public constructor(DB_CONNECTION_STRING:string) {
         this.dbConnectionString = DB_CONNECTION_STRING;
         this.createSchema();
         this.createModel();
     }
 
-    // Define the schema for User documents
     public createSchema() {
-        this.schema = new Mongoose.Schema(
-            {
-                userId: { type: String, required: true },
-                userName: { type: String },
-                email: { type: String },
-                hashed_pswd: { type: String, required: true },
-                hints: { type: String, required: true }
-            },
-            { collection: 'users' }
-        );
+        this.schema = new Mongoose.Schema({
+            userID: String,
+            username: String,
+            password: String,
+            email: String,
+            role: String,
+        }, { collection: 'users' });
     }
 
-    // Create the User model and connect to MongoDB
     public async createModel() {
         try {
-            await Mongoose.connect(this.dbConnectionString);
-            this.model = Mongoose.model<IUserModel>("User", this.schema);
-        } catch (e) {
+            await Mongoose.connect(this.dbConnectionString, {useNewUrlParser: true, useUnifiedTopology: true}as any);
+            this.model = Mongoose.model<IUserModel>('User', this.schema);
+        }
+        catch (e) {
             console.error(e);
         }
     }
 
-    // Retrieve all users
-    public async retrieveAllUsers(response: any) {
-        const query = this.model.find({});
+    public async changePassword(response: any, userID: String, newPassword: string): Promise<void> {
+        // Hash the new password before saving to the database
         try {
-            const userArray = await query.exec();
-            response.json(userArray);
+            const result = await this.model.updateOne({ userID: userID }, { password: newPassword });
+            if (result.nModified === 1) {
+                response.json({ message: "User password changed successfully." });
+            } else {
+                response.status(404).send("User not found.");
+            }
         } catch (e) {
             console.error(e);
+            response.status(500);
         }
     }
 
-    // Retrieve a user by a specific user ID
-    public async retrieveUserByUserId(response: any, userId: string) {
-        const query = this.model.findOne({ userId });
+    public async deleteAccount(response: any, userID: String): Promise<void> {
         try {
-            const user = await query.exec();
-            response.json(user);
+            const result = await this.model.deleteOne({ userID: userID });
+            if (result.deletedCount === 1) {
+                response.json({ message: "User account deleted successfully." });
+            } else {
+                response.status(404).send("User not found.");
+            }
         } catch (e) {
             console.error(e);
-        }
-    }
-
-    // Retrieve a user by email
-    public async retrieveUserByEmail(response: any, email: string) {
-        const query = this.model.findOne({ email });
-        try {
-            const user = await query.exec();
-            response.json(user);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
-    // Count the total number of user entries
-    public async retrieveUserCount(response: any) {
-        const query = this.model.estimatedDocumentCount();
-        try {
-            const numberOfUsers = await query.exec();
-            console.log("Number of users: " + numberOfUsers);
-            response.json(numberOfUsers);
-        } catch (e) {
-            console.error(e);
+            response.status(500);
         }
     }
 }
-
-export { UserModel, IUserModel };
+export {UserModel};

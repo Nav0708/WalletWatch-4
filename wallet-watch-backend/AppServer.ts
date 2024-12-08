@@ -1,43 +1,21 @@
 import * as dotenv from 'dotenv';
 import { App } from './App';
-import mongoose from 'mongoose';
-import express, { Express } from 'express';
 
-
-
-// Load environment variables from .env file
 dotenv.config();
 
-const app: Express = express();
+const port = process.env.PORT;
+const dbUser = process.env.DB_USER;
+const dbPassword = process.env.DB_PASSWORD||'';
+const dbProtocol = process.env.DB_PROTOCOL||'';
+const dbCluster = process.env.DB_CLUSTER||'';
+const dbName = process.env.DB_NAME||'';
 
-const port = process.env.PORT || '';
-const dbUser = process.env.DB_USER || '';
-const dbPassword = process.env.DB_PASSWORD || '';
-const dbHost = process.env.DB_HOST || '';
-const dbPort = process.env.DB_PORT || '';
-const dbName = process.env.DB_NAME || '';
-const dbProtocol = process.env.DB_PROTOCOL || '';
+const mongoDBConnection = `${dbProtocol}${dbUser}:${encodeURIComponent(dbPassword)}@${dbCluster}/${dbName}?retryWrites=true&w=majority`;
+console.log("server db connection URL " + mongoDBConnection);
+//mongodb+srv://<username>:<password>@<cluster-name>.mongodb.net/<database-name>?retryWrites=true&w=majority
 
-// Construct the MongoDB connection string based on authentication presence
-let mongoDBConnection = `${dbProtocol}://`;
-if (dbUser && dbPassword) {
-  mongoDBConnection += `${dbUser}:${encodeURIComponent(dbPassword)}@`;
-}
-mongoDBConnection += `${dbHost}:${dbPort}/${dbName}`;
-
-console.log("MongoDB connection string:", mongoDBConnection);  
-
-// Configure and start the Express server
 const server = new App(mongoDBConnection).expressApp;
-
-mongoose
-  .connect(mongoDBConnection)
-  .then(() => {
-    console.log('Connected to MongoDB');
-    server.listen(port, () => {
-      console.log(`Node API app is running on port ${port}`);
-    });
-  })
-  .catch((error: Error) => {
-    console.error('Error connecting to MongoDB:', error);
-  });
+server.listen(port || 8080, () => {
+    console.log(`Server running on port ${port}`);
+    console.log(`Server MongoDB string ${mongoDBConnection}`);
+});

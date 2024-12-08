@@ -14,14 +14,14 @@ class GooglePassport {
     secretId: string;
     googleProfile!: GoogleProfileModel;
     constructor() { 
-        this.clientId = process.env.oauthID||'';
-        this.secretId = process.env.oauthSecret||'';
+        this.clientId = process.env.GOOGLE_CLIENT_ID||'';
+        this.secretId = process.env.GOOGLE_CLIENT_SECRET||'';
         passport.use(new GoogleStrategy({
                 clientID: this.clientId,
                 clientSecret: this.secretId,
-                callbackURL: "http://localhost:8080/auth/google/callback",scope: ['profile']
+                callbackURL: "/auth/google/callback",scope: ['profile']
             },
-            (accessToken: any, refreshToken: any, profile: GoogleProfileModel, done: (arg0: null, arg1: any) => any) => {
+            (accessToken, refreshToken, profile, done)  => {
                 console.log("inside new password google strategy");
                 process.nextTick( () => {
                     console.log('validating google profile:' + JSON.stringify(profile));

@@ -42,9 +42,10 @@ export function  expenseRoutes(Expense: ExpenseModel) : Router {
    * Add a new expense to the collection.
    * Generates a unique expenseId for each new entry.
    */
-  router.post('/expenses', async (req: Request, res: Response) => {
+  router.post('/expenses/:userid', async (req: Request, res: Response) => {
       const id = crypto.randomBytes(16).toString("hex");
-      const jsonObj = { ...req.body, expenseId: id };
+      const userId = req.params.userid
+      const jsonObj = { ...req.body, id, userId  };
       console.log(jsonObj);
       console.log("ExpenseModel:", Expense);
       try {

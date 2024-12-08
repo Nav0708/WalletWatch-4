@@ -20,10 +20,12 @@ export class AuthService {
   
   constructor(private http: HttpClient) {}
 
-  login() {
+  login(userId: string) {
     localStorage.setItem('loggedIn', 'true');
     this.loggedInSubject.next(true);
-    this.userSubject.next(null);
+    localStorage.setItem('user', userId);
+    this.loggedInSubject.next(true);
+    this.userSubject.next(userId);
   }
 
   logout() {
@@ -33,14 +35,26 @@ export class AuthService {
     this.userSubject.next(null);
   }
   public getUser(): string | null {
+    console.log(localStorage.getItem('user'));
     return localStorage.getItem('user');
   }
   public isLoggedIn(): boolean {
     return localStorage.getItem('loggedIn') === 'true';
   }
-
+  private fetchUserData() {
+    this.http.get<{ displayName: string }>('http://localhost:8080/user')
+      .subscribe(
+        (data) => {
+          this.userSubject.next(data.displayName);
+        },
+        (error) => {
+          console.error('Error fetching user data:', error);
+          this.userSubject.next(null);
+        }
+      );
+  }
   public updateLoginState() {
     this.loggedInSubject.next(this.isLoggedIn());
     this.userSubject.next(this.getUser());
-}
+  }
 }

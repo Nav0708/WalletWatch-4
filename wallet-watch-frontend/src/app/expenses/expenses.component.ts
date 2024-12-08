@@ -2,11 +2,13 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ExpensesService } from '../services/expenses.service';
+import { UserService } from '../services/user.service';
 import { IExpenseModel } from '../interfaces/IExpense';
 import { FormsModule } from '@angular/forms';
 import { ICategoryModel } from '../interfaces/ICategory';
 import { v4 as uuidv4 } from 'uuid'; // Import UUID library for unique ID generation
 import { DatePipe } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 
 
 
@@ -31,40 +33,61 @@ export class ExpensesComponent implements OnInit {
     userId: '',
   };
   editing: boolean = false;
+  userId: string = ''; 
  
-  constructor(private expenseService: ExpensesService, public datePipe: DatePipe, private router: Router,private route: ActivatedRoute) {}
+  constructor(
+    private expenseService: ExpensesService, 
+    private authService: AuthService,
+    public datePipe: DatePipe, 
+    private router: Router,
+    private route: ActivatedRoute) {}
  
   ngOnInit(): void {
-    console.log('ngOnInit - ExpensesComponent');
-    this.fetchExpenses();
+    this.authService.loggedIn$.subscribe((isLoggedIn) => {
+      if (isLoggedIn) {
+        const userId = this.authService.getUser();  // Get the current userId from AuthService
+        console.log('Logged in as:', userId);
+        if (userId) {
+          this.fetchExpenses(userId);  // Fetch expenses for the logged-in user
+        }
+      } else {
+        console.log('User is not logged in');
+      }
+    });
   }
  
   // Fetch all expenses
-  fetchExpenses(): void {
-  console.log('Fetching expenses...');
-  this.expenseService.getAllExpenses().subscribe(
-    (data: IExpenseModel[]) => {
-      console.log('all Expenses fetched successfully:', data);
-      this.expenses = data;
-    },
-    (error) => {
-      console.error('Error fetching expenses:', error);
-    });
+  fetchExpenses(userId: string): void {
+      console.log('Fetching expenses...');
+      this.expenseService.getExpensesByUserId(userId).subscribe(
+        (data: IExpenseModel[]) => {
+          console.log('Expenses fetched successfully:', data);
+          this.expenses = data;
+        },
+        (error) => {
+          console.error('Error fetching expenses:', error);
+        }
+      );
     }
  
   // Add or update an expense
   onSubmit(): void {
-      console.log('onSubmit called'); // Debugging
-      this.currentExpense.expenseId = uuidv4();
+    const userId = this.authService.getUser();  // Get the current userId from AuthService
+    if (userId) {
+      this.currentExpense.userId = userId;  // Associate the expense with the logged-in user
       this.expenseService.addExpense(this.currentExpense).subscribe(
         () => {
           console.log('Expense added successfully');
-          this.fetchExpenses();
+          this.fetchExpenses(userId);  // Refresh the list of expenses after adding
         },
         (error) => {
           console.error('Error adding expense:', error);
         }
       );
+    }
+  }
+  logout(): void {
+    this.authService.logout();  // Log the user out through AuthService
   }
 
  
@@ -79,9 +102,6 @@ export class ExpensesComponent implements OnInit {
     this.router.navigate(['/expenses', expense.expenseId]);
     this.editing = true;
   }
- 
-
-
 
   // Delete an expense
   deleteExpense(expenseId: string): void {
@@ -89,7 +109,6 @@ export class ExpensesComponent implements OnInit {
     this.expenseService.deleteExpense(expenseId).subscribe(
       () => {
         console.log('Expense deleted successfully');
-        this.fetchExpenses();
       },
       (error) => {
         console.error('Error deleting expense:', error);

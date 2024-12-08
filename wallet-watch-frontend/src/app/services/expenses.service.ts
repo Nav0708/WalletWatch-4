@@ -3,6 +3,7 @@ import { IExpenseModel } from '../interfaces/IExpense';
 import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient } from '@angular/common/http';
 import { ICategoryModel } from '../interfaces/ICategory';
+import { IUserModel } from '../interfaces/IUser';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +16,11 @@ export class ExpensesService {
   getAllExpenses(): Observable<IExpenseModel[]> {
     return this.http.get<IExpenseModel[]>(this.baseUrl);
   }
-  getExpenseById(expenseId: string): Observable<IExpenseModel> {
-    return this.http.get<IExpenseModel>(`${this.baseUrl}/${expenseId}`);
+  getExpensesByUserId(userId: string): Observable<IExpenseModel[]> {
+    return this.http.get<IExpenseModel[]>(`${this.baseUrl}/expenses/${userId}`);
   }
   addExpense(expense: IExpenseModel): Observable<IExpenseModel> {
-    return this.http.post<IExpenseModel>(this.baseUrl, expense);
+    return this.http.post<IExpenseModel>(`${this.baseUrl}/expenses`, expense);
   }
   updateExpense(expenseId: string, expense: IExpenseModel): Observable<IExpenseModel> {
     return this.http.put<IExpenseModel>(`${this.baseUrl}/${expenseId}`, expense);
