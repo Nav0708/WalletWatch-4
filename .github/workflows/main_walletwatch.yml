@@ -1,6 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
 name: Build and deploy Node.js app to Azure Web App - WalletWatch
 
 on:
@@ -21,45 +18,46 @@ jobs:
         with:
           node-version: '20.x'
 
-      - name: npm install, build, and test
+      - name: Install and build frontend
+        working-directory: wallet-watch-frontend
+        run: |
+          npm install
+          npm run build
+
+      - name: Move frontend build to backend
+        run: |
+          cp -r walletwatch-frontend/build walletwatch-backend/public
+
+      - name: Install and build backend
+        working-directory: wallet-watch-backend
         run: |
           npm install
           npm run build --if-present
-          npm run test --if-present
-      
-      - name: Upload artifact for deployment job
+
+      - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
-          name: node-app
-          path: .
+          name: walletwatch-app
+          path: walletwatch-backend
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
 
     steps:
-      - name: Download artifact from build job
+      - name: Download artifact from build
         uses: actions/download-artifact@v4
         with:
-          name: node-app
-      
+          name: walletwatch-app
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_EF0B1AAA645F47789294F61563770FD4 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_163895FD853846EE9BD60EA142F1D14A }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A1786832D6154D149378B9E94FBEBCA8 }}
-
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
         with:
           app-name: 'WalletWatch'
-          slot-name: 'Production'
-          package: .
-          
+          package: walletwatch-backend
