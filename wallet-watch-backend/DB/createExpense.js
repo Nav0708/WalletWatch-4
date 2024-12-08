@@ -6,7 +6,7 @@ expensesCollection.insert(
 {
     expenseId: 1,
     amount: 100,
-    categoryId: 1,
+    categoryName: "food",
     date: 29/10/2024,
     description: "pizza",
     userId: 1
@@ -16,7 +16,7 @@ expensesCollection.insert(
 {
     expenseId: 2,
     amount: 200,
-    categoryId: 2,
+    categoryName: "food",
     date: 29/10/2024,
     description: "rent",
     userId: 1
@@ -26,7 +26,7 @@ expensesCollection.insert(
 {
     expenseId: 3,
     amount: 300,
-    categoryId: 1,
+    categoryName: "food",
     date: 29/10/2024,
     description: "electricity",
     userId: 5
