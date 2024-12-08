@@ -54,21 +54,32 @@
           >
         </li>
       </ul>
-      <!--<img
-        src="user.png"
-        alt="User Profile"
-        class="ms-4 rounded-circle"
-        style="height: 50px"
-      />-->
-      
-        <button *ngIf="!isLoggedIn" mat-button (click)="loginAsUser()">
-          <mat-icon>login</mat-icon> Login
-        </button>
-        <button *ngIf="isLoggedIn" mat-button (click)="logout()">
-          <mat-icon>logout</mat-icon> Logout
-        </button>
-      
-      
+
+      <!-- Profile Icon -->
+      <div class="d-flex align-items-center ms-4">
+        <a
+          routerLink="/profile"
+          mat-icon-button
+          aria-label="Profile"
+          class="d-flex align-items-center"
+          [matTooltip]="'Profile'"
+        >
+          <img
+            src="./user.png"
+            alt="User Profile"
+            class="rounded-circle"
+            style="height: 40px; width: 40px"
+          />
+        </a>
+      </div>
+
+      <button *ngIf="!isLoggedIn" mat-button (click)="loginAsUser()">
+        <mat-icon>login</mat-icon> Login
+      </button>
+      <button *ngIf="isLoggedIn" mat-button (click)="logout()">
+        <mat-icon>logout</mat-icon> Logout
+      </button>
+
       <!--<span *ngIf="authService.user$ | async as user" class="ms-4">
         {{ user }}
       </span>
