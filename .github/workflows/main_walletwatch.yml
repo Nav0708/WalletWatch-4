@@ -26,7 +26,7 @@ jobs:
 
       - name: Move frontend build to backend
         run: |
-          cp -r walletwatch-frontend/build walletwatch-backend/public
+          cp -r wallet-watch-frontend/build wallet-watch-backend/public
 
       - name: Install and build backend
         working-directory: wallet-watch-backend
@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: walletwatch-app
-          path: walletwatch-backend
+          path: wallet-watch-backend
 
   deploy:
     runs-on: ubuntu-latest
@@ -60,4 +60,4 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'WalletWatch'
-          package: walletwatch-backend
+          package: wallet-watch-backend
