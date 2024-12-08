@@ -26,7 +26,7 @@ jobs:
 
       - name: Move frontend build to backend
         run: |
-          cp -r wallet-watch-frontend/build wallet-watch-backend/public
+          cp -r wallet-watch-frontend/public wallet-watch-backend/public
 
       - name: Install and build backend
         working-directory: wallet-watch-backend
