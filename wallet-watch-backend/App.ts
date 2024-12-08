@@ -1,8 +1,7 @@
 import * as express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import * as bodyParser from 'body-parser';
-import {expenseRoutes} from './routes/expenseRoutes';
-import {userRoutes} from './routes/userRoutes';
+import {expenseRoutes} from './routes/expense_budgetRoutes';
 import { ExpenseModel } from './model/Expense';
 import { UserModel } from './model/User';
 import { BudgetModel } from './model/Budget';
@@ -56,6 +55,7 @@ class App {
         this.expressApp.use((req, res, next) => {
           res.header("Access-Control-Allow-Origin", "*");
           res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+          //res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
           next();
         });
       }
@@ -74,13 +74,12 @@ class App {
           passport.authenticate('google', {scope: ['email','profile']}));
       
         router.get('/auth/google/callback', 
-            passport.authenticate('google', 
-              { failureRedirect: '/' }
-            ),
+            passport.authenticate('google', { failureRedirect: '/' }),
             (req, res) => {
               console.log("successfully authenticated user and returned to callback page.");
               console.log("redirecting to Welcome page");
-              res.redirect('http://localhost:4200/#/welcome');
+              res.cookie('user', JSON.stringify(req.user), { httpOnly: true, maxAge: 3600000 });
+              res.redirect('http://localhost:4200/homepage');
             }
         );
         router.post('/logout', this.validateAuth, (req: any, res, next) => {
@@ -95,7 +94,6 @@ class App {
         });
         
         this.expressApp.use('/', router);
-        this.expressApp.use('/walletwatch/', userRoutes(this.User));
         this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
     }
 }

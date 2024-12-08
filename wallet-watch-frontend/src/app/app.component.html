@@ -25,6 +25,7 @@
             class="nav-link"
             [ngClass]="{ active: isActive('/homepage') }"
             routerLink="/homepage"
+            *ngIf="authService.loggedIn$ | async"
             >Dashboard</a
           >
         </li>
@@ -53,13 +54,33 @@
           >
         </li>
       </ul>
-      <img
+      <!--<img
         src="user.png"
         alt="User Profile"
         class="ms-4 rounded-circle"
         style="height: 50px"
-      />
+      />-->
       
+        <button *ngIf="!isLoggedIn" mat-button (click)="loginAsUser()">
+          <mat-icon>login</mat-icon> Login
+        </button>
+        <button *ngIf="isLoggedIn" mat-button (click)="logout()">
+          <mat-icon>logout</mat-icon> Logout
+        </button>
+      
+      
+      <!--<span *ngIf="authService.user$ | async as user" class="ms-4">
+        {{ user }}
+      </span>
+      <ng-template #Guest>
+        <span class="ms-4">Guest</span>
+      </ng-template>
+      <div class="d-flex justify-content-end">
+        <ng-container *ngIf="!(authService.loggedIn$ | async)">
+          <button class="btn btn-primary mr-2" (click)="loginAsUser()"></button>
+        </ng-container>
+        <button *ngIf="authService.loggedIn$ | async" class="btn btn-primary" (click)="logout()">Logout</button>
+      </div>-->
     </div>
   </mat-toolbar>
 

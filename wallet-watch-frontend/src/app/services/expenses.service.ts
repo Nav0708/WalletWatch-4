@@ -25,6 +25,7 @@ export class ExpensesService {
     return this.http.put<IExpenseModel>(`${this.baseUrl}/${expenseId}`, expense);
   }
     deleteExpense(expenseId: string): Observable<any> {
+      console.log(`http://localhost:8080/walletwatch/expenses/{expenseId}`);
       return this.http.delete(`${this.baseUrl}/${expenseId}`);
     }
 }

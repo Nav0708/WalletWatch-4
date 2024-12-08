@@ -28,7 +28,7 @@ export class ExpensesComponent implements OnInit {
     categoryName: '',
     date: new Date(),
     description: '',
-    userId: '100',
+    userId: '',
   };
   editing: boolean = false;
  
@@ -60,7 +60,6 @@ export class ExpensesComponent implements OnInit {
         () => {
           console.log('Expense added successfully');
           this.fetchExpenses();
-          this.resetForm();
         },
         (error) => {
           console.error('Error adding expense:', error);
@@ -86,6 +85,7 @@ export class ExpensesComponent implements OnInit {
 
   // Delete an expense
   deleteExpense(expenseId: string): void {
+    console.log(expenseId);
     this.expenseService.deleteExpense(expenseId).subscribe(
       () => {
         console.log('Expense deleted successfully');
@@ -108,7 +108,7 @@ export class ExpensesComponent implements OnInit {
       categoryName: '',
       date: '',
       description: '',
-      userId: '100',
+      userId: '',
     };
     this.editing = false;
   }

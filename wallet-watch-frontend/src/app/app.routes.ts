@@ -9,13 +9,9 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ExpensesDetailsComponent } from './expenses-details/expenses-details.component';
 import { BudgetDetailsComponent } from './budget-details/budget-details.component';
-import { LoginComponent } from './login/login.component';
  
 export const routes: Routes = [
-  // Redirect root to login
-  { path: 'login', component: LoginComponent },
   { path: 'welcome', component: WelcomeComponent },
-  //{ path: '**', redirectTo: 'login' }, // Redirect unknown routes to login
   { path: 'homepage', component:HomepageComponent },
   { path: 'expenses', component: ExpensesComponent },
   { path: 'expenses/:expenseId', component: ExpensesDetailsComponent },

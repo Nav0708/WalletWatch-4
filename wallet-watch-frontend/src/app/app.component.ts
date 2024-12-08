@@ -19,31 +19,38 @@ import { filter } from 'rxjs';
 export class AppComponent  {
   title = 'Wallet Watch'; 
   //googleAuthUrl = environment.hostUrl + "/auth/google";
-  googleAuthUrl = "http://localhost:8080" + "/auth/google";
-  welcomepage = '';
+  googleAuthUrl = "http://localhost:8080/auth/google";
+  welcomepage = '/welcome';
   isLoggedIn: boolean = false;
+  username: string ='';
 
   constructor(public authService: AuthService,private router: Router) {}
 
   ngOnInit() {
-    this.router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe(() => {
-        // Update the login state when navigation ends
-        this.authService.updateLoginState();
-      });
+    this.authService.loggedIn$.subscribe(status => {
+      this.isLoggedIn = status;
+      if (status) {
+        // Get user info after logging in
+        this.authService.user$.subscribe(user => {
+          this.username = user || 'Guest'; // Default to 'Guest' if no user
+        });
+      }
+    });
+
+    // Check if we are returning from Google authentication and need to fetch the user data
+    this.authService.updateLoginState(); 
   }
 
   isActive(route: string): boolean {
     return this.router.url === route;
   }
   loginAsUser() {
-    this.authService.login('user');
-    window.location.href = this.googleAuthUrl; 
+    this.authService.login();
+    //window.location.href = this.googleAuthUrl; 
   }
   logout() {
     this.authService.logout();
-    window.location.href = this.welcomepage; 
+    this.router.navigate([this.welcomepage]);
   }
 
 
