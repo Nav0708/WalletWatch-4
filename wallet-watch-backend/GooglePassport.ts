@@ -1,42 +1,44 @@
 import * as dotenv from 'dotenv';
 import { GoogleProfileModel } from './model/GoogleProfile';
-
-//let GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-let passport = require('passport');
-//let GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-let GoogleStrategy = require('passport-google-oauth20').Strategy;
+import passport from 'passport';
+import { Strategy as GoogleStrategy, VerifyCallback } from 'passport-google-oauth20'; // Import correct types
 
 dotenv.config();
+
 // Creates a Passport configuration for Google
 class GooglePassport {
-
     clientId: string;
     secretId: string;
     googleProfile!: GoogleProfileModel;
+
     constructor() { 
-        this.clientId = process.env.GOOGLE_CLIENT_ID||'';
-        this.secretId = process.env.GOOGLE_CLIENT_SECRET||'';
+        this.clientId = process.env.GOOGLE_CLIENT_ID || '';
+        this.secretId = process.env.GOOGLE_CLIENT_SECRET || '';
+        
+        // Define the type for the callback (accessToken, refreshToken, profile, done)
         passport.use(new GoogleStrategy({
                 clientID: this.clientId,
                 clientSecret: this.secretId,
-                callbackURL: "/auth/google/callback",scope: ['profile']
+                callbackURL: "/auth/google/callback",
+                scope: ['profile']
             },
-            (accessToken, refreshToken, profile, done)  => {
+            (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback)  => { // Explicitly type parameters
                 console.log("inside new password google strategy");
-                process.nextTick( () => {
+                process.nextTick(() => {
                     console.log('validating google profile:' + JSON.stringify(profile));
                     this.googleProfile = profile;
-                    console.log('this.googleProfile',this.googleProfile.photos);
+                    console.log('this.googleProfile', this.googleProfile.photos);
                     console.log("userId:" + profile.id);
                     console.log("displayName: " + profile.displayName);
                     console.log("retrieve all of the profile info needed");
+
                     if (profile.emails) {
                         console.log("emails:", profile.emails.map((email: { value: any; }) => email.value));
-                      } else {
+                    } else {
                         console.log("No emails found in profile");
-                      }
-                    // this.email = profile.emails[0].value;
-                    return done(null, profile);
+                    }
+
+                    return done(null, profile); // Return the profile as the user object
                 }); 
             }
         ));
@@ -50,4 +52,5 @@ class GooglePassport {
         });
     }
 }
+
 export default GooglePassport;

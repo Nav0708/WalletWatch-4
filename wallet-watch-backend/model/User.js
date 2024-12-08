@@ -15,13 +15,23 @@ var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (
 }) : function(o, v) {
     o["default"] = v;
 });
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -34,85 +44,64 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModel = void 0;
 const Mongoose = __importStar(require("mongoose"));
-//User model
 class UserModel {
     constructor(DB_CONNECTION_STRING) {
         this.dbConnectionString = DB_CONNECTION_STRING;
         this.createSchema();
         this.createModel();
     }
-    // Define the schema for User documents
     createSchema() {
         this.schema = new Mongoose.Schema({
-            userId: { type: String, required: true },
-            userName: { type: String },
-            email: { type: String },
-            hashed_pswd: { type: String, required: true },
-            hints: { type: String, required: true }
+            userID: String,
+            username: String,
+            password: String,
+            email: String,
+            role: String,
         }, { collection: 'users' });
     }
-    // Create the User model and connect to MongoDB
     createModel() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield Mongoose.connect(this.dbConnectionString);
-                this.model = Mongoose.model("User", this.schema);
+                yield Mongoose.connect(this.dbConnectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+                this.model = Mongoose.model('User', this.schema);
             }
             catch (e) {
                 console.error(e);
             }
         });
     }
-    // Retrieve all users
-    retrieveAllUsers(response) {
+    changePassword(response, userID, newPassword) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = this.model.find({});
+            // Hash the new password before saving to the database
             try {
-                const userArray = yield query.exec();
-                response.json(userArray);
+                const result = yield this.model.updateOne({ userID: userID }, { password: newPassword });
+                if (result.nModified === 1) {
+                    response.json({ message: "User password changed successfully." });
+                }
+                else {
+                    response.status(404).send("User not found.");
+                }
             }
             catch (e) {
                 console.error(e);
+                response.status(500);
             }
         });
     }
-    // Retrieve a user by a specific user ID
-    retrieveUserByUserId(response, userId) {
+    deleteAccount(response, userID) {
         return __awaiter(this, void 0, void 0, function* () {
-            const query = this.model.findOne({ userId });
             try {
-                const user = yield query.exec();
-                response.json(user);
+                const result = yield this.model.deleteOne({ userID: userID });
+                if (result.deletedCount === 1) {
+                    response.json({ message: "User account deleted successfully." });
+                }
+                else {
+                    response.status(404).send("User not found.");
+                }
             }
             catch (e) {
                 console.error(e);
-            }
-        });
-    }
-    // Retrieve a user by email
-    retrieveUserByEmail(response, email) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = this.model.findOne({ email });
-            try {
-                const user = yield query.exec();
-                response.json(user);
-            }
-            catch (e) {
-                console.error(e);
-            }
-        });
-    }
-    // Count the total number of user entries
-    retrieveUserCount(response) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const query = this.model.estimatedDocumentCount();
-            try {
-                const numberOfUsers = yield query.exec();
-                console.log("Number of users: " + numberOfUsers);
-                response.json(numberOfUsers);
-            }
-            catch (e) {
-                console.error(e);
+                response.status(500);
             }
         });
     }
