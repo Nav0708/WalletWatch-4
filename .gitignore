@@ -2,3 +2,9 @@
 wallet-watch-frontend/package-lock.json
 wallet-watch-frontend/package.json
 createDB/
+curlCommands/
+dbCommands/
+e2e/
+node_modules/
+docs/
+Db/
