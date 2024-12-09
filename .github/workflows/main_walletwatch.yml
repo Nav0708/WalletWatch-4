@@ -16,27 +16,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # Set up Node.js version
       - name: Set up Node.js version
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
+      # Install and build frontend
       - name: Install and build frontend
         working-directory: wallet-watch-frontend
         run: |
           npm install
           npm run build
 
+      # Move frontend build to backend
       - name: Move frontend build to backend
         run: |
           cp -r wallet-watch-frontend/public wallet-watch-backend/public
 
+      # Install and build backend
       - name: Install and build backend
         working-directory: wallet-watch-backend
         run: |
           npm install
           npm run build --if-present
 
+      # Upload backend (which now includes frontend build) for deployment
       - name: Upload artifact for deployment
         uses: actions/upload-artifact@v4
         with:
@@ -53,6 +58,7 @@ jobs:
         with:
           name: walletwatch-app
 
+      # Login to Azure
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -60,6 +66,7 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_163895FD853846EE9BD60EA142F1D14A }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A1786832D6154D149378B9E94FBEBCA8 }}
         
+      # Deploy to Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
