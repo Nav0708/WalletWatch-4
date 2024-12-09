@@ -8,7 +8,7 @@ import { RemindersComponent } from './reminders/reminders.component';
 import { provideHttpClient } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ExpensesDetailsComponent } from './expenses-details/expenses-details.component';
-import { BudgetDetailsComponent } from './budget-details/budget-details.component';
+//import { BudgetDetailsComponent } from './budget-details/budget-details.component';
 import { ProfileComponent } from './profile/profile.component';
  
 export const routes: Routes = [
@@ -17,7 +17,7 @@ export const routes: Routes = [
   { path: 'expenses', component: ExpensesComponent },
   { path: 'expenses/:expenseId', component: ExpensesDetailsComponent },
   { path: 'budget', component: BudgetComponent },
-  { path: 'budget/:id', component: BudgetDetailsComponent },
+ // { path: 'budget/:id', component: BudgetDetailsComponent },
   { path: 'reminders', component: RemindersComponent },
   { path: 'reminders/:id', component: RemindersComponent }, 
   { path: 'profile', component: ProfileComponent}

@@ -48,7 +48,7 @@ export class ExpensesComponent implements OnInit {
         const userId = this.authService.getUser();  // Get the current userId from AuthService
         console.log('Logged in as:', userId);
         if (userId) {
-          this.fetchExpenses(userId);  // Fetch expenses for the logged-in user
+          //this.fetchExpenses(userId);  // Fetch expenses for the logged-in user
         }
       } else {
         console.log('User is not logged in');
@@ -74,11 +74,11 @@ export class ExpensesComponent implements OnInit {
   onSubmit(): void {
     const userId = this.authService.getUser();  // Get the current userId from AuthService
     if (userId) {
-      this.currentExpense.userId = userId;  // Associate the expense with the logged-in user
+      //this.currentExpense.userId = userId;  // Associate the expense with the logged-in user
       this.expenseService.addExpense(this.currentExpense).subscribe(
         () => {
           console.log('Expense added successfully');
-          this.fetchExpenses(userId);  // Refresh the list of expenses after adding
+          //this.fetchExpenses(userId);  // Refresh the list of expenses after adding
         },
         (error) => {
           console.error('Error adding expense:', error);

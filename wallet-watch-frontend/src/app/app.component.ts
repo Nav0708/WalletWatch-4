@@ -7,8 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'; // Import MatToolt
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { AuthService } from './services/auth.service';
-import { environment } from '../../../wallet-watch-backend/azure/environment';
-import { filter } from 'rxjs';
+
 
 @Component({
   selector: 'app-root',
@@ -39,11 +38,7 @@ export class AppComponent {
     this.authService.loggedIn$.subscribe((status) => {
       this.isLoggedIn = status;
     });
-    this.authService.user$.subscribe((user) => {
-      this.username = user || 'Guest';
-    });
-    // Check if we are returning from Google authentication and need to fetch the user data
-    
+    // Check if we are returning from Google authentication and need to fetch the user data 
   }
 
   isActive(route: string): boolean {
@@ -51,13 +46,11 @@ export class AppComponent {
   }
 
   loginAsUser() {
-    this.authService.login(this .username);
-    console.log(this .username);
+    this.authService.login();
     window.location.href = this.googleAuthUrl; 
   }
 
   logout() {
     this.authService.logout();
-    this.router.navigate([this.welcomepage]);
   }
 }

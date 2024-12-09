@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
 
 // Import Routing Module
@@ -49,7 +49,7 @@ import { FooterComponent } from './footer/footer.component';
     BrowserModule,
     FormsModule,
     CommonModule,
-    HttpClientModule, // Correct import for HTTP functionality
+    HttpClient, // Correct import for HTTP functionality
     AppRoutingModule,
     MatTableModule,
     MatSortModule,

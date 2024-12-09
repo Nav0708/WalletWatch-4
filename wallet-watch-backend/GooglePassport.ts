@@ -1,16 +1,25 @@
 import * as dotenv from 'dotenv';
 import { GoogleProfileModel } from './model/GoogleProfile';
-import passport from 'passport';
+import passport, { DoneCallback } from 'passport';
 import { Strategy as GoogleStrategy, VerifyCallback } from 'passport-google-oauth20'; // Import correct types
 
 dotenv.config();
+
+type User = {
+    id: string;
+    displayName: string;
+    familyName: string;
+    emails?: { value: string }[];
+    photos?: { value: string }[];
+};
+
 
 // Creates a Passport configuration for Google
 class GooglePassport {
     clientId: string;
     secretId: string;
     googleProfile!: GoogleProfileModel;
-
+    
     constructor() { 
         this.clientId = process.env.GOOGLE_CLIENT_ID || '';
         this.secretId = process.env.GOOGLE_CLIENT_SECRET || '';
@@ -19,8 +28,8 @@ class GooglePassport {
         passport.use(new GoogleStrategy({
                 clientID: this.clientId,
                 clientSecret: this.secretId,
-                callbackURL: "/auth/google/callback",
-                scope: ['profile']
+                callbackURL: "http://localhost:8080/auth/google/callback",
+                scope: ['profile','email']
             },
             (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback)  => { // Explicitly type parameters
                 console.log("inside new password google strategy");
@@ -43,12 +52,12 @@ class GooglePassport {
             }
         ));
 
-        passport.serializeUser(function(user: any, done: (arg0: null, arg1: any) => void) {
-            done(null, user);
+        passport.serializeUser(function(user: User, done: DoneCallback) {
+            return done(null, user);
         });
 
-        passport.deserializeUser(function(user: any, done: (arg0: null, arg1: any) => void) {
-            done(null, user);
+        passport.deserializeUser(function(user: User, done: DoneCallback) {
+            return done(null, user);
         });
     }
 }
