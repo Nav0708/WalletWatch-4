@@ -1,1 +1,29 @@
-[{"_id":"6723bb168ceeb340e0886903","amount":100,"category":"Books","date":"2024-10-28T00:00:00.000Z","description":"Purchased a book at Seattle University","userId":"1234567890abcdef","__v":0},{"_id":"6723bb478ceeb340e0886905","amount":20,"category":"Food","date":"2024-10-28T00:00:00.000Z","description":"Dinner at cafeteria","userId":"1234567890a00acacac","__v":0},{"_id":"6723c12aba60398d670967f7","amount":1600,"category":"Rent","date":"2024-10-28T00:00:00.000Z","description":"Rent for October month","userId":"1243433377790abcdef","__v":0}]
+[
+    {
+       "_id":"6723bb168ceeb340e0886903",
+       "amount":100,
+       "category":"Books",
+       "date":"2024-10-28T00:00:00.000Z",
+       "description":"Purchased a book at Seattle University",
+       "userId":"1234567890abcdef",
+       "__v":0
+    },
+    {
+       "_id":"6723bb478ceeb340e0886905",
+       "amount":20,
+       "category":"Food",
+       "date":"2024-10-28T00:00:00.000Z",
+       "description":"Dinner at cafeteria",
+       "userId":"1234567890a00acacac",
+       "__v":0
+    },
+    {
+       "_id":"6723c12aba60398d670967f7",
+       "amount":1600,
+       "category":"Rent",
+       "date":"2024-10-28T00:00:00.000Z",
+       "description":"Rent for October month",
+       "userId":"1243433377790abcdef",
+       "__v":0
+    }
+ ]
