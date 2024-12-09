@@ -4,31 +4,26 @@ import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
 import bootstrap from './src/main.server';
-import 'localstorage-polyfill'
+import 'localstorage-polyfill';
 
 global['localStorage'] = localStorage;
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(serverDistFolder, 'index.server.html');
+
+  // Path to the Angular app distribution folder
+  const angularDistFolder = resolve(__dirname, '../dist/wallet-watch-frontend');
+  const indexHtml = join(angularDistFolder, 'index.html');
 
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
+  server.set('views', angularDistFolder);
 
-  server.use(express.static(__dirname + '/dist'));
+  // Serve static files from the Angular app
+  server.use(express.static(angularDistFolder, { maxAge: '1y' }));
 
-
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
-  
-  //server.get('**', express.static(__dirname+’./wallet-watch-frontend/dist’));
-  
   // All regular routes use the Angular engine
   server.get('**', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
@@ -38,7 +33,7 @@ export function app(): express.Express {
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
+        publicPath: angularDistFolder,
         providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
       })
       .then((html) => res.send(html))
@@ -59,5 +54,3 @@ function run(): void {
 }
 
 run();
-
-
