@@ -10,36 +10,48 @@ import cookieParser from 'cookie-parser';
 import GooglePassportObj from './GooglePassport';
 import  passport from 'passport';
 import { GoogleProfileModel } from './model/GoogleProfile';
+import cors from 'cors';
 
 declare global {
   namespace Express {
     interface User {
-      id: string,
-      displayName: string,
+      id: string;
+      displayName: string;
+      familyName: string;
+      emails?: { value: string }[];
+      photos?: { value: string }[];
     }
   }
 }
-
-class ConcreteUserModel extends UserModel {
-  constructor(DB_CONNECTION_STRING: string) {
-    super(DB_CONNECTION_STRING);
+declare global {
+  namespace Express {
+    interface Session {
+      us?: UserModel;  
+    }
   }
 }
 // Creates and configures an ExpressJS web server.
 class App {
 
     public expressApp: express.Application;
-    public User: UserModel;
     public Expense: ExpenseModel;
+    public User: UserModel;
     public googlePassportObj:GooglePassportObj;
+    public  corsOptions = {
+      origin: 'http://localhost:4200',
+      methods: 'GET,POST,PUT,DELETE',  // Allow only certain methods
+      allowedHeaders: 'Content-Type, Authorization',  // Allow only specific headers
+      credentials: true, 
+    }
     
 
     constructor(mongoDBConnection: string) {
         this.expressApp = express.default();
         this.googlePassportObj = new GooglePassportObj();
         this.Expense = new ExpenseModel(mongoDBConnection);
-        //this.User = new UserModel(mongoDBConnection);
-        this.User = new ConcreteUserModel(mongoDBConnection);
+        this.User = new UserModel(mongoDBConnection);
+        //this.User = new ConcreteUserModel(mongoDBConnection);
+        //this.expressApp.use(cors(this.corsOptions));
         this.middleware();
         this.routes();
         
@@ -48,21 +60,30 @@ class App {
       private middleware(): void {
         this.expressApp.use(bodyParser.json());
         this.expressApp.use(bodyParser.urlencoded({ extended: false }));
-        this.expressApp.use(session({ secret: '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' }));
+        this.expressApp.use(session({
+          secret: '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',
+          resave: false,
+          saveUninitialized: false,
+          cookie: { secure: true }  // Set to true if using HTTPS
+        }));
         this.expressApp.use(cookieParser());
+        //this.expressApp.use(cors(corsOptions));
+        //this.expressApp.options('*', cors(corsOptions));
         this.expressApp.use(passport.initialize());
         this.expressApp.use(passport.session());
         this.expressApp.use((req, res, next) => {
-          res.header("Access-Control-Allow-Origin", "*");
-          res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-          //res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        this.expressApp.options('*', (req, res) => {
+            res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+            res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+            res.header('Access-Control-Allow-Credentials', 'true');
+            res.sendStatus(200);
+          });
           next();
         });
       }
       private validateAuth(req: Request, res:Response, next: NextFunction):void {
         if (req.isAuthenticated()) { 
-          console.log("user is authenticated"); 
-          console.log(JSON.stringify(req.user));
           return next(); }
         console.log("user is not authenticated");
         res.redirect('/');
@@ -73,44 +94,72 @@ class App {
         router.get('/auth/google', 
           passport.authenticate('google', {scope: ['email','profile']}));
       
-        router.get('/auth/google/callback', 
+          router.get('/auth/google/callback',
             passport.authenticate('google', { failureRedirect: '/' }),
-            (req, res) => {
-              console.log("successfully authenticated user and returned to callback page.");
-              console.log("redirecting to Welcome page");
-              res.cookie('WalletWatch-Cookie', req.user);
-              res.redirect('http://localhost:4200/#/homepage');
-            }
-        );
+            async (req, res) => {
+              if (req.isAuthenticated()){
+                const userData=req.user;
+                const data = {
+                  userId: req.user.id,
+                  firstName: req.user.displayName,
+                  lastName: req.user.familyName,
+                  email: req.user!.emails ? req.user!.emails[0].value : '',
+                  picture: req.user!.photos ? req.user!.photos[0].value : '',
+                  
+                };
+                
+                const user = await this.User.findOne(req.user.id);
+                
+                if (user) {
+                  console.log('User already exists. Updating info.',data);
+                  await this.User.update(req.user.id, data);
+                } else {
+                  console.log('User does not exist. Creating new user.');
+                  await this.User.create(data);
+                }
+                  console.log(`Session user: ${JSON.stringify(req.session)}`);
+                  res.redirect('http://localhost:4200/#/homepage'); 
+              } 
+              else {
+                res.send('User not authenticated');
+                }
+              }
+          );
+
         router.post('/logout', this.validateAuth, (req: any, res, next) => {
             req.logout();
-            res.clearCookie('WalletWatch-Cookie');
+            req.clearCookie('WalletWatch-Cookie');
             req.session.destroy();
-            res.status(200).redirect('/');
+            res.status(200).redirect('/#/welcome');
           });
         router.post('/walletwatch/logs', (req, res) => {
             console.log(req.body.message);
             res.status(200).send('Log received');
         });
         router.get('/expenses', this.validateAuth, async (req: any, res) => {
-          if (req.isAuthenticated()) {
             console.log(req.user.id);
-          } else {
-            console.log('User not authenticated');
-            res.status(401).json({ message: 'User not authenticated' });
-          }
         });
 
         router.get('/user', this.validateAuth, async (req: any, res) => {
           if (req.isAuthenticated()) {
-            res.json({ displayName: req.user.displayName });
+            const userData = {
+              displayName: req.user.displayName,
+              userId: req.user.id,
+              email: req.user.emails ? req.user.emails[0].value : '',
+              photo: req.user.photos ? req.user.photos[0].value : ''
+            };
+            res.json(userData);
           } else {
             res.status(401).send('User not authenticated');
           }
         });
-        
         this.expressApp.use('/', router);
        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
+       //this.expressApp.use('/', router);
+
+       //this.expressApp.use('/app/json/', express.static(__dirname+'/app/json'));
+       //this.expressApp.use('/images', express.static(__dirname+'/img'));
+       //this.expressApp.use('/', express.static(__dirname+'/pages'));
     }
 }
 

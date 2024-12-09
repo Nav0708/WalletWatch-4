@@ -18,7 +18,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    max-width: 600px;
+    max-width: 1000px;
     width: 100%;
   }
   
@@ -58,5 +58,18 @@
   
   .edit-btn:hover {
     background-color: #0056b3;
+  }
+  .profile-label {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .profile-name {
+    margin-bottom: 1em;
+    color: #333;
+  }
+  
+  .profile-info h2 {
+    margin: 0.5em 0;
   }
   

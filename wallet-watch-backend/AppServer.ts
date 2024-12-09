@@ -15,7 +15,7 @@ console.log("server db connection URL " + mongoDBConnection);
 //mongodb+srv://<username>:<password>@<cluster-name>.mongodb.net/<database-name>?retryWrites=true&w=majority
 
 const server = new App(mongoDBConnection).expressApp;
-server.listen(port || 8080, () => {
+server.listen(port, () => {
     console.log(`Server running on port ${port}`);
     console.log(`Server MongoDB string ${mongoDBConnection}`);
 });

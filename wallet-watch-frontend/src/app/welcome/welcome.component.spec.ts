@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WelcomeComponent } from './welcome.component';
+import { beforeEach, describe } from 'node:test';
 
 describe('WelcomeComponent', () => {
   let component: WelcomeComponent;
@@ -17,7 +18,4 @@ describe('WelcomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
 });

@@ -1,64 +1,60 @@
 import * as Mongoose from "mongoose";
-import { IUserModel } from '../interfaces/IUser';
+import { v4 as uuidv4 } from 'uuid';
+import {IUserModel} from '../interfaces/IUser';
+ 
+ 
+// Class to manage the Expense model
+class UserModel {
 
-abstract class UserModel {
-    public schema:any;
-    public model:any;
-    public dbConnectionString:string;
-
-    public constructor(DB_CONNECTION_STRING:string) {
+    public schema: any;
+    public model: any
+    public dbConnectionString: string;
+ 
+    public constructor(DB_CONNECTION_STRING: string) {
         this.dbConnectionString = DB_CONNECTION_STRING;
         this.createSchema();
         this.createModel();
     }
-
+ 
+    // Define the schema for Expense documents
     public createSchema() {
-        this.schema = new Mongoose.Schema({
-            userID: String,
-            username: String,
-            password: String,
-            email: String,
-            role: String,
-        }, { collection: 'users' });
+        this.schema = new Mongoose.Schema(
+            {
+                userId: { type: String },
+                firstName: { type: String},
+                lastName: { type: String },
+                email: { type: String},
+                picture: { type: String},
+            },
+            { collection: 'user' }
+        );
     }
-
+ 
+    // Create the Expense model and connect to MongoDB
     public async createModel() {
         try {
-            await Mongoose.connect(this.dbConnectionString, {useNewUrlParser: true, useUnifiedTopology: true}as any);
-            this.model = Mongoose.model<IUserModel>('User', this.schema);
-        }
-        catch (e) {
-            console.error(e);
-        }
-    }
-
-    public async changePassword(response: any, userID: String, newPassword: string): Promise<void> {
-        // Hash the new password before saving to the database
-        try {
-            const result = await this.model.updateOne({ userID: userID }, { password: newPassword });
-            if (result.nModified === 1) {
-                response.json({ message: "User password changed successfully." });
-            } else {
-                response.status(404).send("User not found.");
-            }
+            await Mongoose.connect(this.dbConnectionString);
+            this.model = Mongoose.model<IUserModel>("User", this.schema);
         } catch (e) {
             console.error(e);
-            response.status(500);
         }
     }
+ 
+  // Method to find a user by userId
+  public async findOne(id: string){
+    return await this.model.find({ userId: id }).exec();
+  }
 
-    public async deleteAccount(response: any, userID: String): Promise<void> {
-        try {
-            const result = await this.model.deleteOne({ userID: userID });
-            if (result.deletedCount === 1) {
-                response.json({ message: "User account deleted successfully." });
-            } else {
-                response.status(404).send("User not found.");
-            }
-        } catch (e) {
-            console.error(e);
-            response.status(500);
-        }
-    }
+  // Method to create a new user
+  public async create(data: any) {
+    const newUser = new this.model(data);
+    return newUser.save();
+  }
+
+  // Method to update user data
+  public async update(userId: string, data: any){
+    return await this.model.findOneAndUpdate({ userId }, data, { new: true });
+  }
 }
-export {UserModel};
+
+export { IUserModel, UserModel };

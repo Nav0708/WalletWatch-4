@@ -73,12 +73,10 @@
         </a>
       </div>
 
-      <button *ngIf="!isLoggedIn" mat-button (click)="loginAsUser()">
-        <mat-icon>login</mat-icon> Login
-      </button>
-      <button *ngIf="isLoggedIn" mat-button (click)="logout()">
-        <mat-icon>logout</mat-icon> Logout
-      </button>
+      <ng-container *ngIf="!(authService.loggedIn$ | async)" >
+        <button class="btn btn-primary mr-2" (click)="loginAsUser()">Login</button>
+      </ng-container>
+      <button *ngIf="authService.loggedIn$ | async" class="btn btn-primary" (click)="logout()">Logout</button>
 
       <!--<span *ngIf="authService.user$ | async as user" class="ms-4">
         {{ user }}
