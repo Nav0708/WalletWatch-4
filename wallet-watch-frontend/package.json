@@ -1,10 +1,10 @@
 {
   "name": "wallet-watch-frontend",
   "version": "0.0.0",
-  "main":"./server.js",
+  "main":"WalletWatch-4/wallet-watch-backend/AppServer.js",
   "scripts": {
     "ng": "ng",
-    "start": "node server.js",
+    "start": "node WalletWatch-4/wallet-watch-backend/AppServer.js",
     "build": "ng build --prod",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
