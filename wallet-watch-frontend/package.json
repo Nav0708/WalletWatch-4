@@ -1,7 +1,7 @@
 {
   "name": "wallet-watch-frontend",
   "version": "0.0.0",
-  "main": "server.js",
+  "main": "./wallet-watch-backend/AppServer.js",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
