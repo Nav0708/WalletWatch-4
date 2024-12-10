@@ -11,6 +11,7 @@ import GooglePassportObj from './GooglePassport';
 import  passport from 'passport';
 import { GoogleProfileModel } from './model/GoogleProfile';
 import cors from 'cors';
+import crypto from 'crypto';
 
 declare global {
   namespace Express {
@@ -155,39 +156,58 @@ class App {
             res.status(401).send('User not authenticated');
           }
         });
-        router.post('/expenses', this.validateAuth, async (req: any, res) => {
-          console.log(req.user.id);
-          try {
-            const { amount, description, categoryName } = req.body;
         
-            // Use create() method to both instantiate and save the expense
-            const newExpense = await this.Expense.model.create({
-              userId: req.user.id,
-              amount,
-              description,
-              categoryName,
-              date: new Date(),
-            });
-        
-            res.status(201).send('Expense added successfully');
-          } catch (error) {
-            console.error('Error adding expense:', error);
-            res.status(500).send('Failed to add expense');
-          }
-      });
-
-      router.get('/expenses', this.validateAuth, async (req: any, res: Response) => {
+      router.post('/walletwatch/expenses', this.validateAuth, async (req: any, res) => {
+        const expenseId = crypto.randomBytes(16).toString("hex");
+        console.log(req.user.id);
+        console.log("hi adding expenses")
         try {
-          // Retrieve all expenses for the authenticated user
-          const expenses = await this.Expense.model.find({ userId: req.user.id });
+          const { amount, description, categoryName } = req.body;
       
-          // Return the expenses to the client
-          res.status(200).json(expenses);
+          // Use create() method to both instantiate and save the expense
+          const newExpense = await this.Expense.model.create({
+            
+            expenseId,
+            userId: req.user.id,
+            amount,
+            description,
+            categoryName,
+            date: new Date(),
+          });
+          // Save the new expense to the database
+          await newExpense.save();
+          
+          res.status(201).send('Expense added successfully');
         } catch (error) {
-          console.error('Error retrieving expenses:', error);
-          res.status(500).send('Failed to retrieve expenses');
+          console.error('Error adding expense:', error);
+          res.status(500).send('Failed to add expense');
         }
-      });
+    });
+
+    router.get('/walletwatch/expenses', this.validateAuth, async (req: any, res: Response) => {
+      try {
+        // Retrieve all expenses for the authenticated user
+        const expenses = await this.Expense.model.find({ userId: req.user.id });
+    
+        // Return the expenses to the client
+        res.status(200).json(expenses);
+      } catch (error) {
+        console.error('Error retrieving expenses:', error);
+        res.status(500).send('Failed to retrieve expenses');
+      }
+    });
+
+    // Get expenses for a specific user
+    router.get('/walletwatch/expenses/user/:userId', async (req, res) => {
+      const { userId } = req.params;
+      try {
+        const expenses = await this.Expense.model.find({ userId });  // Filter expenses by userId
+        res.json(expenses);  // Send the filtered expenses
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching expenses' });
+      }
+    });
         this.expressApp.use('/', router);
        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
        //this.expressApp.use('/', router);
