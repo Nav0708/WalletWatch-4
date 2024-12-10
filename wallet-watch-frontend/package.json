@@ -5,10 +5,10 @@
   "scripts": {
   "ng": "ng",
  "start": "ng serve",
-  "build": "ng build --prod",
+  "build": "ng build --configuration production",
   "watch": "ng build --watch --configuration development",
   "test": "ng test",
-"serve:ssr": "node dist/wallet-watch-frontend/server/main.js"
+"serve:ssr": "node dist/wallet-watch/main.js"
 },
 
   "private": true,
