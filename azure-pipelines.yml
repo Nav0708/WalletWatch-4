@@ -39,6 +39,6 @@ stages:
             displayName: "Deploy to Azure Web App"
 
           - task: BranchControl@1
-          inputs:
-            AllowedBranches: 'main'
-            EnsureConsumedBranchIsProtected: false
+            inputs:
+              AllowedBranches: 'main'
+              EnsureConsumedBranchIsProtected: false
