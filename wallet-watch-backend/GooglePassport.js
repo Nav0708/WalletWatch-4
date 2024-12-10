@@ -49,8 +49,8 @@ class GooglePassport {
         passport_1.default.use(new passport_google_oauth20_1.Strategy({
             clientID: this.clientId,
             clientSecret: this.secretId,
-            callbackURL: "/auth/google/callback",
-            scope: ['profile']
+            callbackURL: "http://localhost:8080/auth/google/callback",
+            scope: ['profile', 'email']
         }, (accessToken, refreshToken, profile, done) => {
             console.log("inside new password google strategy");
             process.nextTick(() => {
@@ -70,10 +70,10 @@ class GooglePassport {
             });
         }));
         passport_1.default.serializeUser(function (user, done) {
-            done(null, user);
+            return done(null, user);
         });
         passport_1.default.deserializeUser(function (user, done) {
-            done(null, user);
+            return done(null, user);
         });
     }
 }
