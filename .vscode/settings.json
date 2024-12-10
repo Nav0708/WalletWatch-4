@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/61a750ad-7f59-4510-a19e-05def0521cc3/resourceGroups/SAAS/providers/Microsoft.Web/sites/WalletWatch",
+    "appService.deploySubpath": "wallet-watch-frontend\\dist\\wallet-watch"
+}
