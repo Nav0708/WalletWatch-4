@@ -95,7 +95,7 @@ class App {
       private routes(): void {
         let router = express.Router();
         router.get('/auth/google', 
-          passport.authenticate('google', {scope: ['email','profile']}));
+          passport.authenticate('google', {scope: ['email','profile'],prompt: 'select_account'}));
       
           router.get('/auth/google/callback',
             passport.authenticate('google', { failureRedirect: '/' }),
@@ -131,7 +131,9 @@ class App {
 
         router.post('/logout', this.validateAuth, (req: any, res, next) => {
             req.logout();
-            req.clearCookie('WalletWatch-Cookie');
+            //req.clearCookie('WalletWatch-Cookie');
+            res.clearCookie('connect.sid', { path: '/' });
+
             req.user.destroy();
             res.status(200).redirect('http://localhost:4200/welcome');
           });

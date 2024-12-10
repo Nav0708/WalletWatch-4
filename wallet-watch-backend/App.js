@@ -112,7 +112,7 @@ class App {
     }
     routes() {
         let router = express.Router();
-        router.get('/auth/google', passport_1.default.authenticate('google', { scope: ['email', 'profile'] }));
+        router.get('/auth/google', passport_1.default.authenticate('google', { scope: ['email', 'profile'], prompt: 'select_account' }));
         router.get('/auth/google/callback', passport_1.default.authenticate('google', { failureRedirect: '/' }), (req, res) => __awaiter(this, void 0, void 0, function* () {
             const userData = req.user;
             if (userData) {
@@ -141,7 +141,8 @@ class App {
         }));
         router.post('/logout', this.validateAuth, (req, res, next) => {
             req.logout();
-            req.clearCookie('WalletWatch-Cookie');
+            //req.clearCookie('WalletWatch-Cookie');
+            res.clearCookie('connect.sid', { path: '/' });
             req.user.destroy();
             res.status(200).redirect('http://localhost:4200/welcome');
         });
