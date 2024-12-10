@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 import GooglePassportObj from './GooglePassport';
 import  passport from 'passport';
 import { GoogleProfileModel } from './model/GoogleProfile';
-import cors from 'cors';
+
 
 declare global {
   namespace Express {

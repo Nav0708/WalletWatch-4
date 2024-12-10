@@ -54,6 +54,13 @@ const express_session_1 = __importDefault(require("express-session"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const GooglePassport_1 = __importDefault(require("./GooglePassport"));
 const passport_1 = __importDefault(require("passport"));
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+const cors_1 = __importDefault(require("cors"));
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 // Creates and configures an ExpressJS web server.
 class App {
     constructor(mongoDBConnection) {
@@ -68,7 +75,15 @@ class App {
         this.Expense = new Expense_1.ExpenseModel(mongoDBConnection);
         this.User = new User_1.UserModel(mongoDBConnection);
         //this.User = new ConcreteUserModel(mongoDBConnection);
+<<<<<<< Updated upstream
         //this.expressApp.use(cors(this.corsOptions));
+=======
+<<<<<<< Updated upstream
+        this.expressApp.use((0, cors_1.default)(this.corsOptions));
+=======
+        //this.expressApp.use(cors(this.corsOptions));
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         this.middleware();
         this.routes();
     }
@@ -78,6 +93,7 @@ class App {
         this.expressApp.use(bodyParser.urlencoded({ extended: false }));
         this.expressApp.use((0, express_session_1.default)({
             secret: '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',
+<<<<<<< Updated upstream
             resave: false,
             saveUninitialized: false,
             cookie: { secure: true } // Set to true if using HTTPS
@@ -85,6 +101,25 @@ class App {
         this.expressApp.use((0, cookie_parser_1.default)());
         //this.expressApp.use(cors(corsOptions));
         //this.expressApp.options('*', cors(corsOptions));
+=======
+<<<<<<< Updated upstream
+            resave: true,
+            saveUninitialized: false,
+            cookie: { secure: false } // Set to true if using HTTPS
+        }));
+        this.expressApp.use((0, cookie_parser_1.default)());
+        this.expressApp.use((0, cors_1.default)(this.corsOptions));
+        this.expressApp.options('*', (0, cors_1.default)(this.corsOptions));
+=======
+            resave: false,
+            saveUninitialized: false,
+            cookie: { secure: true } // Set to true if using HTTPS
+        }));
+        this.expressApp.use((0, cookie_parser_1.default)());
+        //this.expressApp.use(cors(corsOptions));
+        //this.expressApp.options('*', cors(corsOptions));
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         this.expressApp.use(passport_1.default.initialize());
         this.expressApp.use(passport_1.default.session());
         this.expressApp.use((req, res, next) => {
@@ -128,7 +163,15 @@ class App {
                     yield this.User.create(data);
                 }
                 console.log(`Session user: ${JSON.stringify(req.session)}`);
+<<<<<<< Updated upstream
                 res.redirect('http://localhost:4200/#/homepage');
+=======
+<<<<<<< Updated upstream
+                res.redirect('http://localhost:4200/homepage');
+=======
+                res.redirect('http://localhost:4200/#/homepage');
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
             }
             else {
                 res.send('User not authenticated');
@@ -138,7 +181,15 @@ class App {
             req.logout();
             req.clearCookie('WalletWatch-Cookie');
             req.session.destroy();
+<<<<<<< Updated upstream
             res.status(200).redirect('/#/welcome');
+=======
+<<<<<<< Updated upstream
+            res.status(200).redirect('http://localhost:4200/welcome');
+=======
+            res.status(200).redirect('/#/welcome');
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         });
         router.post('/walletwatch/logs', (req, res) => {
             console.log(req.body.message);
@@ -164,6 +215,13 @@ class App {
         this.expressApp.use('/', router);
         // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
         //this.expressApp.use('/', router);
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+        //console.log(express.static(__dirname))
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
         //this.expressApp.use('/app/json/', express.static(__dirname+'/app/json'));
         //this.expressApp.use('/images', express.static(__dirname+'/img'));
         //this.expressApp.use('/', express.static(__dirname+'/pages'));

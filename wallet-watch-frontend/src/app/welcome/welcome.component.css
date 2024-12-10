@@ -107,3 +107,11 @@
 .carousel-indicators button {
   background-color: rgba(255, 255, 255, 0.6);
 }
+
+.carousel-item img {
+  width: 100%; /* Full width inside the wrapper */
+  height: 70vh; /* Set a consistent height */
+  object-fit: cover; /* Ensures the image fills the space without distortion */
+  opacity: 0.85; /* Slight transparency */
+  filter: brightness(85%); /* Dim for text contrast */
+}

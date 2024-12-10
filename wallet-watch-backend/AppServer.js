@@ -34,7 +34,7 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
-const App_1 = require("./App");
+const App_1 = require("../App");
 dotenv.config();
 const port = process.env.PORT;
 const dbUser = process.env.DB_USER;
