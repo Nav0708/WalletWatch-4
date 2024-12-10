@@ -30,6 +30,6 @@ stages:
 
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: "61a750ad-7f59-4510-a19e-05def0521cc3"
+              azureSubscription: "WalletWatch"
               appName: "WalletWatch"
               package: "wallet-watch-backend"
