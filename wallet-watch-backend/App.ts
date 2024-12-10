@@ -225,7 +225,8 @@ class App {
         res.status(500).json({ message: 'Error fetching expense' });
       }
     });
-    
+    router.get('*', (req, res) => {   res.sendFile(path.join(__dirname, 'public', 'index.html')); })
+ 
         this.expressApp.use('/', router);
        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
        //this.expressApp.use('/', router);
