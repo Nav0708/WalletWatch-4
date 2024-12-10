@@ -231,7 +231,7 @@ class App {
        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
        //this.expressApp.use('/', router);
        //console.log(express.static(__dirname))
-       this.expressApp.use('/browser', express.static(__dirname+'/dist/wallet-watch/browser'));
+       //this.expressApp.use('/browser', express.static(__dirname+'/dist/wallet-watch/browser'));
        //this.expressApp.use('/images', express.static(__dirname+'/img'));
        //this.expressApp.use('/', express.static(__dirname+'/pages'));
        this.expressApp.use(express.static(path.join(__dirname, 'public')));

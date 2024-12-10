@@ -8,27 +8,27 @@ stages:
         steps:
           - task: NodeTool@0
             inputs:
-              versionSpec: '16.x'
-            displayName: 'Install Node.js'
+              versionSpec: "16.x"
+            displayName: "Install Node.js"
 
           - script: |
               cd wallet-watch-frontend
               npm install
               npm run build
-            displayName: 'Build Frontend'
+            displayName: "Build Frontend"
 
           - script: |
               mkdir -p wallet-watch-backend/public
               cp -r wallet-watch-frontend/dist/* wallet-watch-backend/
-            displayName: 'Copy Frontend Build to Backend'
+            displayName: "Copy Frontend Build to Backend"
 
           - script: |
               cd wallet-watch-backend
               npm install
-            displayName: 'Install Backend Dependencies'
+            displayName: "Install Backend Dependencies"
 
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: '61a750ad-7f59-4510-a19e-05def0521cc3'
-              appName: 'WalletWatch'
-              package: 'wallet-watch-backend'
+              azureSubscription: "61a750ad-7f59-4510-a19e-05def0521cc3"
+              appName: "WalletWatch"
+              package: "wallet-watch-backend"
