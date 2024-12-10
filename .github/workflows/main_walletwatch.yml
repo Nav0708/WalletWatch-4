@@ -59,13 +59,14 @@ jobs:
           name: walletwatch-app
 
       # Login to Azure
+     # Login to Azure
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_EF0B1AAA645F47789294F61563770FD4 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_163895FD853846EE9BD60EA142F1D14A }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_A1786832D6154D149378B9E94FBEBCA8 }}
-        
+          client-id: ${{ 5e56d5fb-4137-4475-ad06-71df489c6680 }}
+          tenant-id: ${{ bc10e052-b01c-4849-9967-ee7ec74fc9d8 }}
+          client-secret: ${{ XOP8Q~LrnQltbBuYEdwxUjyGwjD_CXKtruuz1byN }}
+
       # Deploy to Azure Web App
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
