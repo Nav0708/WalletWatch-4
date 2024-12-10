@@ -44,65 +44,52 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModel = void 0;
 const Mongoose = __importStar(require("mongoose"));
+// Class to manage the Expense model
 class UserModel {
     constructor(DB_CONNECTION_STRING) {
         this.dbConnectionString = DB_CONNECTION_STRING;
         this.createSchema();
         this.createModel();
     }
+    // Define the schema for Expense documents
     createSchema() {
         this.schema = new Mongoose.Schema({
-            userID: String,
-            username: String,
-            password: String,
-            email: String,
-            role: String,
-        }, { collection: 'users' });
+            userId: { type: String },
+            firstName: { type: String },
+            lastName: { type: String },
+            email: { type: String },
+            picture: { type: String },
+        }, { collection: 'user' });
     }
+    // Create the Expense model and connect to MongoDB
     createModel() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                yield Mongoose.connect(this.dbConnectionString, { useNewUrlParser: true, useUnifiedTopology: true });
-                this.model = Mongoose.model('User', this.schema);
+                yield Mongoose.connect(this.dbConnectionString);
+                this.model = Mongoose.model("User", this.schema);
             }
             catch (e) {
                 console.error(e);
             }
         });
     }
-    changePassword(response, userID, newPassword) {
+    // Method to find a user by userId
+    findOne(id) {
         return __awaiter(this, void 0, void 0, function* () {
-            // Hash the new password before saving to the database
-            try {
-                const result = yield this.model.updateOne({ userID: userID }, { password: newPassword });
-                if (result.nModified === 1) {
-                    response.json({ message: "User password changed successfully." });
-                }
-                else {
-                    response.status(404).send("User not found.");
-                }
-            }
-            catch (e) {
-                console.error(e);
-                response.status(500);
-            }
+            return yield this.model.find({ userId: id }).exec();
         });
     }
-    deleteAccount(response, userID) {
+    // Method to create a new user
+    create(data) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const result = yield this.model.deleteOne({ userID: userID });
-                if (result.deletedCount === 1) {
-                    response.json({ message: "User account deleted successfully." });
-                }
-                else {
-                    response.status(404).send("User not found.");
-                }
-            }
-            catch (e) {
-                console.error(e);
-                response.status(500);
-            }
+            const newUser = new this.model(data);
+            return newUser.save();
+        });
+    }
+    // Method to update user data
+    update(userId, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield this.model.findOneAndUpdate({ userId }, data, { new: true });
         });
     }
 }
