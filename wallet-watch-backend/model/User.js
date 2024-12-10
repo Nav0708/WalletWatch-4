@@ -55,8 +55,7 @@ class UserModel {
     createSchema() {
         this.schema = new Mongoose.Schema({
             userId: { type: String },
-            firstName: { type: String },
-            lastName: { type: String },
+            displayName: { type: String },
             email: { type: String },
             picture: { type: String },
         }, { collection: 'user' });

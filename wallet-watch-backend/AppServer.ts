@@ -10,7 +10,9 @@ const dbProtocol = process.env.DB_PROTOCOL||'';
 const dbCluster = process.env.DB_CLUSTER||'';
 const dbName = process.env.DB_NAME||'';
 
+//const mongoDBConnection = `${dbProtocol}${dbUser}:${encodeURIComponent(dbPassword)}@${dbCluster}/${dbName}?retryWrites=true&w=majority`;
 const mongoDBConnection = `${dbProtocol}${dbUser}:${encodeURIComponent(dbPassword)}@${dbCluster}/${dbName}?retryWrites=true&w=majority`;
+
 console.log("server db connection URL " + mongoDBConnection);
 //mongodb+srv://<username>:<password>@<cluster-name>.mongodb.net/<database-name>?retryWrites=true&w=majority
 

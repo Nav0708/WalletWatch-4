@@ -59,7 +59,7 @@ class ExpenseModel {
             categoryName: { type: String, required: true },
             date: { type: Date, required: true },
             description: { type: String, required: true },
-            userId: { type: String, required: true }
+            userId: { type: String, ref: 'User', required: true }
         }, { collection: 'expenses' });
     }
     // Create the Expense model and connect to MongoDB

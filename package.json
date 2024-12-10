@@ -1,12 +1,11 @@
+
 {
+  "name": "wallet-watch",
+  "version": "1.0.0",
   "scripts": {
-    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
-    "frontend": "cd wallet-watch-backend && npm start",
-    "backend": "cd wallet-watch-backend && npm start",
-    "build": "tsc --sourcemap ./wallet-watch-backend/AppServer.ts"
-  },
-  "devDependencies": {
-    "concurrently": "^9.1.0"
+    "start:frontend": "cd wallet-watch-frontend && npm start",
+    "start:backend": "cd wallet-watch-backend && node AppServer.js",
+    "start": "npm run start:frontend & npm run start:backend"
   },
   "dependencies": {
     "dotenv": "^16.4.7"
