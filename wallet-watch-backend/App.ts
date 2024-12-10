@@ -139,9 +139,9 @@ class App {
             console.log(req.body.message);
             res.status(200).send('Log received');
         });
-        router.get('/expenses', this.validateAuth, async (req: any, res) => {
-            console.log(req.user.id);
-        });
+        // router.get('/expenses', this.validateAuth, async (req: any, res) => {
+        //     console.log(req.user.id);
+        // });
 
         router.get('/user', this.validateAuth, async (req: any, res) => {
           if (req.user) {
@@ -208,6 +208,21 @@ class App {
         res.status(500).json({ message: 'Error fetching expenses' });
       }
     });
+
+    router.get('/walletwatch/expenses/:expenseId', async (req, res) => {
+      const { expenseId } = req.params;
+      try {
+        const expense = await this.Expense.model.findOne({ expenseId }); // Find by expenseId
+        if (!expense) {
+           res.status(404).json({ message: 'Expense not found' });
+        }
+        res.json(expense);
+      } catch (error) {
+        console.error('Error fetching expense:', error);
+        res.status(500).json({ message: 'Error fetching expense' });
+      }
+    });
+    
         this.expressApp.use('/', router);
        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
        //this.expressApp.use('/', router);

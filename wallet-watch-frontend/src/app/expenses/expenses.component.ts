@@ -80,6 +80,20 @@ export class ExpensesComponent implements OnInit {
     }
   }
 
+  // fetchExpenseById(expenseId: string): void {
+  //   this.expenseService.getExpenseById(expenseId).subscribe(
+  //     (data: IExpenseModel) => {
+  //       console.log('Fetched expense:', data); // Log the fetched expense for verification
+  //       // Do something with the fetched expense, e.g., display it in a modal
+  //       this.currentExpense = data; // Assign the fetched expense to a variable
+  //     },
+  //     (error) => {
+  //       console.error('Error fetching expense:', error);
+  //     }
+  //   );
+  // }
+  
+
   // Handle form submission for adding a new expense
   onSubmit(): void {
     // Attach the userId to the current expense

@@ -40,7 +40,7 @@ export class ExpensesDetailsComponent implements OnInit {
 
       if (expenseId) {
         // Fetch the expense data using the extracted expenseId
-        this.loadExpense(expenseId);
+        this.fetchExpenseById(expenseId);
       } else {
         console.error('No expenseId found in route');
       }
@@ -74,6 +74,25 @@ export class ExpensesDetailsComponent implements OnInit {
         console.error('Error fetching expense data:', error);
       }
     );
+  }
+
+  fetchExpenseById(expenseId: string): void {
+    this.expenseService.getExpenseById(expenseId).subscribe(
+      (data: IExpenseModel) => {
+        console.log('Fetched expense in details:', data); 
+        const formattedDate = this.datePipe.transform(data.date, 'yyyy-MM-dd');
+        console.log('Formatted date:', formattedDate);
+        //this.currentExpense = data; 
+        this.currentExpense = {
+          ...data,
+          date: formattedDate ? formattedDate : data.date,
+        };
+      },
+      (error) => {
+        console.error('Error fetching expense:', error);
+      }
+    );
+    
   }
   
 

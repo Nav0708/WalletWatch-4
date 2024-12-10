@@ -55,6 +55,7 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const GooglePassport_1 = __importDefault(require("./GooglePassport"));
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
+const crypto_1 = __importDefault(require("crypto"));
 // Creates and configures an ExpressJS web server.
 class App {
     constructor(mongoDBConnection) {
@@ -148,9 +149,9 @@ class App {
             console.log(req.body.message);
             res.status(200).send('Log received');
         });
-        router.get('/expenses', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
-            console.log(req.user.id);
-        }));
+        // router.get('/expenses', this.validateAuth, async (req: any, res) => {
+        //     console.log(req.user.id);
+        // });
         router.get('/user', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
             if (req.user) {
                 const userData = {
@@ -165,18 +166,23 @@ class App {
                 res.status(401).send('User not authenticated');
             }
         }));
-        router.post('/expenses', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
+        router.post('/walletwatch/expenses', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const expenseId = crypto_1.default.randomBytes(16).toString("hex");
             console.log(req.user.id);
+            console.log("hi adding expenses");
             try {
                 const { amount, description, categoryName } = req.body;
                 // Use create() method to both instantiate and save the expense
                 const newExpense = yield this.Expense.model.create({
+                    expenseId,
                     userId: req.user.id,
                     amount,
                     description,
                     categoryName,
                     date: new Date(),
                 });
+                // Save the new expense to the database
+                yield newExpense.save();
                 res.status(201).send('Expense added successfully');
             }
             catch (error) {
@@ -184,7 +190,7 @@ class App {
                 res.status(500).send('Failed to add expense');
             }
         }));
-        router.get('/expenses', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
+        router.get('/walletwatch/expenses', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 // Retrieve all expenses for the authenticated user
                 const expenses = yield this.Expense.model.find({ userId: req.user.id });
@@ -196,11 +202,37 @@ class App {
                 res.status(500).send('Failed to retrieve expenses');
             }
         }));
+        // Get expenses for a specific user
+        router.get('/walletwatch/expenses/user/:userId', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { userId } = req.params;
+            try {
+                const expenses = yield this.Expense.model.find({ userId }); // Filter expenses by userId
+                res.json(expenses); // Send the filtered expenses
+            }
+            catch (error) {
+                console.error(error);
+                res.status(500).json({ message: 'Error fetching expenses' });
+            }
+        }));
+        router.get('/walletwatch/expenses/:expenseId', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { expenseId } = req.params;
+            try {
+                const expense = yield this.Expense.model.findOne({ expenseId }); // Find by expenseId
+                if (!expense) {
+                    res.status(404).json({ message: 'Expense not found' });
+                }
+                res.json(expense);
+            }
+            catch (error) {
+                console.error('Error fetching expense:', error);
+                res.status(500).json({ message: 'Error fetching expense' });
+            }
+        }));
         this.expressApp.use('/', router);
         // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
         //this.expressApp.use('/', router);
         //console.log(express.static(__dirname))
-        //this.expressApp.use('/app/json/', express.static(__dirname+'/app/json'));
+        this.expressApp.use('/browser', express.static(__dirname + '/dist/wallet-watch/browser'));
         //this.expressApp.use('/images', express.static(__dirname+'/img'));
         //this.expressApp.use('/', express.static(__dirname+'/pages'));
     }
