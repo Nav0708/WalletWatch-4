@@ -1,14 +1,14 @@
 {
   "name": "wallet-watch-frontend",
   "version": "0.0.0",
-  "main": "./wallet-watch-backend/AppServer.js",
+  "main": "dist/wallet-watch/main.js",
   "scripts": {
   "ng": "ng",
-  "start": "node ../wallet-watch-backend/AppServer.js",  
+ "start": "ng serve",
   "build": "ng build --prod",
   "watch": "ng build --watch --configuration development",
   "test": "ng test",
-  "serve:ssr:wallet-watch-frontend": "node dist/wallet-watch-frontend/server/server.mjs"
+  "serve:ssr:wallet-watch-frontend": "node dist/wallet-watch/main.js"
 },
 
   "private": true,
