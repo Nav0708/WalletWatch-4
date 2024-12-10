@@ -15,7 +15,7 @@ stages:
               cd wallet-watch-frontend
               echp "installing packages for frontend..."
               npm install
-              ng build --prod --output-path=../wallet-watch-backend/public
+              ng build --configuration=production --output-path=../wallet-watch-backend/public
             displayName: "Build Frontend"
 
           - script: |
