@@ -1,13 +1,13 @@
-
 {
   "name": "wallet-watch",
   "version": "1.0.0",
   "scripts": {
     "start:frontend": "cd wallet-watch-frontend && npm start",
     "start:backend": "cd wallet-watch-backend && node AppServer.js",
-    "start": "npm run start:frontend & npm run start:backend"
+    "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
   },
   "dependencies": {
-    "dotenv": "^16.4.7"
+    "dotenv": "^16.4.7",
+    "concurrently": "^7.0.0"  
   }
 }
