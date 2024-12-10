@@ -3,14 +3,15 @@ import { Injectable } from '@angular/core';
 import { IUserModel } from '../interfaces/IUser';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import { environment } from '../environments/environment';  // Import the environment configuration
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-    private baseUrl = 'http://localhost:8080/user'; 
-    private expenseUrl = 'http://localhost:8080/walletwatch/expenses';
+    private baseUrl = environment.baseUrl;  // Use baseUrl from environment
+    private expenseUrl = environment.expenseUrl;  // Use expenseUrl from environment
   
     constructor(private http: HttpClient, private authservice: AuthService) { }
     
@@ -21,14 +22,12 @@ export class UserService {
       }
       return this.http.get<IUserModel>(`${this.expenseUrl}/${userId}`);
     }
+
     addExpense(user: IUserModel): Observable<IUserModel> {
-    return this.http.post<IUserModel>(this.expenseUrl, user);
+      return this.http.post<IUserModel>(this.expenseUrl, user);
     }
-   /* updateUser(userId: string, user: IUserModel): Observable<IUserModel> {
-      return this.http.put<IUserModel>(`${this.baseUrl}`);
-    }*/
+
     deleteUser(userId: string): Observable<any> {
       return this.http.delete(`${this.baseUrl}/${userId}`);
     }
-  
 }

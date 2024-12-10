@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IBudget } from '../interfaces/IBudget'; // Ensure correct import path
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
-  private baseUrl = 'http://localhost:8080/walletwatch/budget'; // Adjust this to match your backend URL
+  private baseUrl = environment.hostUrl; // Adjust this to match your backend URL
 
   constructor(private http: HttpClient) {}
 
