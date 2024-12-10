@@ -7,8 +7,7 @@
  "start": "ng serve",
   "build": "ng build --configuration production",
   "watch": "ng build --watch --configuration development",
-  "test": "ng test",
-"serve:ssr": "node dist/wallet-watch/main.js"
+  "test": "ng test"
 },
 
   "private": true,
