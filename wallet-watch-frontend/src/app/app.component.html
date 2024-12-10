@@ -72,10 +72,7 @@
           />
         </a>
       </div>
-
-      <ng-container *ngIf="!(authService.loggedIn$ | async)" >
-        <button class="btn btn-primary mr-2" (click)="loginAsUser()">Login</button>
-      </ng-container>
+      <button  *ngIf="!(authService.loggedIn$ | async)" class="btn btn-primary" (click)="login()">Login</button>
       <button *ngIf="authService.loggedIn$ | async" class="btn btn-primary" (click)="logout()">Logout</button>
 
       <!--<span *ngIf="authService.user$ | async as user" class="ms-4">

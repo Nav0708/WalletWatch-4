@@ -53,11 +53,11 @@ class GooglePassport {
         ));
 
         passport.serializeUser(function(user: User, done: DoneCallback) {
-            return done(null, user);
+            done(null, user);
         });
 
         passport.deserializeUser(function(user: User, done: DoneCallback) {
-            return done(null, user);
+            done(null, user);
         });
     }
 }

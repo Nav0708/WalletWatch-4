@@ -51,7 +51,7 @@ class App {
         this.Expense = new ExpenseModel(mongoDBConnection);
         this.User = new UserModel(mongoDBConnection);
         //this.User = new ConcreteUserModel(mongoDBConnection);
-        //this.expressApp.use(cors(this.corsOptions));
+        this.expressApp.use(cors(this.corsOptions));
         this.middleware();
         this.routes();
         
@@ -62,13 +62,13 @@ class App {
         this.expressApp.use(bodyParser.urlencoded({ extended: false }));
         this.expressApp.use(session({
           secret: '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',
-          resave: false,
+          resave: true,
           saveUninitialized: false,
-          cookie: { secure: true }  // Set to true if using HTTPS
+          cookie: { secure: false }  // Set to true if using HTTPS
         }));
         this.expressApp.use(cookieParser());
-        //this.expressApp.use(cors(corsOptions));
-        //this.expressApp.options('*', cors(corsOptions));
+        this.expressApp.use(cors(this.corsOptions));
+        this.expressApp.options('*', cors(this.corsOptions));
         this.expressApp.use(passport.initialize());
         this.expressApp.use(passport.session());
         this.expressApp.use((req, res, next) => {
@@ -118,7 +118,7 @@ class App {
                   await this.User.create(data);
                 }
                   console.log(`Session user: ${JSON.stringify(req.session)}`);
-                  res.redirect('http://localhost:4200/#/homepage'); 
+                  res.redirect('http://localhost:4200/homepage'); 
               } 
               else {
                 res.send('User not authenticated');
@@ -130,7 +130,7 @@ class App {
             req.logout();
             req.clearCookie('WalletWatch-Cookie');
             req.session.destroy();
-            res.status(200).redirect('/#/welcome');
+            res.status(200).redirect('http://localhost:4200/welcome');
           });
         router.post('/walletwatch/logs', (req, res) => {
             console.log(req.body.message);
@@ -156,7 +156,7 @@ class App {
         this.expressApp.use('/', router);
        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
        //this.expressApp.use('/', router);
-
+       //console.log(express.static(__dirname))
        //this.expressApp.use('/app/json/', express.static(__dirname+'/app/json'));
        //this.expressApp.use('/images', express.static(__dirname+'/img'));
        //this.expressApp.use('/', express.static(__dirname+'/pages'));

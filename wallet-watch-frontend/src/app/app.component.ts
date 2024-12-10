@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -7,6 +7,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'; // Import MatToolt
 import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { FooterComponent } from './footer/footer.component';
 import { AuthService } from './services/auth.service';
+import { filter } from 'rxjs';
 
 
 @Component({
@@ -31,26 +32,29 @@ export class AppComponent {
   isLoggedIn: boolean = false;
   username: string = '';
 
-  constructor(public authService: AuthService, private router: Router) {}
+  constructor(public authService: AuthService, private router: Router, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
-    this.authService.updateLoginState();
-    this.authService.loggedIn$.subscribe((status) => {
-      this.isLoggedIn = status;
+    this.router.events
+    .pipe(filter(event => event instanceof NavigationEnd))
+    .subscribe(() => {
+      this.authService.updateLoginState();
     });
-    // Check if we are returning from Google authentication and need to fetch the user data 
   }
 
   isActive(route: string): boolean {
     return this.router.url === route;
   }
 
-  loginAsUser() {
+  login() {
     this.authService.login();
     window.location.href = this.googleAuthUrl; 
+    this.cdr.detectChanges(); 
   }
 
   logout() {
     this.authService.logout();
+    //window.location.href = this.welcomepage;
+    this.cdr.detectChanges(); 
   }
 }

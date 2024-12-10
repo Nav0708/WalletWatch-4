@@ -12,6 +12,7 @@ export class AuthService {
   private loggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   private userSubject = new BehaviorSubject<string | null>((null));
   private apiUrl = 'http://localhost:8080';
+  welcomepage = '/welcome';
   
   loggedIn$ = this.loggedInSubject.asObservable();
   user$ = this.userSubject.asObservable();
@@ -23,17 +24,21 @@ export class AuthService {
   login() {
     localStorage.setItem('loggedIn', 'true');
     this.loggedInSubject.next(true);
+    this.getUserProfile();
+
   }
 
   logout() {
-    // Perform logout logic here
     localStorage.removeItem('loggedIn');
+    localStorage.removeItem('user');
     this.loggedInSubject.next(false);
-    return this.http.post(this.apiUrl+ `/logout`,{});
+    window.location.href = this.welcomepage;
+    //this.http.post(this.apiUrl+ `/logout`,{withCredentials:true});
   }
-  getUserProfile(): Observable<any> {
+  getUserProfile():any{
+    if (this.isLoggedIn()){
     console.log('Fetching user profile...');  // This logs the message before the HTTP request
-    return this.http.get<any>(this.apiUrl + `/user`).pipe(
+    return this.http.get<any>(this.apiUrl + `/user`,{withCredentials:true}).pipe(
     tap((response) => {
       console.log('User profile data:', response);  
     }),
@@ -41,7 +46,11 @@ export class AuthService {
       console.error('Error fetching user profile:', error);  // This logs any errors if the request fails
       return throwError(error);
     })
-  );
+    );
+  }
+  else{
+    console.log('User is not logged in');  
+  }
   }
   // Call this to update the user data in the frontend
   setUser(user: any) {
@@ -49,9 +58,10 @@ export class AuthService {
   }
   public isLoggedIn(): boolean {
     return localStorage.getItem('loggedIn') === 'true';
+    return !!this.user$; 
   }
   public getUser() {
-    return this.http.get(`${this.apiUrl}/user`);
+    return this.http.get(`${this.apiUrl}/user`,{withCredentials:true});
   }
   public updateLoginState() {
     this.loggedInSubject.next(this.isLoggedIn());

@@ -13,13 +13,16 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.getUserProfile().subscribe(
-      (data) => {
+      (data: any) => {
         this.user = data;  // Store the user profile data
         this.authService.setUser(data);  // Update AuthService with user data
       },
-      (error) => {
+      (error: any) => {
         console.error('Error fetching user profile', error);
       }
     );
+  }
+  onLogout(): void {
+    this.authService.logout();  // Call logout method from AuthService
   }
 }
