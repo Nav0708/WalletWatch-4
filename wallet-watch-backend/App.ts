@@ -10,7 +10,7 @@ import cookieParser from 'cookie-parser';
 import GooglePassportObj from './GooglePassport';
 import  passport from 'passport';
 import { GoogleProfileModel } from './model/GoogleProfile';
-
+import cors from 'cors';
 
 declare global {
   namespace Express {
@@ -99,28 +99,27 @@ class App {
           router.get('/auth/google/callback',
             passport.authenticate('google', { failureRedirect: '/' }),
             async (req, res) => {
-              if (req.isAuthenticated()){
-                const userData=req.user;
+              const userData=req.user;
+              if (userData){
                 const data = {
-                  userId: req.user.id,
-                  firstName: req.user.displayName,
-                  lastName: req.user.familyName,
-                  email: req.user!.emails ? req.user!.emails[0].value : '',
-                  picture: req.user!.photos ? req.user!.photos[0].value : '',
+                  userId: userData.id,
+                  displayName: userData.displayName,
+                  email: userData!.emails ? userData!.emails[0].value : '',
+                  picture: userData!.photos ? userData!.photos[0].value : '',
                   
                 };
                 
-                const user = await this.User.findOne(req.user.id);
-                console.log
+                const user = await this.User.findOne(userData.id);
+                console.log("Fine one user",user);
                 
-                if (user) {
+                if (user.length>0) {
                   console.log('User already exists. Updating info.',data);
-                  await this.User.update(req.user.id, data);
+                  await this.User.update(userData.id, data);
                 } else {
                   console.log('User does not exist. Creating new user.');
                   await this.User.create(data);
                 }
-                  console.log(`Session user: ${JSON.stringify(req.session)}`);
+                  //console.log(`Session user: ${JSON.stringify(req.session)}`);
                   res.redirect('http://localhost:4200/homepage'); 
               } 
               else {
@@ -132,7 +131,7 @@ class App {
         router.post('/logout', this.validateAuth, (req: any, res, next) => {
             req.logout();
             req.clearCookie('WalletWatch-Cookie');
-            req.session.destroy();
+            req.user.destroy();
             res.status(200).redirect('http://localhost:4200/welcome');
           });
         router.post('/walletwatch/logs', (req, res) => {
@@ -144,12 +143,12 @@ class App {
         });
 
         router.get('/user', this.validateAuth, async (req: any, res) => {
-          if (req.isAuthenticated()) {
+          if (req.user) {
             const userData = {
               displayName: req.user.displayName,
               userId: req.user.id,
               email: req.user.emails ? req.user.emails[0].value : '',
-              photo: req.user.photos ? req.user.photos[0].value : ''
+              picture: req.user.photos ? req.user.photos[0].value : ''
             };
             res.json(userData);
           } else {

@@ -70,10 +70,10 @@ class GooglePassport {
             });
         }));
         passport_1.default.serializeUser(function (user, done) {
-            return done(null, user);
+            done(null, user);
         });
         passport_1.default.deserializeUser(function (user, done) {
-            return done(null, user);
+            done(null, user);
         });
     }
 }

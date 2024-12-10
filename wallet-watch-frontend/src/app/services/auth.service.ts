@@ -10,7 +10,7 @@ import { request } from 'node:https';
 })
 export class AuthService {
   private loggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
-  private userSubject = new BehaviorSubject<string | null>((null));
+  private userSubject = new BehaviorSubject<string | null>('');
   private apiUrl = 'http://localhost:8080';
   welcomepage = '/welcome';
   
@@ -56,7 +56,6 @@ export class AuthService {
   }
   public isLoggedIn(): boolean {
     return localStorage.getItem('loggedIn') === 'true';
-    return !!this.user$; 
   }
   public getUser() {
     return this.http.get(`${this.apiUrl}/user`,{withCredentials:true});
