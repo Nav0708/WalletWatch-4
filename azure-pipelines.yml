@@ -37,3 +37,8 @@ stages:
               appName: "WalletWatch"  # Ensure this matches your Azure Web App name
               package: "wallet-watch-backend"
             displayName: "Deploy to Azure Web App"
+
+          - task: BranchControl@1
+          inputs:
+            AllowedBranches: 'main'
+            EnsureConsumedBranchIsProtected: false
