@@ -10,8 +10,13 @@ stages:
             inputs:
               versionSpec: "16.x"
             displayName: "Install Node.js"
-
           - script: |
+              ls -la
+              cd wallet-watch-frontend
+              ls -la
+            displayName: "Debug dir paths"
+          - script: |
+              ls -l
               cd wallet-watch-frontend
               npm install
               npm run build
