@@ -27,13 +27,11 @@ export class AuthService {
     this.getUserProfile();
 
   }
-
   logout() {
     localStorage.removeItem('loggedIn');
     localStorage.removeItem('user');
     this.loggedInSubject.next(false);
     window.location.href = this.welcomepage;
-    //this.http.post(this.apiUrl+ `/logout`,{withCredentials:true});
   }
   getUserProfile():any{
     if (this.isLoggedIn()){

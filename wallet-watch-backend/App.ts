@@ -63,8 +63,10 @@ class App {
         this.expressApp.use(session({
           secret: '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',
           resave: true,
-          saveUninitialized: false,
-          cookie: { secure: false }  // Set to true if using HTTPS
+          saveUninitialized: true,
+          cookie: { 
+            httpOnly:true,
+            secure: false }  // Set to true if using HTTPS
         }));
         this.expressApp.use(cookieParser());
         this.expressApp.use(cors(this.corsOptions));
@@ -109,6 +111,7 @@ class App {
                 };
                 
                 const user = await this.User.findOne(req.user.id);
+                console.log
                 
                 if (user) {
                   console.log('User already exists. Updating info.',data);
@@ -153,6 +156,39 @@ class App {
             res.status(401).send('User not authenticated');
           }
         });
+        router.post('/expenses', this.validateAuth, async (req: any, res) => {
+          console.log(req.user.id);
+          try {
+            const { amount, description, categoryName } = req.body;
+        
+            // Use create() method to both instantiate and save the expense
+            const newExpense = await this.Expense.model.create({
+              userId: req.user.id,
+              amount,
+              description,
+              categoryName,
+              date: new Date(),
+            });
+        
+            res.status(201).send('Expense added successfully');
+          } catch (error) {
+            console.error('Error adding expense:', error);
+            res.status(500).send('Failed to add expense');
+          }
+      });
+
+      router.get('/expenses', this.validateAuth, async (req: any, res: Response) => {
+        try {
+          // Retrieve all expenses for the authenticated user
+          const expenses = await this.Expense.model.find({ userId: req.user.id });
+      
+          // Return the expenses to the client
+          res.status(200).json(expenses);
+        } catch (error) {
+          console.error('Error retrieving expenses:', error);
+          res.status(500).send('Failed to retrieve expenses');
+        }
+      });
         this.expressApp.use('/', router);
        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
        //this.expressApp.use('/', router);
