@@ -2,8 +2,7 @@
   "name": "wallet-watch",
   "version": "1.0.0",
   "scripts": {
-    "start": "node server.js",
-    "start:frontend": "cd wallet-watch-frontend && npm start",
+    "start:frontend": "cd wallet-watch-frontend && ng serve",
     "start:backend": "cd wallet-watch-backend && node AppServer.js"
   },
   "dependencies": {
