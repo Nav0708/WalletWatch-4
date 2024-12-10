@@ -1,8 +1,11 @@
 {
   "scripts": {
-    "start": "node server.js"
+    "start": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "frontend": "cd wallet-watch-frontend && npm start",
+    "backend": "cd wallet-watch-backend && npm start",
+    "build": "tsc --sourcemap ./wallet-watch-backend/AppServer.ts"
   },
   "dependencies": {
-    "express": "^4.21.2"
+    "concurrently": "^7.3.0"
   }
 }
