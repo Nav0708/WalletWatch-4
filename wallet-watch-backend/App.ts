@@ -12,6 +12,7 @@ import  passport from 'passport';
 import { GoogleProfileModel } from './model/GoogleProfile';
 import cors from 'cors';
 import crypto from 'crypto';
+import path from 'path';
 
 declare global {
   namespace Express {
@@ -232,6 +233,8 @@ class App {
        this.expressApp.use('/browser', express.static(__dirname+'/dist/wallet-watch/browser'));
        //this.expressApp.use('/images', express.static(__dirname+'/img'));
        //this.expressApp.use('/', express.static(__dirname+'/pages'));
+       this.expressApp.use(express.static(path.join(__dirname, 'public')));
+ 
     }
 }
 
