@@ -55,7 +55,8 @@ class CategoryModel {
     createSchema() {
         this.schema = new Mongoose.Schema({
             categoryId: { type: String, required: true },
-            categoryName: { type: String, required: true, unique: true }
+            categoryName: { type: String, required: true, unique: true },
+            categoryDescription: { type: String }
         }, { collection: 'categories' });
     }
     // Create the Category model and connect to MongoDB

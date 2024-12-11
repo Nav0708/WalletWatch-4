@@ -80,7 +80,7 @@ let AppComponent = (() => {
         }
         ngOnInit() {
             this.router.events
-                .pipe((0, rxjs_1.filter)(event => event instanceof router_1.NavigationEnd))
+                .pipe((0, rxjs_1.filter)((event) => event instanceof router_1.NavigationEnd))
                 .subscribe(() => {
                 this.authService.updateLoginState();
             });

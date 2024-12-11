@@ -50,6 +50,7 @@ const express = __importStar(require("express"));
 const bodyParser = __importStar(require("body-parser"));
 const Expense_1 = require("./model/Expense");
 const User_1 = require("./model/User");
+const Category_1 = require("./model/Category");
 const express_session_1 = __importDefault(require("express-session"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const GooglePassport_1 = __importDefault(require("./GooglePassport"));
@@ -70,6 +71,7 @@ class App {
         this.googlePassportObj = new GooglePassport_1.default();
         this.Expense = new Expense_1.ExpenseModel(mongoDBConnection);
         this.User = new User_1.UserModel(mongoDBConnection);
+        this.Category = new Category_1.CategoryModel(mongoDBConnection);
         //this.User = new ConcreteUserModel(mongoDBConnection);
         this.expressApp.use((0, cors_1.default)(this.corsOptions));
         this.middleware();
@@ -258,6 +260,27 @@ class App {
             catch (error) {
                 console.error('Error updating expense:', error);
                 res.status(500).json({ message: 'Error updating expense' });
+            }
+        }));
+        router.post('/walletwatch/categories', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            console.log("Adding categorise");
+            try {
+                const { categoryId, categoryName, categoryDescription } = req.body;
+                // Use create() method to both instantiate and save the expense
+                const newCategory = yield this.Category.model.create({
+                    categoryId,
+                    categoryName,
+                    categoryDescription,
+                });
+                // Save the new expense to the database
+                yield newCategory.save();
+                res.status(201).json({ catId: categoryId,
+                    message: 'Category created successfully'
+                });
+            }
+            catch (error) {
+                console.error('Error adding category:', error);
+                res.status(500).send('Failed to add category');
             }
         }));
         router.get('*', (req, res) => { res.sendFile(path_1.default.join(__dirname, 'public', 'index.html')); });
