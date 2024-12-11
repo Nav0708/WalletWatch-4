@@ -12,10 +12,11 @@ stages:
             inputs:
               versionSpec: "16.x"
             displayName: "Install Node.js"
+          
           - script: |
               echo "changing dir to frontend......."
               cd wallet-watch-frontend
-              echp "installing packages for frontend..."
+              echo "installing packages for frontend..."
               npm install
               ng build --configuration=production --output-path=../wallet-watch-backend/public
             displayName: "Build Frontend"
