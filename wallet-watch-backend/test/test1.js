@@ -1,21 +1,22 @@
 var chai = require('chai');
 var chaiHttp = require('chai-http');
-
+ 
 var expect = chai.expect;
-
+ 
 chai.use(chaiHttp);
-
+ 
+ 
 describe('WalletWatch API Tests', function () {
     this.timeout(15000);
-
+ 
     let getAllExpensesResponse;
-    //let getSingleExpenseResponse;
     let createdExpenseId;
-
-    describe('GET: Fetch All Expenses', function () {
+    const testUserId = "114209021674693580045";
+ 
+    describe('GET: Fetch All Expenses for a Specific User', function () {
         before(function (done) {
             chai.request("http://localhost:8080")
-                .get("/walletwatch/expenses")
+                .get(`/walletwatch/expenses/user/${testUserId}`) // Updated route to include userId
                 .end(function (err, res) {
                     if (err) {
                         done(err);
@@ -26,15 +27,15 @@ describe('WalletWatch API Tests', function () {
                     done();
                 });
         });
-
+ 
         it('Should return an array object with more than 2 objects', function () {
             expect(getAllExpensesResponse).to.be.an('array').with.length.above(2);
         });
-
+ 
         it('The first entry in the array has known properties', function () {
             expect(getAllExpensesResponse[0]).to.include.keys('categoryName', 'amount', 'expenseId', 'date', 'description', 'userId');
         });
-
+ 
         it('The elements in the array have the expected properties', function () {
             getAllExpensesResponse.forEach(element => {
                 expect(element).to.have.property('expenseId').that.is.a('string');
@@ -46,10 +47,10 @@ describe('WalletWatch API Tests', function () {
             });
         });
     });
-
+ 
     describe('GET: Fetch Single Expense by ID', function () {
         let getSingleExpenseResponse;
-        
+       
         before(function (done) {
             chai.request("http://localhost:8080")
                 .get("/walletwatch/expenses/1cdba60bf4213444e521bfcb4a10fb81") // Replace with valid expense ID
@@ -63,118 +64,42 @@ describe('WalletWatch API Tests', function () {
                     done();
                 });
         });
-    
+   
         it('Should return a single object with the expected properties', function () {
             const expense = Array.isArray(getSingleExpenseResponse) ? getSingleExpenseResponse[0] : getSingleExpenseResponse;
             expect(expense).to.have.all.keys('amount', 'categoryName', 'date', 'description', 'userId', 'expenseId', '_id');  // Include '_id'
         });
-    
+   
         it('Should return a valid date string', function () {
             const expense = getSingleExpenseResponse[0] || getSingleExpenseResponse;
             expect(new Date(expense.date).toString()).to.not.equal('Invalid Date');
         });
     });
-
-    describe('POST: Create New Expense', function () {
-        const newExpenseData = {
-            categoryName: "Utilities",
-            amount: 200,
-            date: "2024-12-01",
-            description: "Electricity Bill",
-            userId: "123456789"
+ 
+    describe('POST: Create New Category', function () {
+        const newCategoryData = {
+          categoryId: "12345",
+          categoryName: "Utilities",
+          description: "Monthly utility bills",
         };
-
-        it('Should create a new expense', function (done) {
-            chai.request("http://localhost:8080")
-                .post("/walletwatch/expenses/123456789")
-                .send(newExpenseData)
-                .end(function (err, res) {
-                    if (err) {
-                        done(err);
-                        return;
-                    }
-                    expect(res).to.have.status(200);
-                    expect(res.body).to.include.keys('expenseId');
-                    createdExpenseId = res.body.expenseId; // Store for cleanup
-                    done();
-                });
+     
+        it('Should create a new category', function (done) {
+          chai.request("http://localhost:8080")
+            .post('/walletwatch/category')
+            .send(newCategoryData)
+            .end(function (err, res) {
+              if (err) {
+                done(err);
+                return;
+              }
+     
+              console.log("Response:", res.body);
+              expect(res).to.have.status(201);
+              expect(res.body).to.have.property('id').that.is.a('string'); // Verify ID is returned
+              expect(res.body).to.have.property('message', 'Category created successfully.');
+              done();
+            });
         });
     });
-
-    after('Cleanup: Delete created expense', function (done) {
-        if (createdExpenseId) {
-            chai.request("http://localhost:8080")
-                .delete(`/walletwatch/expenses/${createdExpenseId}`)
-                .end(function (err, res) {
-                    if (err) {
-                        done(err);
-                        return;
-                    }
-                    expect(res).to.have.status(200);
-                    done();
-                });
-        } else {
-            done();
-        }
-    });
 });
-
  
-
-
-/* var chai = require('chai');
-var chaiHttp = require('chai-http');
-
-var expect = chai.expect;
-
-chai.use(chaiHttp);
-
-describe('Test To Do lists result', function () {
-    this.timeout(15000);
-
-    let requestResult;
-    let response;
-
-    before(function (done) {
-        chai.request("http://localhost:8080")
-            .get("/walletwatch/expenses")
-            .end(function (err, res) {
-                if (err) {
-                    done(err); // Handle errors explicitly
-                    return;
-                }
-                requestResult = res.body;
-                response = res;
-                console.log(res.request.url);
-                done();
-            });
-    });
-    it('Should return an array object with more than 2 objects', function () {
-        expect(response).to.have.status(200);
-        expect(response.body).to.have.length.above(2);
-        expect(response).to.have.headers;
-    });
-
-    it('The first entry in the array has known properties', function () {
-        expect(requestResult[0]).to.include.keys('categoryName');
-        expect(requestResult[0]).to.have.property('amount');
-        expect(requestResult[0]).to.have.property('expenseId');
-        expect(requestResult).to.not.be.a.string;
-    });
-
-    it('The elements in the array have the expected properties', function () {
-        expect(requestResult).to.satisfy(function (element){
-            for (let i = 0; i < element.length; i++) {
-                console.log(element);
-            expect(element[i]).to.have.property('expenseId');
-            expect(element[i]).to.have.property('amount');
-            expect(element[i]).to.have.property('date');
-            expect(element[i]).to.have.property('description');
-            expect(element[i]).to.have.property('userId');
-            expect(element[i].categoryName).to.be.a('string').that.has.length.above(3);;
-            expect(element[i].description).to.be.a('string');
-        }
-        return true;
-    });
-    });
-}); */
