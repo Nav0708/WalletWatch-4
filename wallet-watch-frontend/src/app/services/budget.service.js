@@ -40,6 +40,7 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BudgetService = void 0;
 const core_1 = require("@angular/core");
+const environment_1 = require("../../../../environments/environment");
 let BudgetService = (() => {
     let _classDecorators = [(0, core_1.Injectable)({
             providedIn: 'root'
@@ -51,8 +52,8 @@ let BudgetService = (() => {
         //private baseUrl = environment.hostUrl; // Adjust this to match your backend URL
         constructor(http) {
             this.http = http;
-            //this.baseUrl = 'http://localhost:8080/walletwatch/budget';
-            this.baseUrl = environment.hostUrl+'/walletwatch/budget';/****Changing this as a part of Azure config*****/
+            //private baseUrl = 'http://localhost:8080/walletwatch/budget';
+            this.baseUrl = environment_1.environment.hostUrl + '/walletwatch/budget'; /****Changing this as a part of Azure config*****/
         }
         // Method to get all budgets
         getAllBudgets() {

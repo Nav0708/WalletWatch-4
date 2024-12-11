@@ -42,6 +42,7 @@ exports.AuthService = void 0;
 const core_1 = require("@angular/core");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
+const environment_1 = require("../../../../environments/environment");
 let AuthService = (() => {
     let _classDecorators = [(0, core_1.Injectable)({
             providedIn: 'root',
@@ -54,8 +55,8 @@ let AuthService = (() => {
             this.http = http;
             this.loggedInSubject = new rxjs_1.BehaviorSubject(this.isLoggedIn());
             this.userSubject = new rxjs_1.BehaviorSubject(localStorage.getItem('user'));
-            this.apiUrl = 'http://localhost:8080/';
-            //private apiUrl = environment.hostUrl; // Using the environment variable
+            //private apiUrl = 'http://localhost:8080/'; 
+            this.apiUrl = environment_1.environment.hostUrl; /****Changing this as a part of Azure config*****/
             this.welcomepage = '/welcome'; // Define your application's welcome page route
             this.loggedIn$ = this.loggedInSubject.asObservable();
             this.user$ = this.userSubject.asObservable();

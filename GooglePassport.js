@@ -39,6 +39,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv = __importStar(require("dotenv"));
 const passport_1 = __importDefault(require("passport"));
 const passport_google_oauth20_1 = require("passport-google-oauth20"); // Import correct types
+const environment_1 = require("./environments/environment");
 dotenv.config();
 // Creates a Passport configuration for Google
 class GooglePassport {
@@ -49,7 +50,8 @@ class GooglePassport {
         passport_1.default.use(new passport_google_oauth20_1.Strategy({
             clientID: this.clientId,
             clientSecret: this.secretId,
-            callbackURL: "http://localhost:8080/auth/google/callback",
+            //callbackURL: "http://localhost:8080/auth/google/callback",
+            callbackURL: environment_1.environment.hostUrl + "/auth/google/callback", /****Changing this as a part of Azure config*****/
             scope: ['profile', 'email']
         }, (accessToken, refreshToken, profile, done) => {
             console.log("inside new password google strategy");

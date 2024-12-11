@@ -40,6 +40,7 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ExpensesService = void 0;
 const core_1 = require("@angular/core");
+const environment_1 = require("../../../../environments/environment");
 let ExpensesService = (() => {
     let _classDecorators = [(0, core_1.Injectable)({
             providedIn: 'root'
@@ -50,38 +51,33 @@ let ExpensesService = (() => {
     var ExpensesService = _classThis = class {
         constructor(http) {
             this.http = http;
-            this.baseUrl = 'http://localhost:8080/walletwatch/expenses';
+            //private baseUrl = 'http://localhost:8080/walletwatch/expenses'; 
+            this.baseUrl = environment_1.environment.hostUrl + '/walletwatch/expenses'; /****Changing this as a part of Azure config*****/
         }
         getAllExpenses() {
             return this.http.get(this.baseUrl);
         }
         getExpenses() {
-            return this.http.get('http://localhost:8080/walletwatch/expenses', { withCredentials: true });
+            return this.http.get(environment_1.environment.hostUrl + '/walletwatch/expenses', { withCredentials: true }); /****Changing this as a part of Azure config*****/
         }
-        // addExpense(expense: any) {
-        //   return this.http.post<any>('http://localhost:8080/walletwatch/expenses', expense, { withCredentials: true  });
-        // }
         addExpense(expense) {
-            return this.http.post('http://localhost:8080/walletwatch/expenses', expense, { withCredentials: true, responseType: 'text' });
+            return this.http.post(environment_1.environment.hostUrl + '/walletwatch/expenses', expense, { withCredentials: true, responseType: 'text' }); /****Changing this as a part of Azure config*****/
         }
-        // addExpense(expense: IExpenseModel): Observable<IExpenseModel> {
-        //   return this.http.post<IExpenseModel>(`${this.baseUrl}/expenses`, expense);
-        // }
         updateExpense(expenseId, updatedExpense) {
-            const apiUrl = `http://localhost:8080/walletwatch/expenses/${expenseId}`;
+            const apiUrl = environment_1.environment.hostUrl + `/walletwatch/expenses/${expenseId}`;
             return this.http.put(apiUrl, updatedExpense, { withCredentials: true });
-        }
+        } /****Changing this as a part of Azure config*****/
         deleteExpense(expenseId) {
-            const apiUrl = `http://localhost:8080/walletwatch/expenses/${expenseId}`;
+            const apiUrl = environment_1.environment.hostUrl + `/walletwatch/expenses/${expenseId}`;
             return this.http.delete(apiUrl, { withCredentials: true });
-        }
+        } /****Changing this as a part of Azure config*****/
         getExpensesByUserId(userId) {
             console.log('get expenses by id ');
-            return this.http.get(`http://localhost:8080/walletwatch/expenses/user/${userId}`, { withCredentials: true });
-        }
+            return this.http.get(environment_1.environment.hostUrl + `/walletwatch/expenses/user/${userId}`, { withCredentials: true });
+        } /****Changing this as a part of Azure config*****/
         getExpenseById(expenseId) {
-            return this.http.get(`http://localhost:8080/walletwatch/expenses/${expenseId}`, { withCredentials: true });
-        }
+            return this.http.get(environment_1.environment.hostUrl + `/walletwatch/expenses/${expenseId}`, { withCredentials: true });
+        } /****Changing this as a part of Azure config*****/
     };
     __setFunctionName(_classThis, "ExpensesService");
     (() => {

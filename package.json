@@ -1,10 +1,15 @@
 {
   "dependencies": {
+    "@angular/common": "^19.0.3",
+    "@angular/core": "^19.0.3",
+    "@angular/forms": "^19.0.3",
+    "@angular/material": "^19.0.3",
+    "@angular/platform-browser": "^19.0.3",
+    "@angular/platform-server": "^19.0.3",
+    "@angular/router": "^19.0.3",
     "@types/body-parser": "^1.19.5",
     "@types/bson": "^4.2.4",
-    "@types/express": "^5.0.0",
     "@types/mongodb": "^4.0.7",
-    "@types/node": "^22.10.1",
     "async": "^3.2.6",
     "body-parser": "^1.20.3",
     "bootstrap": "^5.3.3",
@@ -21,6 +26,7 @@
     "passport-google-oauth20": "^2.0.0",
     "passport-google-oauth20-with-people-api": "^2.0.0",
     "q": "^1.5.1",
+    "rxjs": "^7.8.1",
     "uuid": "^11.0.3"
   },
   "scripts": {
@@ -41,11 +47,14 @@
     "backend"
   ],
   "devDependencies": {
+    "@angular/cli": "^19.0.4",
     "@types/cookie-parser": "^1.4.8",
     "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
     "@types/express-session": "^1.18.1",
     "@types/jasmine": "^5.1.5",
     "@types/mocha": "^10.0.10",
+    "@types/node": "^22.10.2",
     "@types/passport": "^1.0.17",
     "@types/passport-google-oauth20": "^2.0.16",
     "chai": "^4.5.0",

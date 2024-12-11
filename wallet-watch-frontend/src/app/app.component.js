@@ -48,6 +48,7 @@ const tooltip_1 = require("@angular/material/tooltip"); // Import MatTooltipModu
 const router_1 = require("@angular/router");
 const footer_component_1 = require("./footer/footer.component");
 const rxjs_1 = require("rxjs");
+const environment_1 = require("../../../environments/environment");
 let AppComponent = (() => {
     let _classDecorators = [(0, core_1.Component)({
             selector: 'app-root',
@@ -73,17 +74,21 @@ let AppComponent = (() => {
             this.router = router;
             this.cdr = cdr;
             this.title = 'Wallet Watch';
-            this.googleAuthUrl = 'http://localhost:8080/auth/google';
+            //googleAuthUrl = 'http://localhost:8080/auth/google';
+            this.googleAuthUrl = environment_1.environment.hostUrl + '/auth/google'; /****Changing this as a part of Azure config*****/
             this.welcomepage = '/welcome';
             this.isLoggedIn = false;
             this.username = '';
         }
         ngOnInit() {
             this.router.events
-                .pipe((0, rxjs_1.filter)((event) => event instanceof router_1.NavigationEnd))
+                .pipe((0, rxjs_1.filter)(this.isNavigationEnd))
                 .subscribe(() => {
                 this.authService.updateLoginState();
             });
+        }
+        isNavigationEnd(event) {
+            return event instanceof router_1.NavigationEnd;
         }
         isActive(route) {
             return this.router.url === route;

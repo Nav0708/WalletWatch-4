@@ -58,15 +58,16 @@ const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
 const crypto_1 = __importDefault(require("crypto"));
 const path_1 = __importDefault(require("path"));
+///Adding comment for git debugs
 // Creates and configures an ExpressJS web server.
 class App {
     constructor(mongoDBConnection) {
-       /* this.corsOptions = {
-            origin: 'http://localhost:4200',
+        this.corsOptions = {
+            origin: '*',
             methods: 'GET,POST,PUT,DELETE', // Allow only certain methods
             allowedHeaders: 'Content-Type, Authorization', // Allow only specific headers
             credentials: true,
-        };*/
+        }; /****Changing this as a part of Azure config*****/
         this.expressApp = express.default();
         this.googlePassportObj = new GooglePassport_1.default();
         this.Expense = new Expense_1.ExpenseModel(mongoDBConnection);
@@ -98,7 +99,7 @@ class App {
         this.expressApp.use((req, res, next) => {
             this.expressApp.options('*', (req, res) => {
                 //res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-                res.header('Access-Control-Allow-Origin');/****Changing this as a part of Azure config*****/
+                res.header('Access-Control-Allow-Origin'); /****Changing this as a part of Azure config*****/
                 res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
                 res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
                 res.header('Access-Control-Allow-Credentials', 'true');
@@ -136,8 +137,8 @@ class App {
                     console.log('User does not exist. Creating new user.');
                     yield this.User.create(data);
                 }
-                //res.redirect('http://localhost:4200/homepage');
-                res.redirect('/homepage');/****Changing this as a part of Azure config*****/
+                //res.redirect('http://localhost:4200/homepage'); 
+                res.redirect('/homepage'); /****Changing this as a part of Azure config*****/
             }
             else {
                 res.send('User not authenticated');
@@ -149,8 +150,7 @@ class App {
             res.clearCookie('connect.sid', { path: '/' });
             req.user.destroy();
             //res.status(200).redirect('http://localhost:4200/welcome');
-            res.redirect('/welcome');/****Changing this as a part of Azure config*****/
-
+            res.status(200).redirect('/welcome'); /****Changing this as a part of Azure config*****/
         });
         router.post('/walletwatch/logs', (req, res) => {
             console.log(req.body.message);
@@ -214,7 +214,7 @@ class App {
             const { userId } = req.params;
             try {
                 const expenses = yield this.Expense.model.find({ userId }); // Filter expenses by userId
-                res.json(expenses); 
+                res.json(expenses); // Send the filtered expenses
             }
             catch (error) {
                 console.error(error);
@@ -288,7 +288,12 @@ class App {
         }));
         router.get('*', (req, res) => { res.sendFile(path_1.default.join(__dirname, 'public', 'index.html')); });
         this.expressApp.use('/', router);
+        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
+        //this.expressApp.use('/', router);
+        //console.log(express.static(__dirname))
         this.expressApp.use('/', express.static(__dirname + '/dist'));
+        //this.expressApp.use('/images', express.static(__dirname+'/img'));
+        //this.expressApp.use('/', express.static(__dirname+'/pages'));
         this.expressApp.use(express.static(path_1.default.join(__dirname, 'public')));
     }
 }

@@ -40,6 +40,7 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const core_1 = require("@angular/core");
+const environment_1 = require("../../../../environments/environment"); // Import the environment configuration
 let UserService = (() => {
     let _classDecorators = [(0, core_1.Injectable)({
             providedIn: 'root'
@@ -48,13 +49,11 @@ let UserService = (() => {
     let _classExtraInitializers = [];
     let _classThis;
     var UserService = _classThis = class {
-        // private baseUrl = environment.baseUrl;  // Use baseUrl from environment
-        // private expenseUrl = environment.expenseUrl;  // Use expenseUrl from environment
         constructor(http, authservice) {
             this.http = http;
             this.authservice = authservice;
-            this.baseUrl = 'http://localhost:8080/user';
-            this.expenseUrl = 'http://localhost:8080/walletwatch/expenses';
+            this.baseUrl = environment_1.environment.hostUrl + '/user'; /****Changing this as a part of Azure config*****/
+            this.expenseUrl = environment_1.environment.hostUrl + '/walletwatch/expenses'; /****Changing this as a part of Azure config*****/
         }
         getUserById() {
             const userId = this.authservice.getUser();
