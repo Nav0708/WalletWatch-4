@@ -51,7 +51,8 @@ let BudgetService = (() => {
         //private baseUrl = environment.hostUrl; // Adjust this to match your backend URL
         constructor(http) {
             this.http = http;
-            this.baseUrl = 'http://localhost:8080/walletwatch/budget';
+            //this.baseUrl = 'http://localhost:8080/walletwatch/budget';
+            this.baseUrl = environment.hostUrl+'/walletwatch/budget';/****Changing this as a part of Azure config*****/
         }
         // Method to get all budgets
         getAllBudgets() {

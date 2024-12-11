@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 import { GoogleProfileModel } from './model/GoogleProfile';
 import passport, { DoneCallback } from 'passport';
 import { Strategy as GoogleStrategy, VerifyCallback } from 'passport-google-oauth20'; // Import correct types
+import { environment } from './environments/environment';
 
 dotenv.config();
 
@@ -28,7 +29,8 @@ class GooglePassport {
         passport.use(new GoogleStrategy({
                 clientID: this.clientId,
                 clientSecret: this.secretId,
-                callbackURL: "http://localhost:8080/auth/google/callback",
+                //callbackURL: "http://localhost:8080/auth/google/callback",
+                callbackURL: environment.hostUrl+"/auth/google/callback", /****Changing this as a part of Azure config*****/
                 scope: ['profile','email']
             },
             (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback)  => { // Explicitly type parameters

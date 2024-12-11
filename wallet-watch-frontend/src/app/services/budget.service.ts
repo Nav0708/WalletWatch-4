@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IBudget } from '../interfaces/IBudget'; // Ensure correct import path
-import { environment } from '../environments/environment';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BudgetService {
-  private baseUrl = 'http://localhost:8080/walletwatch/budget';
+  //private baseUrl = 'http://localhost:8080/walletwatch/budget';
+  private baseUrl  = environment.hostUrl+'/walletwatch/budget';/****Changing this as a part of Azure config*****/
   //private baseUrl = environment.hostUrl; // Adjust this to match your backend URL
 
   constructor(private http: HttpClient) {}

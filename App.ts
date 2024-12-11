@@ -42,11 +42,11 @@ class App {
     public Category: CategoryModel;
     public googlePassportObj:GooglePassportObj;
     public  corsOptions = {
-      origin: 'http://localhost:4200',
+      origin: '*',
       methods: 'GET,POST,PUT,DELETE',  // Allow only certain methods
       allowedHeaders: 'Content-Type, Authorization',  // Allow only specific headers
       credentials: true, 
-    }
+    }/****Changing this as a part of Azure config*****/
     
 
     constructor(mongoDBConnection: string) {
@@ -80,7 +80,8 @@ class App {
         this.expressApp.use(passport.session());
         this.expressApp.use((req, res, next) => {
         this.expressApp.options('*', (req, res) => {
-            res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+            //res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+            res.header('Access-Control-Allow-Origin');/****Changing this as a part of Azure config*****/
             res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
             res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
             res.header('Access-Control-Allow-Credentials', 'true');
@@ -124,8 +125,8 @@ class App {
                   console.log('User does not exist. Creating new user.');
                   await this.User.create(data);
                 }
-                  //console.log(`Session user: ${JSON.stringify(req.session)}`);
-                  res.redirect('http://localhost:4200/homepage'); 
+                  //res.redirect('http://localhost:4200/homepage'); 
+                  res.redirect('/homepage');/****Changing this as a part of Azure config*****/
               } 
               else {
                 res.send('User not authenticated');
@@ -139,7 +140,9 @@ class App {
             res.clearCookie('connect.sid', { path: '/' });
 
             req.user.destroy();
-            res.status(200).redirect('http://localhost:4200/welcome');
+            //res.status(200).redirect('http://localhost:4200/welcome');
+            res.status(200).redirect('/welcome');/****Changing this as a part of Azure config*****/
+            
           });
         router.post('/walletwatch/logs', (req, res) => {
             console.log(req.body.message);

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
-import { environment } from '../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { HttpErrorResponse } from '@angular/common/http';
 
 // Define the AuthResponse interface here
@@ -17,8 +17,8 @@ interface AuthResponse {
 export class AuthService {
   private loggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   private userSubject = new BehaviorSubject<string | null>(localStorage.getItem('user'));
-  private apiUrl = 'http://localhost:8080/'; 
-  //private apiUrl = environment.hostUrl; // Using the environment variable
+  //private apiUrl = 'http://localhost:8080/'; 
+  private apiUrl = environment.hostUrl; /****Changing this as a part of Azure config*****/
   welcomepage = '/welcome'; // Define your application's welcome page route
 
   loggedIn$ = this.loggedInSubject.asObservable();
