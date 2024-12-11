@@ -34,7 +34,7 @@ export class ExpensesDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     // Extract the expenseId from the route and fetch the corresponding expense data
-    this.route.paramMap.subscribe((params) => {
+    this.route.paramMap.subscribe((params: { get: (arg0: string) => any; }) => {
       const expenseId = params.get('expenseId');
       console.log('Expense ID from route:', expenseId);  // For debugging
 
@@ -70,7 +70,7 @@ export class ExpensesDetailsComponent implements OnInit {
           console.error('Invalid data format or no expense data found.');
         }
       },
-      (error) => {
+      (error: any) => {
         console.error('Error fetching expense data:', error);
       }
     );
@@ -88,7 +88,7 @@ export class ExpensesDetailsComponent implements OnInit {
           date: formattedDate ? formattedDate : data.date,
         };
       },
-      (error) => {
+      (error: any) => {
         console.error('Error fetching expense:', error);
       }
     );

@@ -3,6 +3,13 @@ import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { HttpErrorResponse } from '@angular/common/http';
+
+// Define the AuthResponse interface here
+interface AuthResponse {
+  token: string;
+  user: any; // Replace `any` with a more specific type if possible
+}
 
 @Injectable({
   providedIn: 'root',
@@ -39,12 +46,13 @@ export class AuthService {
     if (this.isLoggedIn()) {
       console.log('Fetching user profile...');
       return this.http.get<any>(`${this.apiUrl}user`, { withCredentials: true }).pipe(
-        tap((response) => {
+        tap((response: AuthResponse) => {  // Use AuthResponse type here
           console.log('User profile data:', response);
           localStorage.setItem('user', JSON.stringify(response));
           this.setUser(response);
         }),
-        catchError((error) => {
+        catchError((error: HttpErrorResponse) => {
+
           console.error('Error fetching user profile:', error);
           return throwError(() => error);
         })

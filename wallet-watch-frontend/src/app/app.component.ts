@@ -36,7 +36,7 @@ export class AppComponent {
 
   ngOnInit() {
     this.router.events
-    .pipe(filter(event => event instanceof NavigationEnd))
+    .pipe(filter((event: NavigationEnd) => event instanceof NavigationEnd))
     .subscribe(() => {
       this.authService.updateLoginState();
     });

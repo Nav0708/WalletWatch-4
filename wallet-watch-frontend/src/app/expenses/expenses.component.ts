@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { request } from 'https';
 import * as bootstrap from 'bootstrap';
+import { HttpErrorResponse } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-expenses',
@@ -40,7 +42,8 @@ export class ExpensesComponent implements OnInit {
 
   ngOnInit(): void {
     // Subscribe to the logged-in status to ensure user is authenticated
-    this.authService.loggedIn$.subscribe((isLoggedIn) => {
+    this.authService.loggedIn$.subscribe((isLoggedIn: boolean) => {
+
       if (isLoggedIn) {
         // Fetch user data after login to get the userId
         this.authService.getUser().subscribe((req: any) => {
@@ -64,7 +67,7 @@ export class ExpensesComponent implements OnInit {
         this.expenses = data;  // Store the expenses for the user
         console.log('expenses data all :',this.expenses);
       },
-      (error) => {
+      (error: HttpErrorResponse) => {
         console.error('Error fetching expenses:', error);
       }
     );
@@ -118,7 +121,8 @@ export class ExpensesComponent implements OnInit {
       window.location.reload();
 
       },
-      (error) => {
+      (error: any) => {
+
         console.error('Error adding expense:', error);
       }
     );
