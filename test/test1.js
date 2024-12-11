@@ -78,14 +78,13 @@ describe('WalletWatch API Tests', function () {
  
     describe('POST: Create New Category', function () {
         const newCategoryData = {
-          categoryId: "12345",
-          categoryName: "Utilities",
-          description: "Monthly utility bills",
-        };
+                "categoryId": "334333",
+                "categoryName":  "Drinkes",
+                "categoryDescription": "To track Spindri expenses" };
      
         it('Should create a new category', function (done) {
           chai.request("http://localhost:8080")
-            .post('/walletwatch/category')
+            .post('/walletwatch/categories')
             .send(newCategoryData)
             .end(function (err, res) {
               if (err) {
@@ -95,8 +94,8 @@ describe('WalletWatch API Tests', function () {
      
               console.log("Response:", res.body);
               expect(res).to.have.status(201);
-              expect(res.body).to.have.property('id').that.is.a('string'); // Verify ID is returned
-              expect(res.body).to.have.property('message', 'Category created successfully.');
+              expect(res.body).to.have.property('catId').that.is.a('string'); // Verify ID is returned
+              expect(res.body).to.have.property('message', 'Category created successfully');
               done();
             });
         });

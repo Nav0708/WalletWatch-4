@@ -1,30 +1,31 @@
 import * as Mongoose from "mongoose";
 import { ICategoryModel } from '../interfaces/ICategory';
 import { v4 as uuidv4 } from 'uuid';
-
+ 
 // Class to manage the Category model
 class CategoryModel {
     public schema: any;
     public model: any;
     public dbConnectionString: string;
-
+ 
     public constructor(DB_CONNECTION_STRING: string) {
         this.dbConnectionString = DB_CONNECTION_STRING;
         this.createSchema();
         this.createModel();
     }
-
+ 
     // Define the schema for Category documents
     public createSchema() {
         this.schema = new Mongoose.Schema(
             {
                 categoryId: { type: String, required: true },
-                categoryName: { type: String, required: true, unique: true }
+                categoryName: { type: String, required: true, unique: true },
+                categoryDescription: { type: String}
             },
             { collection: 'categories' }
         );
     }
-
+ 
     // Create the Category model and connect to MongoDB
     public async createModel() {
         try {
@@ -34,7 +35,7 @@ class CategoryModel {
             console.error(e);
         }
     }
-
+ 
     // Retrieve all categories
     public async retrieveAllCategories(response: any) {
         const query = this.model.find({});
@@ -45,7 +46,7 @@ class CategoryModel {
             console.error(e);
         }
     }
-
+ 
     // Retrieve a category by its ID
     public async retrieveCategoryById(response: any, categoryId: string) {
         const query = this.model.findOne({ categoryId });
@@ -56,13 +57,13 @@ class CategoryModel {
             console.error(e);
         }
     }
-
+ 
     // Retrieve a category by name
     public async retrieveCategoryIdByName(categoryName: string): Promise<string | null> {
         const category = await this.model.findOne({ name: categoryName }).exec();
         return category ? category.categoryId : null;
     }
-
+ 
     // Count the total number of category entries
     public async retrieveCategoryCount(response: any) {
         const query = this.model.estimatedDocumentCount();
@@ -75,5 +76,5 @@ class CategoryModel {
         }
     }
 }
-
+ 
 export { CategoryModel, ICategoryModel };

@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 import {expenseRoutes} from './routes/expense_budgetRoutes';
 import { ExpenseModel } from './model/Expense';
 import { UserModel } from './model/User';
-import { BudgetModel } from './model/Budget';
+import { CategoryModel } from './model/Category';
 import session from 'express-session';
 import cookieParser from 'cookie-parser';
 import GooglePassportObj from './GooglePassport';
@@ -38,6 +38,7 @@ class App {
     public expressApp: express.Application;
     public Expense: ExpenseModel;
     public User: UserModel;
+    public Category: CategoryModel;
     public googlePassportObj:GooglePassportObj;
     public  corsOptions = {
       origin: 'http://localhost:4200',
@@ -52,6 +53,7 @@ class App {
         this.googlePassportObj = new GooglePassportObj();
         this.Expense = new ExpenseModel(mongoDBConnection);
         this.User = new UserModel(mongoDBConnection);
+        this.Category = new CategoryModel(mongoDBConnection);
         //this.User = new ConcreteUserModel(mongoDBConnection);
         this.expressApp.use(cors(this.corsOptions));
         this.middleware();
@@ -260,6 +262,30 @@ class App {
         res.status(500).json({ message: 'Error updating expense' });
       }
     });
+
+    router.post('/walletwatch/categories', async (req: any, res) => {
+ 
+      console.log("Adding categorise")
+      try {
+        const { categoryId, categoryName,categoryDescription } = req.body;
+   
+        // Use create() method to both instantiate and save the expense
+        const newCategory = await this.Category.model.create({
+          categoryId,
+          categoryName,
+          categoryDescription,
+        });
+        // Save the new expense to the database
+        await newCategory.save();
+       
+        res.status(201).json({catId: categoryId,
+          message: 'Category created successfully'
+        });
+      } catch (error) {
+        console.error('Error adding category:', error);
+        res.status(500).send('Failed to add category');
+      }
+  });
     
     router.get('*', (req, res) => {   res.sendFile(path.join(__dirname, 'public', 'index.html')); })
  
