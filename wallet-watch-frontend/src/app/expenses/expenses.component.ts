@@ -7,6 +7,7 @@ import { IExpenseModel } from '../interfaces/IExpense';
 import { FormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { request } from 'https';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-expenses',
@@ -56,7 +57,6 @@ export class ExpensesComponent implements OnInit {
     });
   }
 
-
   fetchExpenses(userId: string): void {
     this.expenseService.getExpensesByUserId(userId).subscribe(
       (data: IExpenseModel[]) => {
@@ -104,6 +104,19 @@ export class ExpensesComponent implements OnInit {
       () => {
         this.fetchExpenses(this.userId); // Fetch the updated list of expenses after adding
         this.resetForm(); // Reset the form fields
+        
+        // Close the modal
+      const modalElement = document.getElementById('addExpenseModal') as HTMLElement;
+      if (modalElement) {
+        // Use existing modal instance or create one if necessary
+        let modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (!modalInstance) {
+          modalInstance = new bootstrap.Modal(modalElement);
+        }
+        modalInstance.hide(); // Close the modal
+      }
+      window.location.reload();
+
       },
       (error) => {
         console.error('Error adding expense:', error);
@@ -113,6 +126,7 @@ export class ExpensesComponent implements OnInit {
 
   // Delete an expense by expenseId
   deleteExpense(expenseId: string): void {
+    console.log('delete id',expenseId)
     this.expenseService.deleteExpense(expenseId).subscribe(
       () => {
         this.fetchExpenses(this.userId); // Refresh the expenses after deletion
@@ -122,6 +136,7 @@ export class ExpensesComponent implements OnInit {
       }
     );
   }
+  
 
   // Reset the form to initial values
   resetForm(): void {

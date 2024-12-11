@@ -96,18 +96,23 @@ export class ExpensesDetailsComponent implements OnInit {
   }
   
 
-  // Save the changes to the expense (if you need this functionality)
   saveExpense(): void {
-    // this.expenseService.updateExpense(this.currentExpense).subscribe(
-    //   () => {
-    //     console.log('Expense updated successfully');
-    //     this.router.navigate(['/expenses']); // Navigate back to the list
-    //   },
-    //   (error) => {
-    //     console.error('Error updating expense:', error);
-    //   }
-    // );
+    if (!this.currentExpense.expenseId) {
+      console.error('Expense ID is required to update the expense.');
+      return;
+    }
+  
+    this.expenseService.updateExpense(this.currentExpense.expenseId, this.currentExpense).subscribe(
+      (updatedExpense) => {
+        console.log('Expense updated successfully:', updatedExpense);
+        this.router.navigate(['/expenses']);
+      },
+      (error) => {
+        console.error('Error updating expense:', error);
+      }
+    );
   }
+  
 
   // Cancel editing and navigate back to the list
   cancel(): void {

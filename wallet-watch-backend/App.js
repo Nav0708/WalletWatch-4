@@ -56,6 +56,7 @@ const GooglePassport_1 = __importDefault(require("./GooglePassport"));
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
 const crypto_1 = __importDefault(require("crypto"));
+const path_1 = __importDefault(require("path"));
 // Creates and configures an ExpressJS web server.
 class App {
     constructor(mongoDBConnection) {
@@ -229,13 +230,45 @@ class App {
                 res.status(500).json({ message: 'Error fetching expense' });
             }
         }));
+        router.delete('/walletwatch/expenses/:expenseId', this.validateAuth, (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { expenseId } = req.params;
+            try {
+                const expense = yield this.Expense.model.findOneAndDelete({ expenseId });
+                if (!expense) {
+                    res.status(404).json({ message: 'Expense not found' });
+                }
+                res.status(200).json({ message: 'Expense deleted successfully' });
+            }
+            catch (error) {
+                console.error('Error deleting expense:', error);
+                res.status(500).json({ message: 'Error deleting expense' });
+            }
+        }));
+        router.put('/walletwatch/expenses/:expenseId', (req, res) => __awaiter(this, void 0, void 0, function* () {
+            const { expenseId } = req.params;
+            const updatedData = req.body;
+            try {
+                const updatedExpense = yield this.Expense.model.findOneAndUpdate({ expenseId }, updatedData, { new: true } // Return the updated document
+                );
+                if (!updatedExpense) {
+                    res.status(404).json({ message: 'Expense not found' });
+                }
+                res.status(200).json(updatedExpense);
+            }
+            catch (error) {
+                console.error('Error updating expense:', error);
+                res.status(500).json({ message: 'Error updating expense' });
+            }
+        }));
+        router.get('*', (req, res) => { res.sendFile(path_1.default.join(__dirname, 'public', 'index.html')); });
         this.expressApp.use('/', router);
         // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
         //this.expressApp.use('/', router);
         //console.log(express.static(__dirname))
-        this.expressApp.use('/browser', express.static(__dirname + '/dist/wallet-watch/browser'));
+        this.expressApp.use('/', express.static(__dirname + '/dist'));
         //this.expressApp.use('/images', express.static(__dirname+'/img'));
         //this.expressApp.use('/', express.static(__dirname+'/pages'));
+        this.expressApp.use(express.static(path_1.default.join(__dirname, 'public')));
     }
 }
 exports.App = App;

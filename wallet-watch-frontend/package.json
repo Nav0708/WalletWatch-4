@@ -3,13 +3,12 @@
   "version": "0.0.0",
   "main": "dist/wallet-watch/main.js",
   "scripts": {
-  "ng": "ng",
- "start": "ng serve",
-  "build": "ng build --configuration production",
-  "watch": "ng build --watch --configuration development",
-  "test": "ng test"
-},
-
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build --configuration production",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.0",

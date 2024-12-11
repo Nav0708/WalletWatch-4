@@ -8,7 +8,8 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class BudgetService {
-  private baseUrl = environment.hostUrl; // Adjust this to match your backend URL
+  private baseUrl = 'http://localhost:8080/walletwatch/budget';
+  //private baseUrl = environment.hostUrl; // Adjust this to match your backend URL
 
   constructor(private http: HttpClient) {}
 

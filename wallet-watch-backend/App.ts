@@ -225,6 +225,42 @@ class App {
         res.status(500).json({ message: 'Error fetching expense' });
       }
     });
+
+    router.delete('/walletwatch/expenses/:expenseId', this.validateAuth, async (req, res) => {
+      const { expenseId } = req.params;
+      try {
+        const expense = await this.Expense.model.findOneAndDelete({ expenseId });
+        if (!expense) {
+          res.status(404).json({ message: 'Expense not found' });
+        }
+        res.status(200).json({ message: 'Expense deleted successfully' });
+      } catch (error) {
+        console.error('Error deleting expense:', error);
+        res.status(500).json({ message: 'Error deleting expense' });
+      }
+    });
+    
+    
+    router.put('/walletwatch/expenses/:expenseId', async (req, res) => {
+      const { expenseId } = req.params;
+      const updatedData = req.body;
+    
+      try {
+        const updatedExpense = await this.Expense.model.findOneAndUpdate(
+          { expenseId },
+          updatedData,
+          { new: true } // Return the updated document
+        );
+        if (!updatedExpense) {
+          res.status(404).json({ message: 'Expense not found' });
+        }
+        res.status(200).json(updatedExpense);
+      } catch (error) {
+        console.error('Error updating expense:', error);
+        res.status(500).json({ message: 'Error updating expense' });
+      }
+    });
+    
     router.get('*', (req, res) => {   res.sendFile(path.join(__dirname, 'public', 'index.html')); })
  
         this.expressApp.use('/', router);

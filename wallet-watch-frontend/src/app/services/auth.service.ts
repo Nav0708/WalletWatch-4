@@ -10,7 +10,8 @@ import { environment } from '../environments/environment';
 export class AuthService {
   private loggedInSubject = new BehaviorSubject<boolean>(this.isLoggedIn());
   private userSubject = new BehaviorSubject<string | null>(localStorage.getItem('user'));
-  private apiUrl = environment.hostUrl; // Using the environment variable
+  private apiUrl = 'http://localhost:8080/'; 
+  //private apiUrl = environment.hostUrl; // Using the environment variable
   welcomepage = '/welcome'; // Define your application's welcome page route
 
   loggedIn$ = this.loggedInSubject.asObservable();

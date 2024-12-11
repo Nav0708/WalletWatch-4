@@ -9,9 +9,11 @@ import { environment } from '../environments/environment';  // Import the enviro
   providedIn: 'root'
 })
 export class UserService {
+    private baseUrl = 'http://localhost:8080/user'; 
+    private expenseUrl = 'http://localhost:8080/walletwatch/expenses';
 
-    private baseUrl = environment.baseUrl;  // Use baseUrl from environment
-    private expenseUrl = environment.expenseUrl;  // Use expenseUrl from environment
+    // private baseUrl = environment.baseUrl;  // Use baseUrl from environment
+    // private expenseUrl = environment.expenseUrl;  // Use expenseUrl from environment
   
     constructor(private http: HttpClient, private authservice: AuthService) { }
     
