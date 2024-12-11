@@ -43,5 +43,5 @@ stages:
             inputs:
               azureSubscription: "WalletWatch"  # Ensure this is the correct Azure service connection
               appName: "WalletWatch"  # Ensure this is the correct App Service name in Azure
-              package: "wallet-watch-backend"  # Make sure this points to the correct directory containing the deployable code
+              package: "walletwatch"  # Make sure this points to the correct directory containing the deployable code
             displayName: "Deploy to Azure Web App"
