@@ -9,7 +9,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AuthService } from './services/auth.service';
 import { filter } from 'rxjs';
 import { environment } from '../../../environments/environment';
-
+import 'chart.js';
 
 @Component({
   selector: 'app-root',
