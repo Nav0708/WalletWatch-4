@@ -1,4 +1,4 @@
-import * as express from 'express';
+import express from 'express';
 import { Request, Response, NextFunction } from 'express';
 import * as bodyParser from 'body-parser';
 import {expenseRoutes} from './routes/expense_budgetRoutes';
@@ -15,7 +15,10 @@ import crypto from 'crypto';
 import * as path from 'path';
 import * as mongodb from 'mongodb';
 import * as url from 'url';
+import * as dotenv from "dotenv";
 
+// Load environment variables from .env file
+dotenv.config();
 
 declare global {
   namespace Express {
@@ -53,7 +56,7 @@ class App {
     
 
     constructor(mongoDBConnection: string) {
-        this.expressApp = express.default();
+        this.expressApp = express();
         this.googlePassportObj = new GooglePassportObj();
         this.Expense = new ExpenseModel(mongoDBConnection);
         this.User = new UserModel(mongoDBConnection);
@@ -68,36 +71,31 @@ class App {
       private middleware(): void {
         this.expressApp.use(bodyParser.json());
         this.expressApp.use(bodyParser.urlencoded({ extended: false }));
-        this.expressApp.use(session({
-          secret: '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',
-          resave: true,
-          saveUninitialized: true,
-          cookie: { 
-            httpOnly:true,
-            secure: false }  // Set to true if using HTTPS
-        }));
-        this.expressApp.use(cookieParser());
-        this.expressApp.use(cors(this.corsOptions));
-        this.expressApp.options('*', cors(this.corsOptions));
-        this.expressApp.use(passport.initialize());
-        this.expressApp.use(passport.session());
         this.expressApp.use((req, res, next) => {
-        this.expressApp.options('*', (req, res) => {
-            //res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-            res.header('Access-Control-Allow-Origin', '*');/****Changing this as a part of Azure config*****/
-            res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-            res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-            res.header('Access-Control-Allow-Credentials', 'true');
-            res.sendStatus(200);
-          });
+          res.header("Access-Control-Allow-Origin", "*");
+          res.header(
+            "Access-Control-Allow-Headers",
+            "Origin, X-Requested-With, Content-Type, Accept"
+          );
           next();
         });
+        this.expressApp.use(session({ secret: "keyboard cat" }));
+        this.expressApp.use(cookieParser());
+        this.expressApp.use(passport.initialize());
+        this.expressApp.use(passport.session());
       }
-      private validateAuth(req: Request, res:Response, next: NextFunction):void {
-        if (req.isAuthenticated()) { 
-          return next(); }
+
+      private validateAuth(req: Request, res: Response, next: NextFunction): void {
+        if (req.isAuthenticated()) {
+          console.log(`user is authenticated for ${req.path}`);
+          return next();
+        }
         console.log("user is not authenticated");
-        res.redirect('/');
+        res.redirect("/");
+      }
+      
+      private getUserId(req: Request): string {
+        return req.user?.id || ""; // Safely access `id` with optional chaining
       }
 
       private routes(): void {
@@ -296,14 +294,35 @@ class App {
     
  
        
-       // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
-       //this.expressApp.use('/', router);
-       //console.log(express.static(__dirname))
-       this.expressApp.use('/', express.static(__dirname+'/wallet-watch/browser'));
-       //this.expressApp.use('/images', express.static(__dirname+'/img'));
-       //this.expressApp.use('/', express.static(__dirname+'/pages'));
-       //this.expressApp.use(express.static(path.join(__dirname, 'public')));
-       this.expressApp.use('/', router);
+        this.expressApp.use("/", router);
+    this.expressApp.use(
+      "/jquery",
+      express.static(__dirname + "/node_modules/jquery/dist/jquery.min.js")
+    );
+    this.expressApp.use(
+      "/bootstrap/css",
+      express.static(
+        __dirname + "/node_modules/bootstrap/dist/css/bootstrap.min.css"
+      )
+    );
+    this.expressApp.use(
+      "/bootstrap/js",
+      express.static(
+        __dirname + "/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+      )
+    );
+    this.expressApp.use("/api/json/", express.static(__dirname + "/api/json"));
+    this.expressApp.use("/images", express.static(__dirname + "/img"));
+    this.expressApp.use(
+      "/",
+      express.static(__dirname + "/wallet-watch-frontend/dist/wallet-watch/browser")
+    );
+    this.expressApp.use(
+      "*",
+      express.static(
+        __dirname + "/wallet-watch-frontend/dist/wallet-watch/browser/index.html"
+      )
+    );
     }
 }
 
