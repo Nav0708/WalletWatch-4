@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "main": "dist/wallet-watch/main.js",
   "scripts": {
-    
     "start": "ng serve",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
@@ -22,7 +21,7 @@
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/platform-server": "^18.2.0",
     "@angular/router": "^18.2.0",
-    "@angular/ssr": "^18.2.11",
+    "@angular/ssr": "^18.2.12",
     "@popperjs/core": "^2.11.8",
     "@types/bootstrap": "^5.2.10",
     "bootstrap": "^5.3.3",

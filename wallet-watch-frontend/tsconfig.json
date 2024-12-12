@@ -3,6 +3,9 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+         "bootstrap/dist/js/bootstrap" : ["./node_modules/types/bootstrap"]
+       },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
