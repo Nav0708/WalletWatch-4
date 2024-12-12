@@ -57,6 +57,7 @@ const GooglePassport_1 = __importDefault(require("./GooglePassport"));
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
 const crypto_1 = __importDefault(require("crypto"));
+const path = __importStar(require("path"));
 const dotenv = __importStar(require("dotenv"));
 // Load environment variables from .env file
 dotenv.config();
@@ -108,8 +109,11 @@ class App {
     }
     routes() {
         let router = express_1.default.Router();
+        router.get('/welcome', (req, res) => {
+            res.status(200).send('Welcome to the app!');
+        });
         router.get('/auth/google', passport_1.default.authenticate('google', { scope: ['email', 'profile'], prompt: 'select_account' }));
-        router.get('/auth/google/callback', passport_1.default.authenticate('google', { failureRedirect: '/' }), (req, res) => __awaiter(this, void 0, void 0, function* () {
+        router.get('/auth/google/callback', passport_1.default.authenticate('google', { failureRedirect: '/homepage' }), (req, res) => __awaiter(this, void 0, void 0, function* () {
             const userData = req.user;
             if (userData) {
                 const data = {
@@ -279,6 +283,7 @@ class App {
             }
         }));
         this.expressApp.use("/", router);
+        this.expressApp.use(express_1.default.static(path.join(__dirname, 'dist/wallet-watch')));
         // this.expressApp.use("/jquery",express.static(__dirname + "/node_modules/jquery/dist/jquery.min.js"));
         this.expressApp.use("/bootstrap/css", express_1.default.static(__dirname + "/node_modules/bootstrap/dist/css/bootstrap.min.css"));
         this.expressApp.use("/bootstrap/js", express_1.default.static(__dirname + "/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"));
@@ -286,3 +291,4 @@ class App {
     }
 }
 exports.App = App;
+//testing deployment

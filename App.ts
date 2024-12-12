@@ -91,7 +91,7 @@ class App {
           return next();
         }
         console.log("user is not authenticated");
-        res.redirect("/");
+        res.redirect("/#/");
       }
       
       private getUserId(req: Request): string {
@@ -100,11 +100,14 @@ class App {
 
       private routes(): void {
         let router = express.Router();
+        // router.get('/welcome', (req, res)=>{
+        //   res.status(200).send('Welcome to the app!');
+        // })
         router.get('/auth/google', 
           passport.authenticate('google', {scope: ['email','profile'],prompt: 'select_account'}));
       
           router.get('/auth/google/callback',
-            passport.authenticate('google', { failureRedirect: '/' }),
+            passport.authenticate('google', { failureRedirect: '/homepage' }),
             async (req, res) => {
               const userData=req.user;
               if (userData){
@@ -142,10 +145,10 @@ class App {
 
             req.user.destroy();
             //res.status(200).redirect('http://localhost:4200/welcome');
-            res.status(200).redirect('/welcome');/****Changing this as a part of Azure config*****/
+            res.status(200).redirect('/#/welcome');/****Changing this as a part of Azure config*****/
             
           });
-        router.post('/walletwatch/logs', (req, res) => {
+        router.post('/logs', (req, res) => {
             console.log(req.body.message);
             res.status(200).send('Log received');
         });
@@ -167,7 +170,7 @@ class App {
           }
         });
         
-      router.post('/walletwatch/expenses', this.validateAuth, async (req: any, res) => {
+      router.post('/expenses', this.validateAuth, async (req: any, res) => {
         const expenseId = crypto.randomBytes(16).toString("hex");
         console.log(req.user.id);
         console.log("hi adding expenses")
@@ -194,7 +197,7 @@ class App {
         }
     });
 
-    router.get('/walletwatch/expenses', this.validateAuth, async (req: any, res: Response) => {
+    router.get('/expenses', this.validateAuth, async (req: any, res: Response) => {
       try {
         // Retrieve all expenses for the authenticated user
         const expenses = await this.Expense.model.find({ userId: req.user.id });
@@ -208,7 +211,7 @@ class App {
     });
 
     // Get expenses for a specific user
-    router.get('/walletwatch/expenses/user/:userId', async (req, res) => {
+    router.get('/expenses/user/:userId', async (req, res) => {
       const { userId } = req.params;
       try {
         const expenses = await this.Expense.model.find({ userId });  // Filter expenses by userId
@@ -219,7 +222,7 @@ class App {
       }
     });
 
-    router.get('/walletwatch/expenses/:expenseId', async (req, res) => {
+    router.get('/expenses/:expenseId', async (req, res) => {
       const { expenseId } = req.params;
       try {
         const expense = await this.Expense.model.findOne({ expenseId }); // Find by expenseId
@@ -233,7 +236,7 @@ class App {
       }
     });
 
-    router.delete('/walletwatch/expenses/:expenseId', this.validateAuth, async (req, res) => {
+    router.delete('/expenses/:expenseId', this.validateAuth, async (req, res) => {
       const { expenseId } = req.params;
       try {
         const expense = await this.Expense.model.findOneAndDelete({ expenseId });
@@ -248,7 +251,7 @@ class App {
     });
     
     //update the individual expense 
-    router.put('/walletwatch/expenses/:expenseId', async (req, res) => {
+    router.put('/expenses/:expenseId', async (req, res) => {
       const { expenseId } = req.params;
       const updatedData = req.body;
     
@@ -268,7 +271,7 @@ class App {
       }
     });
 
-    router.post('/walletwatch/categories', async (req: any, res) => {
+    router.post('/categories', async (req: any, res) => {
  
       console.log("Adding categorise")
       try {
@@ -295,6 +298,7 @@ class App {
  
        
         this.expressApp.use("/", router);
+        this.expressApp.use(express.static(path.join(__dirname, 'dist/wallet-watch')));
     // this.expressApp.use("/jquery",express.static(__dirname + "/node_modules/jquery/dist/jquery.min.js"));
         this.expressApp.use("/bootstrap/css",express.static(__dirname + "/node_modules/bootstrap/dist/css/bootstrap.min.css"));
         this.expressApp.use("/bootstrap/js",express.static(
