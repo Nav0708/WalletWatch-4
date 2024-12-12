@@ -127,7 +127,7 @@ class App {
                   await this.User.create(data);
                 }
                   //res.redirect('http://localhost:4200/homepage'); 
-                  res.redirect('/homepage');/****Changing this as a part of Azure config*****/
+                  res.redirect('/#/homepage');/****Changing this as a part of Azure config*****/
               } 
               else {
                 res.send('User not authenticated');
