@@ -91,7 +91,7 @@ class App {
           return next();
         }
         console.log("user is not authenticated");
-        res.redirect("/");
+        res.redirect("/#/");
       }
       
       private getUserId(req: Request): string {
@@ -130,7 +130,7 @@ class App {
                   await this.User.create(data);
                 }
                   //res.redirect('http://localhost:4200/homepage'); 
-                  res.redirect('/homepage');/****Changing this as a part of Azure config*****/
+                  res.redirect('/#/homepage');/****Changing this as a part of Azure config*****/
               } 
               else {
                 res.send('User not authenticated');
@@ -145,7 +145,7 @@ class App {
 
             req.user.destroy();
             //res.status(200).redirect('http://localhost:4200/welcome');
-            res.status(200).redirect('/welcome');/****Changing this as a part of Azure config*****/
+            res.status(200).redirect('/#/welcome');/****Changing this as a part of Azure config*****/
             
           });
         router.post('/walletwatch/logs', (req, res) => {
