@@ -24,7 +24,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let budget of budgets; let i = index">
+        @for (budget of budgets; track budget; let i = $index) {
+<tr>
           <th scope="row">{{ i + 1 }}</th>
           <td>{{ budget.month }}</td>
           <td>{{ budget.category }}</td>
@@ -46,6 +47,7 @@
             </button>
           </td>
         </tr>
+}
       </tbody>
     </table>
   </div>

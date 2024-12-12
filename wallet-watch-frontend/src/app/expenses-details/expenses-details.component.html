@@ -1,6 +1,7 @@
 <div class="container mt-4">
     <h2>Edit Expense</h2>
-    <form *ngIf="currentExpense" (ngSubmit)="saveExpense()">
+    @if (currentExpense) {
+<form (ngSubmit)="saveExpense()">
       <div class="mb-3">
         <label for="expenseDate" class="form-label">Date</label>
         <input
@@ -22,9 +23,11 @@
           required
         >
           <option value="">Select a category</option>
-          <option *ngFor="let category of categories" [value]="category">
+          @for (category of categories; track category) {
+<option [value]="category">
             {{ category }}
           </option>
+}
         </select>
       </div>
       <div class="mb-3">
@@ -53,5 +56,6 @@
         <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
       </div>
     </form>
+}
   </div>
   

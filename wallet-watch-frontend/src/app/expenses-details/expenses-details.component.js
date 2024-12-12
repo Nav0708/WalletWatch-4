@@ -42,14 +42,13 @@ exports.ExpensesDetailsComponent = void 0;
 const core_1 = require("@angular/core");
 const common_1 = require("@angular/common");
 const forms_1 = require("@angular/forms");
-const common_2 = require("@angular/common");
 let ExpensesDetailsComponent = (() => {
     let _classDecorators = [(0, core_1.Component)({
             selector: 'app-expenses-details',
             templateUrl: './expenses-details.component.html',
             styleUrls: ['./expenses-details.component.css'],
             providers: [common_1.DatePipe],
-            imports: [forms_1.FormsModule, common_2.CommonModule], // Include FormsModule here
+            imports: [forms_1.FormsModule], // Include FormsModule here
             standalone: true,
         })];
     let _classDescriptor;

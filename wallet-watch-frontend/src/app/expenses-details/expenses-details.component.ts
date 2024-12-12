@@ -4,14 +4,14 @@ import { ExpensesService } from '../services/expenses.service';
 import { IExpenseModel } from '../interfaces/IExpense';
 import { DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-expenses-details',
   templateUrl: './expenses-details.component.html',
   styleUrls: ['./expenses-details.component.css'],
   providers: [DatePipe],
-  imports: [FormsModule, CommonModule],  // Include FormsModule here
+  imports: [FormsModule],  // Include FormsModule here
   standalone: true,
 })
 export class ExpensesDetailsComponent implements OnInit {

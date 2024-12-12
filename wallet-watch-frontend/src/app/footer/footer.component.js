@@ -40,14 +40,14 @@ var __setFunctionName = (this && this.__setFunctionName) || function (f, name, p
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FooterComponent = void 0;
 const core_1 = require("@angular/core");
-const common_1 = require("@angular/common"); // Import CommonModule
+// Import CommonModule
 let FooterComponent = (() => {
     let _classDecorators = [(0, core_1.Component)({
             selector: 'app-footer',
             standalone: true,
             templateUrl: './footer.component.html',
             styleUrls: ['./footer.component.css'],
-            imports: [common_1.CommonModule], // Add CommonModule here
+            imports: [], // Add CommonModule here
         })];
     let _classDescriptor;
     let _classExtraInitializers = [];
