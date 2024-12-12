@@ -104,8 +104,9 @@ class App {
         //   res.status(200).send('Welcome to the app!');
         // })
         router.get('/auth/google', 
-          passport.authenticate('google', {scope: ['email','profile'],prompt: 'select_account'}));
-      
+          //passport.authenticate('google', {scope: ['email','profile'],prompt: 'select_account'}));
+          passport.authenticate('google', {scope: ['email','profile']}));
+          
           router.get('/auth/google/callback',
             passport.authenticate('google', { failureRedirect: '/#/homepage' }),
             async (req, res) => {
