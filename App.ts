@@ -247,7 +247,7 @@ class App {
       }
     });
     
-    
+    //update the individual expense 
     router.put('/walletwatch/expenses/:expenseId', async (req, res) => {
       const { expenseId } = req.params;
       const updatedData = req.body;
