@@ -100,11 +100,14 @@ class App {
 
       private routes(): void {
         let router = express.Router();
+        router.get('/welcome', (req, res)=>{
+          res.status(200).send('Welcome to the app!');
+        })
         router.get('/auth/google', 
           passport.authenticate('google', {scope: ['email','profile'],prompt: 'select_account'}));
       
           router.get('/auth/google/callback',
-            passport.authenticate('google', { failureRedirect: '/' }),
+            passport.authenticate('google', { failureRedirect: '/homepage' }),
             async (req, res) => {
               const userData=req.user;
               if (userData){
@@ -295,6 +298,7 @@ class App {
  
        
         this.expressApp.use("/", router);
+        this.expressApp.use(express.static(path.join(__dirname, 'dist/wallet-watch')));
     // this.expressApp.use("/jquery",express.static(__dirname + "/node_modules/jquery/dist/jquery.min.js"));
         this.expressApp.use("/bootstrap/css",express.static(__dirname + "/node_modules/bootstrap/dist/css/bootstrap.min.css"));
         this.expressApp.use("/bootstrap/js",express.static(
