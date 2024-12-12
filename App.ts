@@ -12,7 +12,10 @@ import  passport from 'passport';
 import { GoogleProfileModel } from './model/GoogleProfile';
 import cors from 'cors';
 import crypto from 'crypto';
-import path from 'path';
+import * as path from 'path';
+import * as mongodb from 'mongodb';
+import * as url from 'url';
+
 
 declare global {
   namespace Express {

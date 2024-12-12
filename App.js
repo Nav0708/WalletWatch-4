@@ -57,7 +57,6 @@ const GooglePassport_1 = __importDefault(require("./GooglePassport"));
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
 const crypto_1 = __importDefault(require("crypto"));
-const path_1 = __importDefault(require("path"));
 ///Adding comment for git debugs
 // Creates and configures an ExpressJS web server.
 class App {
@@ -99,7 +98,7 @@ class App {
         this.expressApp.use((req, res, next) => {
             this.expressApp.options('*', (req, res) => {
                 //res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-                res.header('Access-Control-Allow-Origin'); /****Changing this as a part of Azure config*****/
+                res.header('Access-Control-Allow-Origin', '*'); /****Changing this as a part of Azure config*****/
                 res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
                 res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
                 res.header('Access-Control-Allow-Credentials', 'true');
@@ -286,15 +285,14 @@ class App {
                 res.status(500).send('Failed to add category');
             }
         }));
-        router.get('*', (req, res) => { res.sendFile(path_1.default.join(__dirname, 'public', 'index.html')); });
-        this.expressApp.use('/', router);
         // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
         //this.expressApp.use('/', router);
         //console.log(express.static(__dirname))
-        this.expressApp.use('/', express.static(__dirname + '/dist'));
+        this.expressApp.use('/', express.static(__dirname + '/wallet-watch/browser'));
         //this.expressApp.use('/images', express.static(__dirname+'/img'));
         //this.expressApp.use('/', express.static(__dirname+'/pages'));
-        this.expressApp.use(express.static(path_1.default.join(__dirname, 'public')));
+        //this.expressApp.use(express.static(path.join(__dirname, 'public')));
+        this.expressApp.use('/', router);
     }
 }
 exports.App = App;
