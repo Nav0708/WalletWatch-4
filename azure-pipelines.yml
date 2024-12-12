@@ -1,11 +1,7 @@
 trigger:
   branches:
     include:
-<<<<<<< HEAD
       - main
-=======
-      - main  # Trigger on changes to the main branch
->>>>>>> 06fd6d38f30d9dbb0668699b617a052ad33b95d0
 
 stages:
   - stage: Build
@@ -14,22 +10,22 @@ stages:
         steps:
           - task: NodeTool@0
             inputs:
-              versionSpec: "16.x"  # Use Node.js version 16.x
+              versionSpec: "20.x"  # Use Node.js version 16.x
             displayName: "Install Node.js"
 
           - script: |
               echo "Changing directory to frontend..."
               cd wallet-watch-frontend
               echo "Installing packages for frontend..."
-              npm install
-              ng build --configuration=production --output-path=../wallet-watch-backend/public
+              npm install @angular/cli -g
+              ng build --configuration=production --output-path=/public
             displayName: "Build Frontend"
 
           - script: |
               echo "Creating directory for backend public folder..."
-              mkdir -p wallet-watch-backend/public
+              mkdir -p public
               echo "Copying frontend build to backend public folder..."
-              cp -r wallet-watch-frontend/dist/* wallet-watch-backend/public/
+              cp -r wallet-watch-frontend/dist/* /public
             displayName: "Copy Frontend Build to Backend"
 
           - script: |

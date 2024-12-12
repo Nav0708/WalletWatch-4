@@ -291,17 +291,16 @@ class App {
       }
   });
     
-    router.get('*', (req, res) => {   res.sendFile(path.join(__dirname, 'public', 'index.html')); })
  
-        this.expressApp.use('/', router);
+       
        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
        //this.expressApp.use('/', router);
        //console.log(express.static(__dirname))
-       this.expressApp.use('/', express.static(__dirname+'/dist'));
+       this.expressApp.use('/', express.static(__dirname+'/wallet-watch/browser'));
        //this.expressApp.use('/images', express.static(__dirname+'/img'));
        //this.expressApp.use('/', express.static(__dirname+'/pages'));
-       this.expressApp.use(express.static(path.join(__dirname, 'public')));
- 
+       //this.expressApp.use(express.static(path.join(__dirname, 'public')));
+       this.expressApp.use('/', router);
     }
 }
 
