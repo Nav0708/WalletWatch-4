@@ -299,12 +299,12 @@ class App {
  
        
         this.expressApp.use("/", router);
-        this.expressApp.use(express.static(path.join(__dirname, 'dist/wallet-watch')));
+        //this.expressApp.use(express.static(path.join(__dirname, 'dist/wallet-watch')));
     // this.expressApp.use("/jquery",express.static(__dirname + "/node_modules/jquery/dist/jquery.min.js"));
         this.expressApp.use("/bootstrap/css",express.static(__dirname + "/node_modules/bootstrap/dist/css/bootstrap.min.css"));
         this.expressApp.use("/bootstrap/js",express.static(__dirname + "/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"));
         this.expressApp.use("/",express.static(__dirname + "/dist/wallet-watch/browser"));
-        this.expressApp.use(express.static(path.join(__dirname, 'dist/wallet-watch')));
+        //this.expressApp.use(express.static(path.join(__dirname, 'dist/wallet-watch')));
         this.expressApp.get('*', (req, res) => {res.sendFile(path.join(__dirname, 'dist/wallet-watch/browser/index.html'));});
     }
 }
