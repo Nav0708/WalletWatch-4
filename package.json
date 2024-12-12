@@ -37,7 +37,7 @@
   },
   "scripts": {
     "start": "node AppServer.js",
-    "test": "mocha test/test1.js",
+    "test": "mocha test",
     "build": "tsc"
   },
   "author": "",
