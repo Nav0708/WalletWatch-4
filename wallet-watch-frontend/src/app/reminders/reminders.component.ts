@@ -7,7 +7,7 @@ import { ReminderService } from '../services/reminder.service';
   selector: 'app-reminders',
   standalone: true,
   templateUrl: './reminders.component.html',
-  styleUrl: './reminders.component.css'
+  styleUrls: ['./reminders.component.css'],
 })
 export class RemindersComponent {
 
