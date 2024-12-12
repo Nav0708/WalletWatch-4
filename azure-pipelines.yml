@@ -16,7 +16,7 @@ stages:
           - script: |
               echo "Changing directory to backend..."
               echo "Installing backend dependencies..."
-              npm install
+              npm install --legacy-peer-deps
             displayName: "Install Backend Dependencies"
 
           - task: AzureWebApp@1
