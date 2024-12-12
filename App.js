@@ -46,7 +46,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.App = void 0;
-const express = __importStar(require("express"));
+const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
 const Expense_1 = require("./model/Expense");
 const User_1 = require("./model/User");
@@ -57,6 +57,9 @@ const GooglePassport_1 = __importDefault(require("./GooglePassport"));
 const passport_1 = __importDefault(require("passport"));
 const cors_1 = __importDefault(require("cors"));
 const crypto_1 = __importDefault(require("crypto"));
+const dotenv = __importStar(require("dotenv"));
+// Load environment variables from .env file
+dotenv.config();
 ///Adding comment for git debugs
 // Creates and configures an ExpressJS web server.
 class App {
@@ -67,7 +70,7 @@ class App {
             allowedHeaders: 'Content-Type, Authorization', // Allow only specific headers
             credentials: true,
         }; /****Changing this as a part of Azure config*****/
-        this.expressApp = express.default();
+        this.expressApp = (0, express_1.default)();
         this.googlePassportObj = new GooglePassport_1.default();
         this.Expense = new Expense_1.ExpenseModel(mongoDBConnection);
         this.User = new User_1.UserModel(mongoDBConnection);
@@ -81,41 +84,30 @@ class App {
     middleware() {
         this.expressApp.use(bodyParser.json());
         this.expressApp.use(bodyParser.urlencoded({ extended: false }));
-        this.expressApp.use((0, express_session_1.default)({
-            secret: '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',
-            resave: true,
-            saveUninitialized: true,
-            cookie: {
-                httpOnly: true,
-                secure: false
-            } // Set to true if using HTTPS
-        }));
-        this.expressApp.use((0, cookie_parser_1.default)());
-        this.expressApp.use((0, cors_1.default)(this.corsOptions));
-        this.expressApp.options('*', (0, cors_1.default)(this.corsOptions));
-        this.expressApp.use(passport_1.default.initialize());
-        this.expressApp.use(passport_1.default.session());
         this.expressApp.use((req, res, next) => {
-            this.expressApp.options('*', (req, res) => {
-                //res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
-                res.header('Access-Control-Allow-Origin', '*'); /****Changing this as a part of Azure config*****/
-                res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-                res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-                res.header('Access-Control-Allow-Credentials', 'true');
-                res.sendStatus(200);
-            });
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
             next();
         });
+        this.expressApp.use((0, express_session_1.default)({ secret: "keyboard cat" }));
+        this.expressApp.use((0, cookie_parser_1.default)());
+        this.expressApp.use(passport_1.default.initialize());
+        this.expressApp.use(passport_1.default.session());
     }
     validateAuth(req, res, next) {
         if (req.isAuthenticated()) {
+            console.log(`user is authenticated for ${req.path}`);
             return next();
         }
         console.log("user is not authenticated");
-        res.redirect('/');
+        res.redirect("/");
+    }
+    getUserId(req) {
+        var _a;
+        return ((_a = req.user) === null || _a === void 0 ? void 0 : _a.id) || ""; // Safely access `id` with optional chaining
     }
     routes() {
-        let router = express.Router();
+        let router = express_1.default.Router();
         router.get('/auth/google', passport_1.default.authenticate('google', { scope: ['email', 'profile'], prompt: 'select_account' }));
         router.get('/auth/google/callback', passport_1.default.authenticate('google', { failureRedirect: '/' }), (req, res) => __awaiter(this, void 0, void 0, function* () {
             const userData = req.user;
@@ -248,6 +240,7 @@ class App {
                 res.status(500).json({ message: 'Error deleting expense' });
             }
         }));
+        //update the individual expense 
         router.put('/walletwatch/expenses/:expenseId', (req, res) => __awaiter(this, void 0, void 0, function* () {
             const { expenseId } = req.params;
             const updatedData = req.body;
@@ -285,14 +278,11 @@ class App {
                 res.status(500).send('Failed to add category');
             }
         }));
-        // this.expressApp.use('/walletwatch/', expenseRoutes(this.Expense));
-        //this.expressApp.use('/', router);
-        //console.log(express.static(__dirname))
-        this.expressApp.use('/', express.static(__dirname + '/wallet-watch/browser'));
-        //this.expressApp.use('/images', express.static(__dirname+'/img'));
-        //this.expressApp.use('/', express.static(__dirname+'/pages'));
-        //this.expressApp.use(express.static(path.join(__dirname, 'public')));
-        this.expressApp.use('/', router);
+        this.expressApp.use("/", router);
+        // this.expressApp.use("/jquery",express.static(__dirname + "/node_modules/jquery/dist/jquery.min.js"));
+        this.expressApp.use("/bootstrap/css", express_1.default.static(__dirname + "/node_modules/bootstrap/dist/css/bootstrap.min.css"));
+        this.expressApp.use("/bootstrap/js", express_1.default.static(__dirname + "/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"));
+        this.expressApp.use("/", express_1.default.static(__dirname + "/dist/wallet-watch/browser"));
     }
 }
 exports.App = App;
