@@ -100,9 +100,9 @@ class App {
 
       private routes(): void {
         let router = express.Router();
-        router.get('/welcome', (req, res)=>{
-          res.status(200).send('Welcome to the app!');
-        })
+        // router.get('/welcome', (req, res)=>{
+        //   res.status(200).send('Welcome to the app!');
+        // })
         router.get('/auth/google', 
           passport.authenticate('google', {scope: ['email','profile'],prompt: 'select_account'}));
       
