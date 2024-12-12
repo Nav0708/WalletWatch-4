@@ -295,34 +295,13 @@ class App {
  
        
         this.expressApp.use("/", router);
-    this.expressApp.use(
-      "/jquery",
-      express.static(__dirname + "/node_modules/jquery/dist/jquery.min.js")
-    );
-    this.expressApp.use(
-      "/bootstrap/css",
-      express.static(
-        __dirname + "/node_modules/bootstrap/dist/css/bootstrap.min.css"
-      )
-    );
-    this.expressApp.use(
-      "/bootstrap/js",
-      express.static(
-        __dirname + "/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
-      )
-    );
-    this.expressApp.use("/api/json/", express.static(__dirname + "/api/json"));
-    this.expressApp.use("/images", express.static(__dirname + "/img"));
-    this.expressApp.use(
-      "/",
-      express.static(__dirname + "/wallet-watch-frontend/dist/wallet-watch/browser")
-    );
-    this.expressApp.use(
-      "*",
-      express.static(
-        __dirname + "/wallet-watch-frontend/dist/wallet-watch/browser/index.html"
-      )
-    );
+    // this.expressApp.use("/jquery",express.static(__dirname + "/node_modules/jquery/dist/jquery.min.js"));
+    // this.expressApp.use("/bootstrap/css",express.static(__dirname + "/node_modules/bootstrap/dist/css/bootstrap.min.css"));
+    // this.expressApp.use("/bootstrap/js",express.static(
+    //     __dirname + "/node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+    //   )
+    // );
+        this.expressApp.use("/",express.static(__dirname + "/wallet-watch/browser"));
     }
 }
 
