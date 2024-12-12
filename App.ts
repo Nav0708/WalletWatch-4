@@ -107,7 +107,7 @@ class App {
           passport.authenticate('google', {scope: ['email','profile'],prompt: 'select_account'}));
       
           router.get('/auth/google/callback',
-            passport.authenticate('google', { failureRedirect: '/homepage' }),
+            passport.authenticate('google', { failureRedirect: '/#/homepage' }),
             async (req, res) => {
               const userData=req.user;
               if (userData){
