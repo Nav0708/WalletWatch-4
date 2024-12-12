@@ -21,7 +21,7 @@ stages:
               echo "Changing directory to frontend..."
               cd wallet-watch-frontend
               echo "Installing packages for frontend..."
-              npm install
+              npm install @angular/cli -g
               ng build --configuration=production --output-path=../wallet-watch-backend/public
             displayName: "Build Frontend"
 
