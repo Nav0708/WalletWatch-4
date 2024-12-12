@@ -1,7 +1,7 @@
 {
   "name": "walletwatch",
   "version": "1.0.0",
-  "main": "AppServer.js",
+  "main": "app.js",
   "type": "commonjs",
   "keywords": [],
   "description": "",
