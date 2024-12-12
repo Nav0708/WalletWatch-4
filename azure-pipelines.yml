@@ -14,30 +14,14 @@ stages:
             displayName: "Install Node.js"
 
           - script: |
-              echo "Changing directory to frontend..."
-              cd wallet-watch-frontend
-              echo "Installing packages for frontend..."
-              npm install @angular/cli -g
-              ng build --configuration=production --output-path=/public
-            displayName: "Build Frontend"
-
-          - script: |
-              echo "Creating directory for backend public folder..."
-              mkdir -p public
-              echo "Copying frontend build to backend public folder..."
-              cp -r wallet-watch-frontend/dist/* /public
-            displayName: "Copy Frontend Build to Backend"
-
-          - script: |
               echo "Changing directory to backend..."
-              cd wallet-watch-backend
               echo "Installing backend dependencies..."
               npm install
             displayName: "Install Backend Dependencies"
 
           - task: AzureWebApp@1
             inputs:
-              azureSubscription: "WalletWatch"  # Ensure this is the correct Azure service connection
+              azureSubscription: "4e0c0a5d-ae53-475e-bd8e-7fd99e6aa32e"  # Ensure this is the correct Azure service connection
               appName: "WalletWatch"  # Ensure this is the correct App Service name in Azure
               package: "walletwatch"  # Make sure this points to the correct directory containing the deployable code
             displayName: "Deploy to Azure Web App"
