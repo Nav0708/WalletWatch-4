@@ -45,7 +45,7 @@ let RemindersComponent = (() => {
             selector: 'app-reminders',
             standalone: true,
             templateUrl: './reminders.component.html',
-            styleUrl: './reminders.component.css'
+            styleUrls: ['./reminders.component.css'],
         })];
     let _classDescriptor;
     let _classExtraInitializers = [];

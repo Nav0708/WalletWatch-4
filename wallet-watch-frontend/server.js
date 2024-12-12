@@ -5,7 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.app = app;
 const common_1 = require("@angular/common");
-const ssr_1 = require("@angular/ssr");
+// import { CommonEngine } from '@angular/ssr';  // Removed this line
+const express_engine_1 = require("@nguniversal/express-engine");
 const express_1 = __importDefault(require("express"));
 const node_path_1 = require("node:path");
 const main_server_1 = __importDefault(require("./src/main.server"));
@@ -17,7 +18,10 @@ function app() {
     // Path to the Angular app distribution folder
     const angularDistFolder = (0, node_path_1.resolve)(__dirname, '../dist/wallet-watch-frontend');
     const indexHtml = (0, node_path_1.join)(angularDistFolder, 'index.html');
-    const commonEngine = new ssr_1.CommonEngine();
+    // Use ngExpressEngine instead of CommonEngine
+    server.engine('html', (0, express_engine_1.ngExpressEngine)({
+        bootstrap: main_server_1.default, // the bootstrap function (or AppServerModule) to initialize SSR
+    }));
     server.set('view engine', 'html');
     server.set('views', angularDistFolder);
     // Serve static files from the Angular app
@@ -25,16 +29,10 @@ function app() {
     // All regular routes use the Angular engine
     server.get('**', (req, res, next) => {
         const { protocol, originalUrl, baseUrl, headers } = req;
-        commonEngine
-            .render({
-            bootstrap: main_server_1.default,
-            documentFilePath: indexHtml,
-            url: `${protocol}://${headers.host}${originalUrl}`,
-            publicPath: angularDistFolder,
+        res.render(indexHtml, {
+            req,
             providers: [{ provide: common_1.APP_BASE_HREF, useValue: baseUrl }],
-        })
-            .then((html) => res.send(html))
-            .catch((err) => next(err));
+        }); // Error handling is passed to Express' next() function
     });
     return server;
 }

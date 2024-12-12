@@ -21,13 +21,15 @@
     <div class="d-flex">
       <ul class="navbar-nav d-flex flex-row mb-0 align-items-center">
         <li class="nav-item">
-          <a
+          @if (authService.loggedIn$ | async) {
+<a
             class="nav-link"
             [ngClass]="{ active: isActive('/homepage') }"
             routerLink="/homepage"
-            *ngIf="authService.loggedIn$ | async"
+           
             >Dashboard</a
           >
+}
         </li>
         <li class="nav-item ms-4">
           <a
@@ -72,8 +74,12 @@
           />
         </a>
       </div>
-      <button  *ngIf="!(authService.loggedIn$ | async)" class="btn btn-primary" (click)="login()">Login</button>
-      <button *ngIf="authService.loggedIn$ | async" class="btn btn-primary" (click)="logout()">Logout</button>
+      @if (!(authService.loggedIn$ | async)) {
+<button  class="btn btn-primary" (click)="login()">Login</button>
+}
+      @if (authService.loggedIn$ | async) {
+<button class="btn btn-primary" (click)="logout()">Logout</button>
+}
 
       <!--<span *ngIf="authService.user$ | async as user" class="ms-4">
         {{ user }}

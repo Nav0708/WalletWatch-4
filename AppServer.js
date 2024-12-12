@@ -47,4 +47,5 @@ const server = new App_1.App(mongoDBConnection).expressApp;
 server.listen(port, () => {
     console.log(`Server running on port ${port}`);
     console.log(`Server MongoDB string ${mongoDBConnection}`);
-});
+}).on('error', (err) => { console.error('Server failed to start', err); });
+;

@@ -49,6 +49,7 @@ const router_1 = require("@angular/router");
 const footer_component_1 = require("./footer/footer.component");
 const rxjs_1 = require("rxjs");
 const environment_1 = require("../../../environments/environment");
+require("chart.js");
 let AppComponent = (() => {
     let _classDecorators = [(0, core_1.Component)({
             selector: 'app-root',

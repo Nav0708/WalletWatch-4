@@ -1,5 +1,6 @@
 import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr';
+// import { CommonEngine } from '@angular/ssr';  // Removed this line
+import { ngExpressEngine } from '@nguniversal/express-engine';
 import express from 'express';
 import { fileURLToPath } from 'node:url';
 import { dirname, join, resolve } from 'node:path';
@@ -16,7 +17,10 @@ export function app(): express.Express {
   const angularDistFolder = resolve(__dirname, '../dist/wallet-watch-frontend');
   const indexHtml = join(angularDistFolder, 'index.html');
 
-  const commonEngine = new CommonEngine();
+  // Use ngExpressEngine instead of CommonEngine
+  server.engine('html', ngExpressEngine({
+    bootstrap: bootstrap, // the bootstrap function (or AppServerModule) to initialize SSR
+  }));
 
   server.set('view engine', 'html');
   server.set('views', angularDistFolder);
@@ -28,16 +32,10 @@ export function app(): express.Express {
   server.get('**', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
 
-    commonEngine
-      .render({
-        bootstrap,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: angularDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-      })
-      .then((html: any) => res.send(html))
-      .catch((err: any) => next(err));
+    res.render(indexHtml, {
+      req,
+      providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
+    })  // Error handling is passed to Express' next() function
   });
 
   return server;
@@ -54,5 +52,3 @@ function run(): void {
 }
 
 run();
-
-
