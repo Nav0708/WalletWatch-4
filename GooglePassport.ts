@@ -30,7 +30,7 @@ class GooglePassport {
                 clientID: this.clientId,
                 clientSecret: this.secretId,
                 //callbackURL: "http://localhost:8080/auth/google/callback",
-                callbackURL: environment.hostUrl+"auth/google/callback", /****Changing this as a part of Azure config*****/
+                callbackURL: process.env.AZURE ? "https://walletwatch-4-g7dxefauf6fwh8hx.westus-01.azurewebsites.net/auth/login/callback" : "/auth/login/callback",
                 scope: ['profile','email']
             },
             (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback)  => { // Explicitly type parameters
