@@ -15,8 +15,8 @@ describe('WalletWatch API Tests', function () {
  
     describe('GET: Fetch All Expenses for a Specific User', function () {
         before(function (done) {
-            chai.request("http://localhost:8080")
-                .get(`/walletwatch/expenses/user/${testUserId}`) // Updated route to include userId
+            chai.request("https://walletwatch-4-g7dxefauf6fwh8hx.westus-01.azurewebsites.net/")
+                .get(`/expenses/user/${testUserId}`) // Updated route to include userId
                 .end(function (err, res) {
                     if (err) {
                         done(err);
@@ -52,8 +52,8 @@ describe('WalletWatch API Tests', function () {
         let getSingleExpenseResponse;
        
         before(function (done) {
-            chai.request("http://localhost:8080")
-                .get("/walletwatch/expenses/1cdba60bf4213444e521bfcb4a10fb81") // Replace with valid expense ID
+            chai.request("https://walletwatch-4-g7dxefauf6fwh8hx.westus-01.azurewebsites.net/")
+                .get("/expenses/2cdba60bf4213444e521bfcb4a10fb82") // Replace with valid expense ID
                 .end(function (err, res) {
                     if (err) {
                         done(err);
@@ -78,13 +78,13 @@ describe('WalletWatch API Tests', function () {
  
     describe('POST: Create New Category', function () {
         const newCategoryData = {
-                "categoryId": "334333",
-                "categoryName":  "Drinkes",
-                "categoryDescription": "To track Spindri expenses" };
+                "categoryId": "13579",
+                "categoryName":  "SampleTests",
+                "categoryDescription": "Tracking SampleTests" };
      
         it('Should create a new category', function (done) {
-          chai.request("http://localhost:8080")
-            .post('/walletwatch/categories')
+          chai.request("https://walletwatch-4-g7dxefauf6fwh8hx.westus-01.azurewebsites.net/")
+            .post('/categories')
             .send(newCategoryData)
             .end(function (err, res) {
               if (err) {
@@ -101,4 +101,6 @@ describe('WalletWatch API Tests', function () {
         });
     });
 });
+ 
+
  
