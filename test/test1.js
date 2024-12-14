@@ -78,9 +78,9 @@ describe('WalletWatch API Tests', function () {
  
     describe('POST: Create New Category', function () {
         const newCategoryData = {
-                "categoryId": "13579",
-                "categoryName":  "SampleTests",
-                "categoryDescription": "Tracking SampleTests" };
+                "categoryId": "1358511",
+                "categoryName":  "Books and Supplies",
+                "categoryDescription": "Tracking the Books and Supplies expenses" };
      
         it('Should create a new category', function (done) {
           chai.request("https://walletwatch-4-g7dxefauf6fwh8hx.westus-01.azurewebsites.net/")

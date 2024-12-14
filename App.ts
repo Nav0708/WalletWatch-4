@@ -197,7 +197,8 @@ class App {
           res.status(500).send('Failed to add expense');
         }
     });
-
+    
+    //protected routes
     router.get('/expenses', this.validateAuth, async (req: any, res: Response) => {
       try {
         // Retrieve all expenses for the authenticated user
@@ -211,6 +212,7 @@ class App {
       }
     });
 
+    //uprotected route
     // Get expenses for a specific user
     router.get('/expenses/user/:userId', async (req, res) => {
       const { userId } = req.params;

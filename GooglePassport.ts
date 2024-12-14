@@ -33,7 +33,7 @@ class GooglePassport {
                 callbackURL: process.env.AZURE ? "https://walletwatch-4-g7dxefauf6fwh8hx.westus-01.azurewebsites.net/auth/google/callback" : "/auth/google/callback",
                 scope: ['profile','email']
             },
-            (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback)  => { // Explicitly type parameters
+            (accessToken: string, refreshToken: string, profile: any, done: VerifyCallback)  => { 
                 console.log("inside new password google strategy");
                 process.nextTick(() => {
                     console.log('validating google profile:' + JSON.stringify(profile));
